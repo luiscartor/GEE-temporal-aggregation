@@ -1,0 +1,12 @@
+
+
+// Load Landsat 5 input imagery.
+var landsat = ee.Image(ee.ImageCollection('LANDSAT/LT05/C01/T1_TOA')
+  // Filter to get only one year of images.
+  .filterDate('2015-01-01', '2015-12-31')
+  // Filter to get only images under the region of interest.
+  .filterBounds(geometry)
+  // Sort by scene cloudiness, ascending.
+  .sort('CLOUD_COVER')
+  // Get the first (least cloudy) scene.
+  .first());
