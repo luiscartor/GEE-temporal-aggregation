@@ -33,7 +33,7 @@ var geometry = /* color: #98ff00 */ee.Geometry.Polygon(
 
 
 // Load Landsat 5 input imagery.
-var landsat = ee.Image(ee.ImageCollection('LANDSAT/LC8_L1T_TOA')
+var landsat = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
   // Filter to get only one year of images.
   .filterDate('2015-01-01', '2015-12-31')
   // Filter to get only images under the region of interest.
@@ -52,4 +52,4 @@ var input = landsat.updateMask(landsat.mask().reduce('min').and(cloudScore.lte(9
 
 
 Map.centerObject(geometry, 10);
-Map.addLayer(landsat, {bands: ['B3', 'B2', 'B1'], max: 0.4}, 'landsat');
+Map.addLayer(input, {bands: ['B3', 'B2', 'B1'], max: 0.4}, 'landsat');
