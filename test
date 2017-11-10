@@ -51,4 +51,4 @@ var cloudScore = ee.Algorithms.Landsat.simpleCloudScore(landsat).select('cloud')
 var input = landsat.updateMask(landsat.mask().reduce('min').and(cloudScore.lte(50)));
 
   
-p.addLayer(input, {bands: ['B3', 'B2', 'B1'], max: 0.4}, 'landsat');
+Map.addLayer(input, {bands: ['B3', 'B2', 'B1'], max: 0.4}, 'landsat');
