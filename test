@@ -43,5 +43,12 @@ var landsat = ee.Image(ee.ImageCollection('LANDSAT/LT05/C01/T1_TOA')
   // Get the first (least cloudy) scene.
   .first());
   
+// Compute cloud score.
+var cloudScore = ee.Algorithms.Landsat.simpleCloudScore(landsat).select('cloud');
+
+// Mask the input for clouds.  Compute the min of the input mask to mask
+// pixels where any band is masked.  Combine that with the cloud mask.
+var input = landsat.updateMask(landsat.mask().reduce('min').and(cloudScore.lte(50)));
+
   
-Map.addLayer(input, {bands: ['B3', 'B2', 'B1'], max: 0.4}, 'landsat');
+p.addLayer(input, {bands: ['B3', 'B2', 'B1'], max: 0.4}, 'landsat');
