@@ -33,23 +33,25 @@ var geometry = /* color: #98ff00 */ee.Geometry.Polygon(
 
 
 // Load Landsat 5 input imagery.
-var landsat = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
+var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1')
   // Filter to get only one year of images.
   .filterDate('2015-01-01', '2015-12-31')
   // Filter to get only images under the region of interest.
-  .filterBounds(geometry)
+  .filterBounds(geometry);
   // Sort by scene cloudiness, ascending.
-  .sort('CLOUD_COVER')
+  //.sort('CLOUD_COVER');
   // Get the first (least cloudy) scene.
-  .first());
+  //.first());
   
+var mosaic = landsat.mosaic();
+
 // Compute cloud score.
-var cloudScore = ee.Algorithms.Landsat.simpleCloudScore(landsat).select('cloud');
+var cloudScore = ee.Algorithms.Landsat.simpleCloudScore(mosaic).select('cloud');
 
 // Mask the input for clouds.  Compute the min of the input mask to mask
 // pixels where any band is masked.  Combine that with the cloud mask.
-var input = landsat.updateMask(landsat.mask().reduce('min').and(cloudScore.lte(90)));
+//var input = landsat.updateMask(landsat.mask().reduce('min').and(cloudScore.lte(90)));
 
 
-Map.centerObject(geometry, 10);
-Map.addLayer(input, {bands: ['B3', 'B2', 'B1'], max: 0.4}, 'landsat');
+Map.centerObject(geometry, 5);
+Map.addLayer(mosaic, {bands: ['B3', 'B2', 'B1'], max: 0.4}, 'landsat');
