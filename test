@@ -44,4 +44,4 @@ var landsat = ee.Image(ee.ImageCollection('LANDSAT/LT05/C01/T1_TOA')
   .first());
   
   
-  
+Map.addLayer(input, {bands: ['B3', 'B2', 'B1'], max: 0.4}, 'landsat');
