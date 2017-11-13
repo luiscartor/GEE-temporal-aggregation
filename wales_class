@@ -1,0 +1,92 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #98ff00 */ee.Geometry.Polygon(
+        [[[-5.767295781590519, 49.73119734008975],
+          [-1.6334223371559347, 50.24018444406046],
+          [1.0932525399293809, 50.743695840625435],
+          [1.7969882672911126, 51.35190589315732],
+          [2.060935270581126, 51.843625259376616],
+          [1.9731901363468296, 53.23446744653779],
+          [-1.1053093020896085, 55.93509615316341],
+          [-1.545036753229624, 57.856504556404666],
+          [-1.808946892771246, 58.182672834676225],
+          [-2.1608442597957946, 58.459889116482536],
+          [-0.4890045796803406, 60.557280752415764],
+          [-0.2250044049438884, 60.858609098938615],
+          [-0.7528976704043089, 61.114675136080095],
+          [-1.8087814102016182, 60.772840068750625],
+          [-2.424704568336665, 60.42731026075694],
+          [-4.184370978370225, 59.0983171517016],
+          [-5.152145621377258, 58.917091520151224],
+          [-6.47182304512944, 58.73489036149323],
+          [-7.703415443401923, 58.043163147394125],
+          [-7.8791943881651605, 57.003993191268556],
+          [-7.0872678645464475, 55.73744711740274],
+          [-5.767678380037978, 55.18890178455371],
+          [-5.327808460835286, 54.73437940518249],
+          [-5.239813982005444, 54.274698232285395],
+          [-5.327747806400907, 53.75786255226257],
+          [-5.679502166598695, 52.276393905874414],
+          [-5.855350238546407, 51.24201659451528],
+          [-6.031217617093489, 50.576491277219894],
+          [-6.031178061763285, 50.01461607365297]]]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+
+// Load Landsat 5 input imagery.
+var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1')
+  // Filter to get only one year of images.
+  .filterDate('2015-01-01', '2015-12-31')
+  // Filter to get only images under the region of interest.
+  .filterBounds(geometry)
+  // Sort by scene cloudiness, ascending.
+  .sort('CLOUD_COVER',false);
+  // Get the first (least cloudy) scene.
+  //.first());
+  
+var mosaic = landsat.mosaic();
+
+// Compute cloud score.
+//var cloudScore = ee.Algorithms.Landsat.simpleCloudScore(mosaic).select('cloud');
+
+// Mask the input for clouds.  Compute the min of the input mask to mask
+// pixels where any band is masked.  Combine that with the cloud mask.
+//var input = landsat.updateMask(landsat.mask().reduce('min').and(cloudScore.lte(90)));
+//var input = mosaic.updateMask(mosaic.mask().reduce('min').and(cloudScore.lte(50)));
+
+
+// Use MODIS land cover, IGBP classification, for training.
+var modis = ee.Image('MODIS/051/MCD12Q1/2011_01_01')
+    .select('Land_Cover_Type_1');
+
+// Sample the input imagery to get a FeatureCollection of training data.
+var training = mosaic.addBands(modis).sample({
+  numPixels: 5000,
+  seed: 0
+});
+
+// Make a Random Forest classifier and train it.
+var classifier = ee.Classifier.randomForest(10)
+    .train(training, 'Land_Cover_Type_1');
+
+// Classify the input imagery.
+var classified = mosaic.classify(classifier);
+
+// Define a palette for the IGBP classification.
+var igbpPalette = [
+  'aec3d4', // water
+  '152106', '225129', '369b47', '30eb5b', '387242', // forest
+  '6a2325', 'c3aa69', 'b76031', 'd9903d', '91af40',  // shrub, grass
+  '111149', // wetlands
+  'cdb33b', // croplands
+  'cc0013', // urban
+  '33280d', // crop mosaic
+  'd7cdcc', // snow and ice
+  'f7e084', // barren
+  '6f6f6f'  // tundra
+];
+
+
+
+Map.centerObject(geometry, 5);
+Map.addLayer(mosaic, {bands: ['B3', 'B2', 'B1']}, 'landsat');
+Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
