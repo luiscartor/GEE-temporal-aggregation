@@ -72,7 +72,7 @@ var igbpPalette = [
 
 
 Map.centerObject(walespoint, 5);
-//Map.addLayer(date1, {bands: ['B3', 'B2', 'B1']}, 'landsat');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
+Map.addLayer(landsat2, {bands: ['B3', 'B2', 'B1']}, 'landsat');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 //Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
-Map.addLayer(landsat2);//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
+//Map.addLayer(landsat2);//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 
