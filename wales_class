@@ -9,7 +9,7 @@ var landsat1 = ee.ImageCollection('LANDSAT/LC08/C01/T1')
   // Filter to get only images under the region of interest.
   .filterBounds(walespoint)
   // Sort by scene cloudiness, ascending.
-  .sort('CLOUD_COVER',false)
+  .sort('CLOUD_COVER')
   // Get the first (least cloudy) scene.
   .first());
 
@@ -20,7 +20,7 @@ var landsat2 = ee.ImageCollection('LANDSAT/LC08/C01/T1')
   // Filter to get only images under the region of interest.
   .filterBounds(walespoint)
   // Sort by scene cloudiness, ascending.
-  .sort('CLOUD_COVER',false)
+  .sort('CLOUD_COVER')
   // Get the first (least cloudy) scene.
   .first());
 
