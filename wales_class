@@ -20,9 +20,9 @@ var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LT05/C01/T1_TOA')
   // Filter to get only images under the region of interest.
   .filterBounds(walespoint)
   // Sort by scene cloudiness, ascending.
-  .sort('CLOUD_COVER'));
+  .sort('CLOUD_COVER')
   // Get the first (least cloudy) scene.
-  //.first());
+  .first());
 
 //var mosaic = landsat.mosaic();
 
@@ -34,6 +34,8 @@ var cloudScore2 = ee.Algorithms.Landsat.simpleCloudScore(landsat2).select('cloud
 // pixels where any band is masked.  Combine that with the cloud mask.
 var date1 = landsat1.updateMask(landsat1.mask().reduce('min').and(cloudScore1.lte(50)));
 var date2 = landsat2.updateMask(landsat2.mask().reduce('min').and(cloudScore2.lte(50)));
+
+
 
 // Multi-date composite
 var composite = date1.addBands(date2);
@@ -72,6 +74,6 @@ var igbpPalette = [
 
 
 Map.centerObject(walespoint, 5);
-Map.addLayer(landsat2, {bands: ['B3', 'B2', 'B1']}, 'landsat');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
+Map.addLayer(date1, {bands: ['B3', 'B2', 'B1']}, 'landsat');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 //Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 //Map.addLayer(landsat2);//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
