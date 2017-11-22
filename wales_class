@@ -4,16 +4,27 @@ var walespoint = /* color: #0b4a8b */ee.Geometry.Point([-4.06494140625, 53.11710
 
 
 // Load Landsat 5 input imagery.
-var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1')
+var landsat1 = ee.ImageCollection('LANDSAT/LC08/C01/T1')
   // Filter to get only one year of images.
-  .filterDate('2015-01-01', '2015-12-31')
+  .filterDate('2015-02-01', '2015-6-30')
   // Filter to get only images under the region of interest.
   .filterBounds(walespoint)
   // Sort by scene cloudiness, ascending.
   .sort('CLOUD_COVER',false);
   // Get the first (least cloudy) scene.
   .first());
-  
+
+// Load Landsat 5 input imagery.
+var landsat2 = ee.ImageCollection('LANDSAT/LC08/C01/T1')
+  // Filter to get only one year of images.
+  .filterDate('2015-07-01', '2015-11-30')
+  // Filter to get only images under the region of interest.
+  .filterBounds(walespoint)
+  // Sort by scene cloudiness, ascending.
+  .sort('CLOUD_COVER',false);
+  // Get the first (least cloudy) scene.
+  .first());
+
 //var mosaic = landsat.mosaic();
 
 // Compute cloud score.
@@ -58,5 +69,5 @@ var igbpPalette = [
 
 
 Map.centerObject(geometry, 5);
-Map.addLayer(input, {bands: ['B3', 'B2', 'B1']}, 'landsat');
+Map.addLayer(landsat1, {bands: ['B3', 'B2', 'B1']}, 'landsat');
 Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
