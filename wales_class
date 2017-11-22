@@ -66,17 +66,22 @@ var igbpPalette = [
   'FFA500', // 
   '66CDAA', // neutral
   '2E8B57', // calcareous
-  'B8860B', // acid
+  '808000', // acid
   'FFFF00', // fen
   '800080', // heather
-  '91af40',  // shrub, grass
-  '111149', // wetlands
-  'cdb33b', // croplands
-  'cc0013', // urban
-  '33280d', // crop mosaic
-  'd7cdcc', // snow and ice
-  'f7e084', // barren
-  '6f6f6f'  // tundra
+  'EE82EE', // heather grassland
+  '008080', // bog
+  '40E0D0', // montaine
+  'B0C4DE', // bare rock
+  '00008B', // sea
+  '0000FF', // water
+  'B8860B', // supra
+  'B8860B'  // supra
+  'FFFFE0'  // litoral
+  'FFFFE0'  // litoral
+  '9370DB'  // marsh
+  '000000'  // urban
+  'A9A9A9'  // semi urban
 ];
 
 
