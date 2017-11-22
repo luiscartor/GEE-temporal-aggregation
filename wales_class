@@ -44,7 +44,7 @@ var modis = ee.Image('MODIS/051/MCD12Q1/2011_01_01')
     .select('Land_Cover_Type_1');
 
 // Sample the input imagery to get a FeatureCollection of training data.
-var training = mosaic.addBands(modis).sample({
+var training = landsat1.addBands(modis).sample({
   numPixels: 5000,
   seed: 0
 });
