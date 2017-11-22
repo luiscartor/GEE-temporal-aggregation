@@ -59,9 +59,17 @@ var classified = composite.classify(classifier);
 
 // Define a palette for the IGBP classification.
 var igbpPalette = [
-  'aec3d4', // water
-  '152106', '225129', '369b47', '30eb5b', '387242', // forest
-  '6a2325', 'c3aa69', 'b76031', 'd9903d', '91af40',  // shrub, grass
+  'ff0000', // water
+  '008000', 
+  '8b4513', 
+  '7cfc00', 
+  '30eb5b', 
+  '387242', // forest
+  '6a2325', 
+  'c3aa69', 
+  'b76031', 
+  'd9903d', 
+  '91af40',  // shrub, grass
   '111149', // wetlands
   'cdb33b', // croplands
   'cc0013', // urban
