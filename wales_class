@@ -64,11 +64,11 @@ var igbpPalette = [
   '8b4513', // arable
   '7cfc00', // improved
   'FFA500', // 
-  '387242', // neutral
-  '6a2325', 
-  'c3aa69', 
-  'b76031', 
-  'd9903d', 
+  '66CDAA', // neutral
+  '2E8B57', // calcareous
+  'B8860B', // acid
+  'FFFF00', // fen
+  '800080', // heather
   '91af40',  // shrub, grass
   '111149', // wetlands
   'cdb33b', // croplands
