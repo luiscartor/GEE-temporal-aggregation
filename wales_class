@@ -54,7 +54,7 @@ var classifier = ee.Classifier.randomForest(10)
     .train(training, 'Land_Cover_Type_1');
 
 // Classify the input imagery.
-var classified = input.classify(classifier);
+var classified = landsat1.classify(classifier);
 
 // Define a palette for the IGBP classification.
 var igbpPalette = [
