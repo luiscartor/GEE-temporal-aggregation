@@ -71,7 +71,7 @@ var igbpPalette = [
 
 
 
-Map.centerObject(walespoint, 7);
+Map.centerObject(walespoint, 8);
 Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'landsat');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 //Map.addLayer(landsat2);//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
