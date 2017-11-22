@@ -59,6 +59,7 @@ var classified = composite.classify(classifier);
 
 // Define a palette for the classification.
 var palette = [
+  'FFFFFF',
   'ff0000', // broadleaved f
   '008000', // evergreen
   '8b4513', // arable
