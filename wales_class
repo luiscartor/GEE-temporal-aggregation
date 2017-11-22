@@ -39,18 +39,20 @@ var date2 = landsat2.updateMask(landsat2.mask().reduce('min').and(cloudScore2.lt
 var composite = date1.addBands(date2);
 
 // Use MODIS land cover, IGBP classification, for training.
-var modis = ee.Image('MODIS/051/MCD12Q1/2011_01_01')
-    .select('Land_Cover_Type_1');
+//var modis = ee.Image('MODIS/051/MCD12Q1/2011_01_01')
+//    .select('Land_Cover_Type_1');
+
+var trainingraster = ee.Image('users/luiscartor/wales_c35training');
 
 // Sample the input imagery to get a FeatureCollection of training data.
-var training = composite.addBands(modis).sample({
+var training = composite.addBands(trainingraster).sample({
   numPixels: 5000,
   seed: 0
 });
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(10)
-    .train(training, 'Land_Cover_Type_1');
+    .train(training, 'trainingraster');
 
 // Classify the input imagery.
 var classified = composite.classify(classifier);
