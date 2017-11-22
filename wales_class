@@ -6,7 +6,7 @@ var walespoint = /* color: #0b4a8b */ee.Geometry.Point([-4.06494140625, 53.11710
 // Load Landsat 5 input imagery.
 var landsat1 = ee.ImageCollection('LANDSAT/LC08/C01/T1')
   // Filter to get only one year of images.
-  .filterDate('2015-02-01', '2015-6-30')
+  .filterDate('2015-03-01', '2015-7-30')
   // Filter to get only images under the region of interest.
   .filterBounds(walespoint)
   // Sort by scene cloudiness, ascending.
@@ -17,7 +17,7 @@ var landsat1 = ee.ImageCollection('LANDSAT/LC08/C01/T1')
 // Load Landsat 5 input imagery.
 var landsat2 = ee.ImageCollection('LANDSAT/LC08/C01/T1')
   // Filter to get only one year of images.
-  .filterDate('2015-07-01', '2015-11-30')
+  .filterDate('2015-08-01', '2015-11-30')
   // Filter to get only images under the region of interest.
   .filterBounds(walespoint)
   // Sort by scene cloudiness, ascending.
@@ -28,11 +28,13 @@ var landsat2 = ee.ImageCollection('LANDSAT/LC08/C01/T1')
 //var mosaic = landsat.mosaic();
 
 // Compute cloud score.
-var cloudScore = ee.Algorithms.Landsat.simpleCloudScore(landsat).select('cloud');
+var cloudScore1 = ee.Algorithms.Landsat.simpleCloudScore(landsat1).select('cloud');
+var cloudScore2 = ee.Algorithms.Landsat.simpleCloudScore(landsat1).select('cloud');
 
 // Mask the input for clouds.  Compute the min of the input mask to mask
 // pixels where any band is masked.  Combine that with the cloud mask.
-var input = landsat.updateMask(landsat.mask().reduce('min').and(cloudScore.lte(90)));/var input = mosaic.updateMask(mosaic.mask().reduce('min').and(cloudScore.lte(50)));
+var date1 = landsat1.updateMask(landsat1.mask().reduce('min').and(cloudScore1.lte(90)));/var input = mosaic.updateMask(mosaic.mask().reduce('min').and(cloudScore.lte(50)));
+var date2 = landsat2.updateMask(landsat2.mask().reduce('min').and(cloudScore1.lte(90)));/var input = mosaic.updateMask(mosaic.mask().reduce('min').and(cloudScore.lte(50)));
 
 
 // Use MODIS land cover, IGBP classification, for training.
