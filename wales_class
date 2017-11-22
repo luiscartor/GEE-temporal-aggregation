@@ -57,12 +57,12 @@ var classifier = ee.Classifier.randomForest(20)
 // Classify the input imagery.
 var classified = composite.classify(classifier);
 
-// Define a palette for the IGBP classification.
+// Define a palette for the classification.
 var palette = [
   'ff0000', // broadleaved f
   '008000', // evergreen
   '8b4513', // arable
-  '7FFF00', // improved
+  '7CFC00', // improved
   'FFA500', // rough
   '66CDAA', // neutral
   '2E8B57', // calcareous
