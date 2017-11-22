@@ -58,7 +58,7 @@ var classifier = ee.Classifier.randomForest(20)
 var classified = composite.classify(classifier);
 
 // Define a palette for the IGBP classification.
-var igbpPalette = [
+var palette = [
   'ff0000', // broadleaved f
   '008000', // evergreen
   '8b4513', // arable
@@ -88,5 +88,5 @@ var igbpPalette = [
 
 Map.centerObject(walespoint, 10);
 Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'landsat');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
-Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 22}, 'classification');
+Map.addLayer(classified, {palette: palette, min: 0, max: 23}, 'classification');
 //Map.addLayer(landsat2);//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
