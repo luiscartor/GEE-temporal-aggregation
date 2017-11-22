@@ -26,7 +26,7 @@ var landsat2 = ee.ImageCollection('LANDSAT/LC08/C01/T1')
   .first());
 
 //var mosaic = landsat.mosaic();
-
+dfg
 // Compute cloud score.
 var cloudScore1 = ee.Algorithms.Landsat.simpleCloudScore(landsat1).select('cloud');
 var cloudScore2 = ee.Algorithms.Landsat.simpleCloudScore(landsat1).select('cloud');
