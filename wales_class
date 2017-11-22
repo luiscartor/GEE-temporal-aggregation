@@ -74,5 +74,5 @@ var igbpPalette = [
 
 
 Map.centerObject(geometry, 5);
-Map.addLayer(landsat1, {bands: ['B3', 'B2', 'B1']}, 'landsat');
-Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
+//Map.addLayer(landsat1, {bands: ['B3', 'B2', 'B1']}, 'landsat');
+//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
