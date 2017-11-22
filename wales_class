@@ -10,7 +10,7 @@ var landsat1 = ee.ImageCollection('LANDSAT/LC08/C01/T1')
   // Filter to get only images under the region of interest.
   .filterBounds(walespoint)
   // Sort by scene cloudiness, ascending.
-  .sort('CLOUD_COVER',false);
+  .sort('CLOUD_COVER',false)
   // Get the first (least cloudy) scene.
   .first());
 
@@ -21,7 +21,7 @@ var landsat2 = ee.ImageCollection('LANDSAT/LC08/C01/T1')
   // Filter to get only images under the region of interest.
   .filterBounds(walespoint)
   // Sort by scene cloudiness, ascending.
-  .sort('CLOUD_COVER',false);
+  .sort('CLOUD_COVER',false)
   // Get the first (least cloudy) scene.
   .first());
 
@@ -32,7 +32,7 @@ var cloudScore1 = ee.Algorithms.Landsat.simpleCloudScore(landsat1).select('cloud
 var cloudScore2 = ee.Algorithms.Landsat.simpleCloudScore(landsat1).select('cloud');
 
 // Multi-date composite
-var composite = ee.ImageCollection([cloudScore1],[cloudScore2])
+var composite = ee.ImageCollection([cloudScore1],[cloudScore2]);
 
 // Mask the input for clouds.  Compute the min of the input mask to mask
 // pixels where any band is masked.  Combine that with the cloud mask.
