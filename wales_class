@@ -62,7 +62,7 @@ var igbpPalette = [
   'ff0000', // broadleaved f
   '008000', // evergreen
   '8b4513', // arable
-  '7cfc00', // improved
+//  '7cfc00', // improved
 //  'FFA500', // rough
   '66CDAA', // neutral
   '2E8B57', // calcareous
