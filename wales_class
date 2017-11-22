@@ -59,13 +59,13 @@ var classified = composite.classify(classifier);
 
 // Define a palette for the IGBP classification.
 var igbpPalette = [
-  'ff0000', // broadleaved f
-  '008000', // evergreen
-  '8b4513', // arable
-  'ADFF2F', // improved
-  'FFA500', // rough
-  '66CDAA', // neutral
-  '2E8B57', // calcareous
+//  'ff0000', // broadleaved f
+//  '008000', // evergreen
+//  '8b4513', // arable
+//  'ADFF2F', // improved
+//  'FFA500', // rough
+//  '66CDAA', // neutral
+//  '2E8B57', // calcareous
   '808000', // acid
   'FFFF00', // fen
   '800080', // heather
