@@ -32,7 +32,7 @@ var cloudScore2 = ee.Algorithms.Landsat.simpleCloudScore(landsat2).select('cloud
 
 // Mask the input for clouds.  Compute the min of the input mask to mask
 // pixels where any band is masked.  Combine that with the cloud mask.
-var input = landsat.updateMask(landsat.mask().reduce('min').and(cloudScore.lte(50)));
+var input = landsat1.updateMask(landsat.mask().reduce('min').and(cloudScore.lte(50)));
 
 //var date1 = landsat1.updateMask(landsat1.mask().reduce('min').and(cloudScore1.lte(50)));/var input = mosaic.updateMask(mosaic.mask().reduce('min').and(cloudScore.lte(50)));
 //var date2 = landsat2.updateMask(landsat.mask().reduce('min').and(cloudScore2.lte(90)));/var input = mosaic.updateMask(mosaic.mask().reduce('min').and(cloudScore.lte(50)));
