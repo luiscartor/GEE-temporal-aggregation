@@ -39,7 +39,7 @@ var date2 = landsat2.updateMask(landsat2.mask().reduce('min').and(cloudScore2.lt
 //var date2 = landsat2.updateMask(landsat.mask().reduce('min').and(cloudScore2.lte(90)));/var input = mosaic.updateMask(mosaic.mask().reduce('min').and(cloudScore.lte(50)));
 
 // Multi-date composite
-var composite = ee.ImageCollection([date1],[date2]);
+var composite = ee.ImageCollection([date1]);
 
 // Use MODIS land cover, IGBP classification, for training.
 var modis = ee.Image('MODIS/051/MCD12Q1/2011_01_01')
