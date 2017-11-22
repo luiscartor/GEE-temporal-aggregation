@@ -72,7 +72,6 @@ var igbpPalette = [
 
 
 Map.centerObject(walespoint, 5);
-//Map.addLayer(composite, {bands: ['B3', 'B2', 'B1'], max: 0.4}, 'landsat');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
+Map.addLayer(composite, {bands: ['B3', 'B2', 'B1'], max: 0.4}, 'landsat');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 //Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
-//Map.addLayer(composite, {bands: ['B3', 'B2', 'B1']});
-print('stacked_composite bands', composite.bandNames());
+
