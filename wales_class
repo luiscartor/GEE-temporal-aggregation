@@ -42,7 +42,7 @@ var composite = date1.addBands(date2);
 //var modis = ee.Image('MODIS/051/MCD12Q1/2011_01_01')
 //    .select('Land_Cover_Type_1');
 
-var trainingraster = ee.Image('users/luiscartor/wales_c35training');
+var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
 
 // Sample the input imagery to get a FeatureCollection of training data.
 var training = composite.addBands(trainingraster).sample({
