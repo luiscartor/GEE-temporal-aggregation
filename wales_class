@@ -20,7 +20,7 @@ var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LT05/C01/T1_TOA')
   // Filter to get only images under the region of interest.
   .filterBounds(walespoint)
   // Sort by scene cloudiness, ascending.
-  .sort('CLOUD_COVER');
+  .sort('CLOUD_COVER'));
   // Get the first (least cloudy) scene.
   //.first());
 
