@@ -31,6 +31,9 @@ var landsat2 = ee.ImageCollection('LANDSAT/LC08/C01/T1')
 var cloudScore1 = ee.Algorithms.Landsat.simpleCloudScore(landsat1).select('cloud');
 var cloudScore2 = ee.Algorithms.Landsat.simpleCloudScore(landsat1).select('cloud');
 
+// Multi-date composite
+var composite = ee.ImageCollection([cloudScore1],[cloudScore2])
+
 // Mask the input for clouds.  Compute the min of the input mask to mask
 // pixels where any band is masked.  Combine that with the cloud mask.
 var date1 = landsat1.updateMask(landsat1.mask().reduce('min').and(cloudScore1.lte(90)));/var input = mosaic.updateMask(mosaic.mask().reduce('min').and(cloudScore.lte(50)));
