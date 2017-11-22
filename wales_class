@@ -36,14 +36,14 @@ var date1 = landsat1.updateMask(landsat1.mask().reduce('min').and(cloudScore1.lt
 var date2 = landsat2.updateMask(landsat2.mask().reduce('min').and(cloudScore2.lte(50)));
 
 // Multi-date composite
-var composite = ee.ImageCollection([date1]);
+var composite = date1.addBands(date2);
 
 // Use MODIS land cover, IGBP classification, for training.
 var modis = ee.Image('MODIS/051/MCD12Q1/2011_01_01')
     .select('Land_Cover_Type_1');
 
 // Sample the input imagery to get a FeatureCollection of training data.
-var training = landsat1.addBands(modis).sample({
+var training = composite.addBands(modis).sample({
   numPixels: 5000,
   seed: 0
 });
@@ -53,7 +53,7 @@ var classifier = ee.Classifier.randomForest(10)
     .train(training, 'Land_Cover_Type_1');
 
 // Classify the input imagery.
-var classified = landsat1.classify(classifier);
+var classified = composite.classify(classifier);
 
 // Define a palette for the IGBP classification.
 var igbpPalette = [
