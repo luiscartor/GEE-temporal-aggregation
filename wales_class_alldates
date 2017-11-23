@@ -24,7 +24,18 @@ var lan_ref = lan_nocloud.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2
 
 
 // Multi-date composite
-var composite = ee.Image(lan_ref);
+var stackCollection = function(collection) {
+  // Create an initial image.
+  var first = ee.Image(collection.first()).select([]);
+
+  // Write a function that appends a band to an image.
+  var appendBands = function(image, previous) {
+    return ee.Image(previous).addBands(image);
+  };
+  return ee.Image(collection.iterate(appendBands, first));
+};
+
+var composite = stackCollection(lan_ref);
 
 
 // Classification training data
