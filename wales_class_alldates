@@ -35,7 +35,7 @@ var stackCollection = function(collection) {
   return ee.Image(collection.iterate(appendBands, first));
 };
 
-var composite = stackCollection(lan_ref);
+var composite = stackCollection(lansat);
 
 
 // Classification training data
