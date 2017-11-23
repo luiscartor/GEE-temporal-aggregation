@@ -35,7 +35,7 @@ var stackCollection = function(collection) {
   return ee.Image(collection.iterate(appendBands, first));
 };
 
-var composite = stackCollection(landsat);
+var composite = stackCollection(lan_ref);
 
 
 // Classification training data
@@ -43,11 +43,11 @@ var composite = stackCollection(landsat);
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
 
 // Sample the input imagery to get a FeatureCollection of training data.
-var training = composite.addBands(trainingraster).sample({
-  numPixels: 5000,
-  seed: 0
-});
-
+//var training = composite.addBands(trainingraster).sample({
+//  numPixels: 5000,
+//  seed: 0
+//});
+var training = composite.addBands(trainingraster)
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(20)
