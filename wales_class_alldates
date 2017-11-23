@@ -43,15 +43,16 @@ var composite = stackCollection(lan_ref);
 var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_shapefile');
 
 // Sample the input imagery to get a FeatureCollection of training data.
-//var training = composite.addBands(trainingraster).sample({
-//  numPixels: 5000,
-//  seed: 0
-//});
+var training = composite.addBands(trainingraster).sample({
+  numPixels: 5000,
+  seed: 0,
+  dropNulls: False,
+});
 
-var training = composite.sampleRegions({
-  collection: trainingpolygons,
-  properties: ['class'],
-  scale: 30});
+//var training = composite.sampleRegions({
+//collection: trainingpolygons,
+//properties: ['class'],
+//scale: 30});
 
 
 // Make a Random Forest classifier and train it.
