@@ -38,9 +38,11 @@ var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 //var date1 = landsat1.updateMask(landsat1.mask().reduce('min').and(cloudScore1.lte(90)));
 //var date2 = landsat2.updateMask(landsat2.mask().reduce('min').and(cloudScore2.lte(90)));
 
-var date1 = landsat1.updateMask(landsat1.select(['fmask']).neq(4));
-var date2 = landsat2.updateMask(landsat2.select(['fmask']).neq(4));
+var date1allb = landsat1.updateMask(landsat1.select(['fmask']).neq(4));
+var date2allb = landsat2.updateMask(landsat2.select(['fmask']).neq(4));
 
+var date1 = date1allb.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7'])
+var date1 = date1allb.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7'])
 
 
 // Multi-date composite
