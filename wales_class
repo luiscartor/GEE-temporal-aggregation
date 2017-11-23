@@ -16,7 +16,8 @@ var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   .first());
 
 // Load Landsat 5 input imagery.
-var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
+//var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
+var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   // Filter to get only one year of images.
   .filterDate('2015-06-01', '2015-12-31')
   // Filter to get only images under the region of interest.
@@ -38,9 +39,7 @@ var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 //var date2 = landsat2.updateMask(landsat2.mask().reduce('min').and(cloudScore2.lte(90)));
 
 var date1 = landsat1.updateMask(landsat1.select(['fmask']).neq(4));
-
-//var date1 = landsat1.updateMask(landsat1.select(['cfmask']).neq(4));
-var date2 = landsat2.updateMask(landsat2.select(['cfmask']).neq(4));
+var date2 = landsat2.updateMask(landsat2.select(['fmask']).neq(4));
 
 
 
