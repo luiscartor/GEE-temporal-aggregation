@@ -100,3 +100,11 @@ Map.addLayer(date2, {bands: ['B4', 'B3', 'B2']}, 'date2');
 
 Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'composite');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
+
+
+//Export.image.toDrive({
+//    image: masked.select(bnds),
+//    description: 'MaskedLS5',
+//    scale: 30,
+//    region: geometry
+//});
