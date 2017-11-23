@@ -94,7 +94,6 @@ var palette = [
 ];
 
 
-
 Map.centerObject(walespoint, 10);
 Map.addLayer(date1, {bands: ['B4', 'B3', 'B2']}, 'date1');
 Map.addLayer(date2, {bands: ['B4', 'B3', 'B2']}, 'date2');
