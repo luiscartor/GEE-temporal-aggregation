@@ -24,7 +24,7 @@ var lan_ref = lan_nocloud.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2
 
 
 // Multi-date composite
-var composite = lan_nocloud.mosaic();
+//var composite = lan_nocloud.mosaic();
 
 
 // Classification training data
@@ -32,7 +32,7 @@ var composite = lan_nocloud.mosaic();
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
 
 // Sample the input imagery to get a FeatureCollection of training data.
-var training = composite.addBands(trainingraster).sample({
+var training = lan_ref.addBands(trainingraster).sample({
   numPixels: 100,
   seed: 0
 });
