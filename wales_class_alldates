@@ -20,11 +20,11 @@ var lan_nocloud =  landsat.map(function(img) {
 //var date1allb = landsat1.updateMask(landsat1.select(['fmask']).neq(4));
 //var date2allb = landsat2.updateMask(landsat2.select(['fmask']).neq(4));
 
-var lan_ref = lan_nocloud.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7'])
+var lan_ref = lan_nocloud.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7']);
 
 
 // Multi-date composite
-//var comp = date1ref.addBands(date2ref);
+var composite = lan_ref.mosaic();
 
 
 // Classification training data
@@ -32,7 +32,7 @@ var lan_ref = lan_nocloud.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
 
 // Sample the input imagery to get a FeatureCollection of training data.
-var training = lan_ref.addBands(trainingraster).sample({
+var training = composite.addBands(trainingraster).sample({
   numPixels: 100,
   seed: 0
 });
@@ -42,7 +42,7 @@ var classifier = ee.Classifier.randomForest(20)
     .train(training, 'b1');
 
 // Classify the input imagery.
-var classified = lan_ref.classify(classifier);
+var classified = composite.classify(classifier);
 
 // Define a palette for the classification.
 var palette = [
@@ -74,7 +74,7 @@ var palette = [
 
 
 Map.centerObject(walespoint, 10);
-Map.addLayer(lan_ref, {bands: ['B4', 'B3', 'B2']}, 'date1');
+Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'date1');
 
 //Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'composite');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
