@@ -35,7 +35,10 @@ var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 //var date1 = landsat1.updateMask(landsat1.mask().reduce('min').and(cloudScore1.lte(90)));
 //var date2 = landsat2.updateMask(landsat2.mask().reduce('min').and(cloudScore2.lte(90)));
 
-var date1 = landsat1.updateMask(landsat1.select(['cmask']).neq(4));
+var msk1 = landsat1.select('csmask').neq(4);
+var date1 = landsat1.mask(msk1)
+
+//ar date1 = landsat1.updateMask(landsat1.select(['cmask']).neq(4));
 var date2 = landsat2.updateMask(landsat2.select(['cmask']).neq(4));
 
 
