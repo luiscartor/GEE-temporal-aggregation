@@ -101,8 +101,8 @@ var palette = [
 
 
 Map.centerObject(walespoint, 10);
-Map.addLayer(date1, {bands: ['B4', 'B3', 'B2']}, 'date1');
-Map.addLayer(date2, {bands: ['B4', 'B3', 'B2']}, 'date2');
+Map.addLayer(date1ref, {bands: ['B4', 'B3', 'B2']}, 'date1');
+Map.addLayer(date2ref, {bands: ['B4', 'B3', 'B2']}, 'date2');
 
 Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'composite');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
