@@ -40,7 +40,7 @@ var composite = stackCollection(lan_ref);
 
 // Classification training data
 //var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
-var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_NAs');
+var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_shapefile');
 
 // Sample the input imagery to get a FeatureCollection of training data.
 //var training = composite.addBands(trainingraster).sample({
