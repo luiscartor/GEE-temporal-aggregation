@@ -46,7 +46,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
 var training = composite.addBands(trainingraster).sample({
   numPixels: 5000,
   seed: 0,
-  dropNulls: False,
+  dropNulls: false,
 });
 
 //var training = composite.sampleRegions({
