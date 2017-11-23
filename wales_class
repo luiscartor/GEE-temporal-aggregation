@@ -1,5 +1,54 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var walespoint = /* color: #0b4a8b */ee.Geometry.Point([-4.06494140625, 53.11710851455023]);
+var walespoint = /* color: #0b4a8b */ee.Geometry({
+      "type": "GeometryCollection",
+      "geometries": [
+        {
+          "type": "Point",
+          "coordinates": [
+            -4.06494140625,
+            53.11710851455023
+          ]
+        },
+        {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -4.779052734375,
+                53.370220573956786
+              ],
+              [
+                -4.822998046875,
+                52.74294319885714
+              ],
+              [
+                -3.88916015625,
+                52.60971939156647
+              ],
+              [
+                -3.251953125,
+                53.337433437129675
+              ],
+              [
+                -3.6474609375,
+                53.461890432859114
+              ],
+              [
+                -4.37255859375,
+                53.461890432859114
+              ],
+              [
+                -4.658203125,
+                53.44226352500856
+              ]
+            ]
+          ],
+          "geodesic": true,
+          "evenOdd": true
+        }
+      ],
+      "coordinates": []
+    });
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
 // Load Landsat 5 input imagery.
