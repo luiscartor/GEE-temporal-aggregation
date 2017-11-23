@@ -47,7 +47,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
 //  numPixels: 5000,
 //  seed: 0
 //});
-var training = composite.addBands(trainingraster)
+var training = composite.addBands(trainingraster);
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(20)
