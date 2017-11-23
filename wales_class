@@ -78,8 +78,8 @@ var palette = [
   '0000FF', // water
   'B8860B', // supra
   'B8860B', // supra
-  'FFFFE0', // litoral
-  'FFFFE0', // litoral
+  'F0 E6 8C', // litoral
+  'F0 E6 8C', // litoral
   '9370DB', // marsh
   '000000', // urban
   'A9A9A9', // semi urban
