@@ -48,7 +48,9 @@ var date2 = date2allb.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B
 // Multi-date composite
 var comp = date1.addBands(date2);
 
-var composite = comp.updateMask(landsat2.select(['fmask']).neq(4));
+var comp2 = comp.updateMask(landsat1.select(['fmask']).neq(4));
+var composite = comp2.updateMask(landsat2.select(['fmask']).neq(4));
+
 
 // Use MODIS land cover, IGBP classification, for training.
 //var modis = ee.Image('MODIS/051/MCD12Q1/2011_01_01')
