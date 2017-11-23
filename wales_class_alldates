@@ -47,6 +47,7 @@ var training = composite.addBands(trainingraster).sample({
   numPixels: 50000,
   seed: 0
 });
+print(training)
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(20)
