@@ -5,7 +5,7 @@ var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1
 // Load Landsat 5 input imagery.
 var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
   // Filter to get only one year of images.
-  .filterDate('2015-01-01', '2015-06-30')
+  .filterDate('2015-01-01', '2015-05-30')
   // Filter to get only images under the region of interest.
   .filterBounds(walespoint)
   // Sort by scene cloudiness, ascending.
@@ -16,7 +16,7 @@ var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 // Load Landsat 5 input imagery.
 var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
   // Filter to get only one year of images.
-  .filterDate('2015-07-01', '2015-12-31')
+  .filterDate('2015-06-01', '2015-12-31')
   // Filter to get only images under the region of interest.
   .filterBounds(walespoint)
   // Sort by scene cloudiness, ascending.
