@@ -12,16 +12,24 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 
 
 // Cloud mask collection
-var lan_nocloud =  landsat.map(function(img) {
-                   var mask = img.select(['fmask']).neq(4)
-                   return img.updateMask(mask)
-                   })
+//var lan_nocloud =  landsat.map(function(img) {
+//                   var mask = img.select(['fmask']).neq(4)
+//                   return img.updateMask(mask)
+//                   })
 
-//var date1allb = landsat1.updateMask(landsat1.select(['fmask']).neq(4));
-//var date2allb = landsat2.updateMask(landsat2.select(['fmask']).neq(4));
 
-var lan_ref = lan_nocloud.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7']);
+//var lan_ref = lan_nocloud.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7']);
 
+
+var mean = landsat.reduce(ee.Reducer.mean());
+
+// Function that substitutes na for the mean value
+var substitute = function(image) {
+  return image.where(['fmask']).neq(4), mean);
+}
+
+// Applies function to whole collection
+var colwithmean = landsat.map(substitute);
 
 // Multi-date composite
 var stackCollection = function(collection) {
@@ -36,9 +44,6 @@ var stackCollection = function(collection) {
 };
 
 var composite = stackCollection(lan_ref);
-
-var mean = lan_ref.reduce(ee.Reducer.mean());
-
 
 // Classification training data
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
