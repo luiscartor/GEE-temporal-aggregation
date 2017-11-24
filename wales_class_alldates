@@ -61,7 +61,7 @@ var training = composite.sampleRegions({
 collection: trainingpolygons,
 properties: ['class'],
 scale: 30,
-tileScale: 20
+tileScale: 16
 });
 
 
