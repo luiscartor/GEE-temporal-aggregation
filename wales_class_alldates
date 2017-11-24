@@ -30,8 +30,8 @@ var mean = lan_nocloud.reduce(ee.Reducer.mean());
 //                  })
 
 var substitute = function(img){
-                  var cloud = img.select(['fmask'])
-                  return ee.Algorithms.If(ee.Number(img.get(cloud)).neq(4),img,mean) 
+                  //var cloud = img.select(['fmask'])
+                  return ee.Algorithms.If(ee.Number(img.get(img.select(['fmask']))).neq(4),img,mean) 
                   }
 
 var colwithmean = lan_nocloud.map(substitute)
