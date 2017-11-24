@@ -28,7 +28,7 @@ var substitute = function(image) {
 }
 
 // Applies function to whole collection
-var colwithmean = landsat_nocloud.map(substitute);
+var colwithmean = lan_nocloud.map(substitute);
 
 // Selects only reflectance bands
 var colwithmean_ref = colwithmean.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7']);
