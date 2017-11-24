@@ -65,7 +65,7 @@ var training = composite.addBands(trainingraster).sample({
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(20)
-    .train(training, 'b1');
+    .train(training, 'class');
 
 // Classify the input imagery.
 var classified = composite.classify(classifier);
