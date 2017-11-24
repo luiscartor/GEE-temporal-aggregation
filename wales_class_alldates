@@ -18,7 +18,7 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 //                   })
 
 
-//var lan_ref = lan_nocloud.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7']);
+
 
 
 var mean = landsat.reduce(ee.Reducer.mean());
@@ -30,6 +30,9 @@ var substitute = function(image) {
 
 // Applies function to whole collection
 var colwithmean = landsat.map(substitute);
+
+// Selects only reflectance bands
+//var lan_ref = lan_nocloud.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7']);
 
 // Multi-date composite
 var stackCollection = function(collection) {
