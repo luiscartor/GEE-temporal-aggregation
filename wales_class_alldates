@@ -25,7 +25,8 @@ var mean = lan_nocloud.reduce(ee.Reducer.mean());
 
 // Substitutes na values for the mean value
 var colwithmean = lan_nocloud.map(function(img) {
-                  return img.where(img.select(['fmask']).gt(4), mean)
+                  cloud = img.select(['fmask']).eq(4)
+                  return img.where(cloud, mean)
                   })
 
 
