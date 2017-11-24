@@ -32,7 +32,7 @@ var substitute = function(image) {
 var colwithmean = landsat.map(substitute);
 
 // Selects only reflectance bands
-var colwithmean_ref = lan_nocloud.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7']);
+var colwithmean_ref = colwithmean.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7']);
 
 // Multi-date composite
 var stackCollection = function(collection) {
