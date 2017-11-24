@@ -60,11 +60,13 @@ var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_
 var training = composite.sampleRegions({
 collection: trainingpolygons,
 properties: ['class'],
-scale: 30});
+scale: 30,
+tileScale: 4
+});
 
 
 // Make a Random Forest classifier and train it.
-var classifier = ee.Classifier.randomForest(2)
+var classifier = ee.Classifier.randomForest(20)
     .train(training, 'class');
 
 // Classify the input imagery.
