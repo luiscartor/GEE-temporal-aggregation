@@ -101,7 +101,7 @@ var palette = [
 
 
 Map.centerObject(walespoint, 10);
-Map.addLayer(trainingraster, {bands: ['B4', 'B3', 'B2']}, 'date1');
+Map.addLayer(trainingraster, {'date1');
 Map.addLayer(date2ref, {bands: ['B4', 'B3', 'B2']}, 'date2');
 
 Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'composite');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
