@@ -20,7 +20,7 @@ var lan_nocloud =  landsat.map(function(img) {
 
 
 
-var mean = lan_noncloud.reduce(ee.Reducer.mean());
+var mean = lan_nocloud.reduce(ee.Reducer.mean());
 
 // Function that substitutes na for the mean value
 var substitute = function(image) {
