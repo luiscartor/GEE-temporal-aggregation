@@ -34,7 +34,7 @@ var substitute = function(img){
                   return ee.Algorithms.If(ee.Number(img.get(cloud)).neq(4),img,mean) 
                   }
 
-colwithmean = lan_nocloud.map(substitute)
+var colwithmean = lan_nocloud.map(substitute)
 
 
 
