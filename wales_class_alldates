@@ -30,8 +30,8 @@ var mean = lan_nocloud.reduce(ee.Reducer.mean());
 //                  })
 
 var substitute = function(img){
-                  return ee.Algorithms.If(ee.Number(img.get('fmask')).neq(4),img,mean) 
-                  }
+                  return ee.Algorithms.If(ee.Number(img.select(['fmask'])).neq(4),img,mean); 
+                  };
 
 var colwithmean = lan_nocloud.map(substitute)
 
