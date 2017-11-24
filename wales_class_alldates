@@ -12,15 +12,15 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 
 
 // Cloud mask collection
-var lan_nocloud =  landsat.map(function(img) {
-                   var mask = img.select(['fmask']).neq(4)
-                   return img.updateMask(mask)
-                   })
+//var lan_nocloud =  landsat.map(function(img) {
+//                  var mask = img.select(['fmask']).neq(4)
+//                   return img.updateMask(mask)
+//                   })
 
 
 
 
-var mean = lan_nocloud.reduce(ee.Reducer.mean());
+//var mean = lan_nocloud.reduce(ee.Reducer.mean());
 
 // Function that substitutes na for the mean value
 var substitute = function(image) {
@@ -28,7 +28,7 @@ var substitute = function(image) {
 }
 
 // Applies function to whole collection
-var colwithmean = lan_nocloud.map(substitute);
+var colwithmean = landsat.map(substitute);
 
 // Selects only reflectance bands
 var colwithmean_ref = colwithmean.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7']);
