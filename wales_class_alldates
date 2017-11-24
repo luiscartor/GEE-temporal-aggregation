@@ -36,7 +36,7 @@ var stackCollection = function(collection) {
 };
 
 var composite = stackCollection(lan_ref);
-var meanlayer = ee.Reducer.mean(composite)
+var meanlayer = composite.reduce(ee.Reducer.mean());
 
 // Classification training data
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
