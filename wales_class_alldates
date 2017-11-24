@@ -20,7 +20,7 @@ var lan_nocloud =  landsat.map(function(img) {
 
 
 
-var mean = landsat.reduce(ee.Reducer.mean());
+var mean = lan_noncloud.reduce(ee.Reducer.mean());
 
 // Function that substitutes na for the mean value
 var substitute = function(image) {
@@ -52,7 +52,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
 
 // Sample the input imagery to get a FeatureCollection of training data.
 var training = composite.addBands(trainingraster).sample({
-  numPixels: 100,
+  numPixels: 1000,
   seed: 0,
   dropNulls: false,
 });
