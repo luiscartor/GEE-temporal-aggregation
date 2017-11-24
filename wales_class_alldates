@@ -23,12 +23,19 @@ var lan_nocloud =  landsat.map(function(img) {
 var mean = lan_nocloud.reduce(ee.Reducer.mean());
 
 // Function that substitutes na for the mean value
-var substitute = function(image) {
-  return image.where(image.select(['fmask']).eq(4), mean);
-}
-
+//var substitute = function(image) {
+//  return image.where(image.select(['fmask']).eq(4), mean);
+//}
 // Applies function to whole collection
-var colwithmean = lan_nocloud.map(substitute);
+//var colwithmean = lan_nocloud.map(substitute);
+
+// Substitutes na values for the mean value
+var colwithmean = lan_nocloud.map(function(img) {
+                  return img.where(img.select(['fmask']).eq(4), mean)
+                  })
+
+
+
 
 // Selects only reflectance bands
 var colwithmean_ref = colwithmean.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7']);
