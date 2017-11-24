@@ -52,7 +52,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
 
 // Sample the input imagery to get a FeatureCollection of training data.
 var training = composite.addBands(trainingraster).sample({
-  numPixels: 1000,
+  numPixels: 10,
   seed: 0,
   dropNulls: false,
 });
@@ -101,10 +101,10 @@ var palette = [
 
 Map.centerObject(walespoint, 10);
 //Map.addLayer(landsat, {bands: ['B4', 'B3', 'B2']}, 'landsat');
-Map.addLayer(colwithmean_ref, {bands: ['B4', 'B3', 'B2']}, 'composite_ref');
+Map.addLayer(lan_nocloud, {bands: ['B4', 'B3', 'B2']}, 'composite_ref');
 
 Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'composite');
-Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
+//Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 
 
 //Export.image.toDrive({
