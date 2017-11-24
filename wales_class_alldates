@@ -12,7 +12,7 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 
 
 // Cloud mask collection
-var lan_nocloud =  landsat.iterate(function(img) {
+var lan_nocloud =  landsat.map(function(img) {
                   var mask = img.select(['fmask']).neq(4)
                    return img.updateMask(mask)
                    })
@@ -24,7 +24,7 @@ var mean = lan_nocloud.reduce(ee.Reducer.mean());
 
 
 // Substitutes na values for the mean value
-var colwithmean = lan_nocloud.map(function(img) {
+var colwithmean = lan_nocloud.iterate(function(img) {
                   var cloud = img.select(['fmask']).eq(4)
                   return img.where(cloud, mean)
                   })
