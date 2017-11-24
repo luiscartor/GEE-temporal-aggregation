@@ -20,11 +20,11 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 
 
 
-var mean = landsat.reduce(ee.Reducer.mean());
+var mean1 = landsat.reduce(ee.Reducer.mean());
 
 // Function that substitutes na for the mean value
 var substitute = function(image) {
-  return image.where(image.select(['fmask']).neq(4), mean);
+  return image.where(image.select(['fmask']).neq(4), mean1);
 }
 
 // Applies function to whole collection
