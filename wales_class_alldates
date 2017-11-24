@@ -24,7 +24,7 @@ var mean = landsat.reduce(ee.Reducer.mean());
 
 // Function that substitutes na for the mean value
 var substitute = function(image) {
-  return image.where(image.select(['fmask']).neq(4), mean);
+  return image.where(image.select(['fmask']).gt(4), mean);
 }
 
 // Applies function to whole collection
