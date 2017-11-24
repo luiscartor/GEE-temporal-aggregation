@@ -22,12 +22,6 @@ var lan_nocloud =  landsat.map(function(img) {
 
 var mean = lan_nocloud.reduce(ee.Reducer.mean());
 
-// Function that substitutes na for the mean value
-//var substitute = function(image) {
-//  return image.where(image.select(['fmask']).eq(4), mean);
-//}
-// Applies function to whole collection
-//var colwithmean = lan_nocloud.map(substitute);
 
 // Substitutes na values for the mean value
 var colwithmean = lan_nocloud.map(function(img) {
@@ -110,10 +104,10 @@ var palette = [
 
 Map.centerObject(walespoint, 10);
 //Map.addLayer(landsat, {bands: ['B4', 'B3', 'B2']}, 'landsat');
-Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'composite_ref');
+Map.addLayer(mean, {bands: ['B4', 'B3', 'B2']}, 'mean');
 
 Map.addLayer(colwithmean, {bands: ['B4', 'B3', 'B2']}, 'composite');
-Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
+//Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 
 
 //Export.image.toDrive({
