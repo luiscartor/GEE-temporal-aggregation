@@ -32,13 +32,12 @@ var substitute = function(image) {
 var colwithmean = landsat.map(substitute);
 
 // Selects only reflectance bands
-//var lan_ref = lan_nocloud.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7']);
+var colwithmean_ref = lan_nocloud.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7']);
 
 // Multi-date composite
 var stackCollection = function(collection) {
   // Create an initial image.
   var first = ee.Image(collection.first()).select([]);
-
   // Write a function that appends a band to an image.
   var appendBands = function(image, previous) {
     return ee.Image(previous).addBands(image);
@@ -46,7 +45,7 @@ var stackCollection = function(collection) {
   return ee.Image(collection.iterate(appendBands, first));
 };
 
-var composite = stackCollection(colwithmean);
+var composite = stackCollection(colwithmean_ref);
 
 // Classification training data
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
