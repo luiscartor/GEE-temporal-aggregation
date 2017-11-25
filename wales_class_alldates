@@ -18,22 +18,22 @@ var lan_nocloud =  landsat.map(function(img) {
                    })
 
 
-
-
 var mean = lan_nocloud.reduce(ee.Reducer.mean());
 
 
 // Substitutes na values for the mean value
-//var colwithmean = lan_nocloud.map(function(img) {
-//                  var cloud = img.select(['fmask']).eq(4)
-//                  return img.where(cloud, mean)
-//                  })
+var cloud = landsat.map(function(img){
+              return img.select(['fmask']).eq(4)})
 
-var substitute = function(img){
-                  //return ee.Algorithms.If(img.select(['fmask']).eq(0),img,mean); 
-                  return img.where(img.select(['fmask']).neq(0), mean);
+var colwithmean = lan_nocloud.map(function(img) {
+                  //var cloud = img.select(['fmask']).eq(4)
+                  return img.where(cloud, mean)
+                  })
 
-};
+//var substitute = function(img){
+//                  //return ee.Algorithms.If(img.select(['fmask']).eq(0),img,mean); 
+//                  return img.where(img.select(['fmask']).neq(0), mean);
+//  };
 
 //return ee.Algorithms.If(ee.Number(image.get('SUN_ELEVATION')).gt(40),
 //                          image,
