@@ -30,7 +30,9 @@ var mean = lan_nocloud.reduce(ee.Reducer.mean());
 //                  })
 
 var substitute = function(img){
-                  return ee.Algorithms.If(img.select(['fmask']).eq(0),img,mean);      
+                  //return ee.Algorithms.If(img.select(['fmask']).eq(0),img,mean); 
+                  return image.where(img.select(['fmask']).eq('mask'), mean);
+
 };
 
 //return ee.Algorithms.If(ee.Number(image.get('SUN_ELEVATION')).gt(40),
