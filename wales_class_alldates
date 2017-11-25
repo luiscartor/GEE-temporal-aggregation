@@ -112,7 +112,7 @@ var palette = [
 
 Map.centerObject(walespoint, 10);
 Map.addLayer(lan_nocloud, {bands: ['B4', 'B3', 'B2']}, 'landsat');
-//Map.addLayer(mean, {bands: ['B4', 'B3', 'B2']}, 'mean');
+Map.addLayer(mean, {bands: ['B4_mean', 'B3_mean', 'B2_mean']}, 'mean');
 
 Map.addLayer(colwithmean, {bands: ['B4', 'B3', 'B2']}, 'composite');
 //Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
