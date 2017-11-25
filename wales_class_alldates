@@ -31,7 +31,7 @@ var mean = lan_nocloud.reduce(ee.Reducer.mean());
 
 var substitute = function(img){
                   //return ee.Algorithms.If(img.select(['fmask']).eq(0),img,mean); 
-                  return img.where(img.select(['fmask']).eq('masked'), mean);
+                  return img.where(img.select(['fmask']).eq(0), mean);
 
 };
 
@@ -116,7 +116,7 @@ var palette = [
 
 Map.centerObject(walespoint, 10);
 Map.addLayer(lan_nocloud, {bands: ['B4', 'B3', 'B2']}, 'landsat');
-//Map.addLayer(mean, {bands: ['B4', 'B3', 'B2']}, 'mean');
+Map.addLayer(mean, {bands: ['B4', 'B3', 'B2']}, 'mean');
 
 Map.addLayer(colwithmean, {bands: ['B4', 'B3', 'B2']}, 'composite');
 //Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
