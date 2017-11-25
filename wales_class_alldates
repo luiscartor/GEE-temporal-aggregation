@@ -38,7 +38,7 @@ var substitute = function(img){
 //                          image,
 //                          ee.Image(0));
 
-var colwithmean = lan_nocloud.map(substitute)
+var colwithmean = lan_nocloud.map(substitute);
 
 
 
