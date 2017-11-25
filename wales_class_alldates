@@ -47,7 +47,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
 
 // Sample the input imagery to get a FeatureCollection of training data.
 var training = composite.addBands(trainingraster).sample({
-  numPixels: 1000,
+  numPixels: 100,
   seed: 0
 });
 
