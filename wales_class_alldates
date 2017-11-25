@@ -21,7 +21,7 @@ var lan_nocloud =  landsat.map(function(img) {
 var mean = lan_nocloud.reduce(ee.Reducer.mean());
 
 var colwithmean = landsat.map(function(img){
-                return img.where(img.select(['fmask']).neq(4), mean);
+                return img.where(img.select(['fmask']).eq(4), mean);
 })
 
 
