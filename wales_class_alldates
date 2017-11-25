@@ -20,15 +20,11 @@ var lan_nocloud =  landsat.map(function(img) {
 
 var mean = lan_nocloud.reduce(ee.Reducer.mean());
 
+var colwithmean = landsat.map(function(img){
+                return img.where(img.select(['fmask']).neq(4), mean);
+})
 
-// Substitutes na values for the mean value
-var cloud = landsat.map(function(img){
-              return img.select(['fmask']).eq(4)})
 
-var colwithmean = lan_nocloud.map(function(img) {
-                  //var cloud = img.select(['fmask']).eq(4)
-                  return img.where(cloud, mean)
-                  })
 
 //var substitute = function(img){
 //                  //return ee.Algorithms.If(img.select(['fmask']).eq(0),img,mean); 
