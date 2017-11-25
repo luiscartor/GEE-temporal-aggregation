@@ -13,7 +13,7 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 
 // Cloud mask collection
 var lan_nocloud =  landsat.map(function(img) {
-                  var mask = img.select(['B1']).eq('masked')
+                  var mask = img.select(['fmask']).eq('masked')
                    return img.updateMask(mask)
                    })
 
