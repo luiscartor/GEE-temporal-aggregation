@@ -45,7 +45,7 @@ var date1ref = landsat1.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2',
 var date2ref = landsat2.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7'])
 
 
-// Multi-date composite
+// Multi-date composite.
 var comp = date1ref.addBands(date2ref);
 
 var comp2 = comp.updateMask(landsat1.select(['fmask']).neq(4));
@@ -65,7 +65,7 @@ var training = composite.addBands(trainingraster).sample({
 });
 
 // Make a Random Forest classifier and train it.
-var classifier = ee.Classifier.randomForest(20)
+var classifier = ee.Classifier.randomForest(500)
     .train(training, 'b1');
 
 // Classify the input imagery.
