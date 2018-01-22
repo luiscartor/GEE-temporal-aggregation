@@ -56,8 +56,8 @@ var composite = comp2.updateMask(landsat2.select(['fmask']).neq(4));
 //var modis = ee.Image('MODIS/051/MCD12Q1/2011_01_01')
 //    .select('Land_Cover_Type_1');
 
-//var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
-var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_shapefile');
+var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
+//var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_shapefile');
 
 // Sample the input imagery to get a FeatureCollection of training data.
 //var training = composite.addBands(trainingraster).sample({
@@ -66,7 +66,11 @@ var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_
 //});
 
 //Sample using sample regions to sample 10000 for each class
-var trainig = composite.sampleRegions(trainingpolygons, 'modal_class' ,10);
+var training = composite.addBands(trainingraster).stratifiedSsample({
+  numPoints: 100,
+  classBand: trainingraster,
+  seed:0
+});
 
 
 // Make a Random Forest classifier and train it.
