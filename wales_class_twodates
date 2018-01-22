@@ -59,13 +59,17 @@ var composite = comp2.updateMask(landsat2.select(['fmask']).neq(4));
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs');
 
 // Sample the input imagery to get a FeatureCollection of training data.
-var training = composite.addBands(trainingraster).sample({
-  numPixels: 10000,
-  seed: 0
-});
+//var training = composite.addBands(trainingraster).sample({
+//  numPixels: 10000,
+//  seed: 0
+//});
+
+//Sample using sample regions to sample 10000 for each class
+var trainig = composite.sampleRegions(trainingraster,10);
+
 
 // Make a Random Forest classifier and train it.
-var classifier = ee.Classifier.randomForest(500)
+var classifier = ee.Classifier.randomForest(50)
     .train(training, 'b1');
 
 // Classify the input imagery.
