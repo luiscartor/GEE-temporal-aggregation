@@ -73,8 +73,7 @@ var trainingsample = trainingraster.stratifiedSample({
 });
 
 var training = composite.sampleRegions({
-  reducer: trainingsample,
-  properties: 'b1'
+  collection: trainingsample,
 });
 
 
