@@ -69,8 +69,8 @@ var trainingsample = trainingraster.stratifiedSample({
   numPoints: 100,
   classBand: 'b1',
   seed:0,
-  tileScale
-})
+  tileScale: 16
+});
 
 //Sample using sample regions to sample 10000 for each class
 var training = composite.addBands(trainingraster).stratifiedSample({
