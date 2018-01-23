@@ -71,7 +71,7 @@ var trainingsample = trainingraster.stratifiedSample({
   seed:0
 //  tileScale: 1
 });
-var polysample = ee.Geometry.Polygon(trainingsample)
+var polysample = ee.Geometry.Polygon(trainingsample.coordinates())
 
 var training = composite.addBands(trainingraster).sample({
   region: trainingsample,
