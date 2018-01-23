@@ -72,7 +72,7 @@ var trainingsample = trainingraster.stratifiedSample({
 //  tileScale: 1
 });
 
-var training = composite.addBands(trainingraster).sampleRegions({
+var training = composite.addBands(trainingraster).sample({
   collection: trainingsample,
   scale: 30
 });
