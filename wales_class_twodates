@@ -71,7 +71,8 @@ var trainingsample = trainingraster.stratifiedSample({
   seed:0
 //  tileScale: 1
 });
-var polysample = ee.Geometry.Polygon(trainingsample.coordinates())
+.addBands(ee.Image.pixelLonLat().select(['longitude','latitude'],['x','y']))
+
 
 var training = composite.addBands(trainingraster).sample({
   region: trainingsample,
