@@ -71,6 +71,7 @@ var trainingsample = trainingraster.stratifiedSample({
   seed:0
 //  tileScale: 1
 });
+var polysample = ee.Geometry.Polygon(trainingsample)
 
 var training = composite.addBands(trainingraster).sample({
   region: trainingsample,
@@ -131,7 +132,7 @@ Map.centerObject(walespoint, 10);
 
 Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'composite');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 Map.addLayer(training, {palette: palette, min: 1, max: 23}, 'training');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
-
+Map.addLayer(trainingpolygons)
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 
 
