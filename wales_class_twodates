@@ -72,7 +72,7 @@ var trainingsample = trainingraster.stratifiedSample({
   tileScale: 1
 });
 
-var training = composite.reduceRegion({
+var training = composite.sampleRegions({
   reducer: trainingsample
 });
 
