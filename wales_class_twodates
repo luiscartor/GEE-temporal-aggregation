@@ -65,7 +65,7 @@ var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_
 //  seed: 0
 //});
 
-var trainingsample = trainingraster.sample({
+var trainingsample = trainingraster.stratifiedSample({
   numPoints: 100,
   classBand: 'b1',
   seed:0
