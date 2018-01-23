@@ -73,7 +73,7 @@ var trainingsample = trainingraster.stratifiedSample({
 });
 
 var training = composite.addBands(trainingraster).sample({
-  collection: trainingsample,
+  region: trainingsample,
   scale: 30
 });
 
