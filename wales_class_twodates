@@ -66,14 +66,15 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 //});
 
 var trainingsample = trainingraster.stratifiedSample({
-  numPoints: 10000,
+  numPoints: 100,
   classBand: 'b1',
-  seed:0,
+  seed:0
 //  tileScale: 1
 });
 
 var training = composite.addBands(trainingraster).sampleRegions({
   collection: trainingsample,
+    scale: 30
 });
 
 
