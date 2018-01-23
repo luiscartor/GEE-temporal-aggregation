@@ -70,7 +70,7 @@ var training = composite.addBands(trainingraster).stratifiedSample({
   numPoints: 10,
   classBand: 'b1',
   seed:0,
-  tileScale: 16
+  tileScale: 4
 });
 
 
