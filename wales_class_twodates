@@ -75,7 +75,6 @@ var trainingsample = composite.addBands(trainingraster).addBands(ee.Image.pixelL
   return ee.Feature(point, f.toDictionary())
 });
 
-
 var training = composite.addBands(trainingraster).sample({
   region: trainingsample,
   factor: 1,
@@ -94,7 +93,7 @@ var training2 = composite.addBands(trainingraster).stratifiedSample({
 //Export.featureCollection
 
 // Make a Random Forest classifier and train it.
-var classifier = ee.Classifier.randomForest(10)
+var classifier = ee.Classifier.randomForest(100)
     .train(training2, 'b1');
 
 // Classify the input imagery.
