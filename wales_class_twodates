@@ -65,20 +65,19 @@ var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_
 //  seed: 0
 //});
 
-var trainingsample = composite.addBands(trainingraster).addBands(ee.Image.pixelLonLat()).stratifiedSample({
-  numPoints: 10000,
-  classBand: 'b1',
-  seed:0
-}).map(function(f){
-  var point = ee.Geometry.Point([f.get('longitude'),f.get('latitude')])
-  return ee.Feature(point, f.toDictionary())
-});
-
-var training = composite.addBands(trainingraster).sample({
-  region: trainingsample,
-  factor: 1,
-  scale: 30
-});
+//var trainingsample = composite.addBands(trainingraster).addBands(ee.Image.pixelLonLat()).stratifiedSample({
+//  numPoints: 10000,
+//  classBand: 'b1',
+//  seed:0
+//}).map(function(f){
+//  var point = ee.Geometry.Point([f.get('longitude'),f.get('latitude')])
+//  return ee.Feature(point, f.toDictionary())
+//});
+//var training = composite.addBands(trainingraster).sample({
+//  region: trainingsample,
+//  factor: 1,
+//  scale: 30
+//});
 
 
 //Sample using sample regions to sample 10000 for each class
@@ -92,7 +91,7 @@ var training2 = composite.addBands(trainingraster).stratifiedSample({
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(100)
-    .train(training, 'b1');
+    .train(training2, 'b1');
     
 Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
 
