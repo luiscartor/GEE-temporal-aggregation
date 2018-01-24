@@ -85,8 +85,8 @@ var training = composite.addBands(trainingraster).sample({
 
 //Sample using sample regions to sample 10000 for each class
 var training2 = composite.addBands(trainingraster).stratifiedSample({
-  numPoints: 100,
-  region: trainingpolygons,
+  numPoints: 10000,
+  //region: trainingpolygons,
   classBand: 'b1',
   seed:0,
   //tileScale: 16
@@ -95,7 +95,7 @@ var training2 = composite.addBands(trainingraster).stratifiedSample({
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(10)
-    .train(trainingsample, 'b1');
+    .train(training2, 'b1');
 
 // Classify the input imagery.
 var classified = composite.classify(classifier);
