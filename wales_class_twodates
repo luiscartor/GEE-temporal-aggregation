@@ -69,7 +69,6 @@ var trainingsample = composite.addBands(trainingraster).addBands(ee.Image.pixelL
   numPoints: 10000,
   classBand: 'b1',
   seed:0
-//  tileScale: 1
 }).map(function(f){
   var point = ee.Geometry.Point([f.get('longitude'),f.get('latitude')])
   return ee.Feature(point, f.toDictionary())
@@ -85,7 +84,6 @@ var training = composite.addBands(trainingraster).sample({
 //Sample using sample regions to sample 10000 for each class
 var training2 = composite.addBands(trainingraster).stratifiedSample({
   numPoints: 10000,
-  //region: trainingpolygons,
   classBand: 'b1',
   seed:0,
   //tileScale: 16
@@ -94,7 +92,7 @@ var training2 = composite.addBands(trainingraster).stratifiedSample({
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(100)
-    .train(training2, 'b1');
+    .train(training, 'b1');
 
 // Classify the input imagery.
 var classified = composite.classify(classifier);
