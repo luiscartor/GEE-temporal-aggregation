@@ -70,7 +70,9 @@ var trainingsample = trainingraster.stratifiedSample({
   classBand: 'b1',
   seed:0
 //  tileScale: 1
-}).addBands(ee.Image.pixelLonLat().select(['longitude','latitude'],['x','y']));
+})
+
+.addBands(ee.Image.pixelLonLat().select(['longitude','latitude'],['x','y']));
 
 
 var training = composite.addBands(trainingraster).sample({
