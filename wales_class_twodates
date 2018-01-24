@@ -87,7 +87,7 @@ var training2 = composite.addBands(trainingraster).stratifiedSample({
   seed:0,
   //tileScale: 16
 });
-Export.table.toDrive(training2)
+//Export.table.toDrive(training2)
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(20)
@@ -97,6 +97,7 @@ Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier
 
 // Classify the input imagery.
 var classified = composite.classify(classifier);
+print('classified',classified); 
 
 // Define a palette for the classification.
 var palette = [
@@ -136,9 +137,9 @@ Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'composite');//Map.addLayer
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 
 
-Export.image.toDrive({
-    image: classified,
-    description: 'wales_classification_test',
-    scale: 30,
-    //region: geometry
-});
+//Export.image.toDrive({
+//    image: classified,
+//    description: 'wales_classification_test',
+//    scale: 30,
+//    //region: geometry
+//});
