@@ -93,7 +93,7 @@ var training2 = composite.addBands(trainingraster).stratifiedSample({
 var classifier = ee.Classifier.randomForest(20)
     .train(training2, 'b1');
     
-Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
+//Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
 
 // Classify the input imagery.
 var classified = composite.classify(classifier);
