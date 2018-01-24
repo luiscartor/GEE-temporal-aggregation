@@ -51,12 +51,6 @@ var training = composite.addBands(trainingraster).sample({
   seed: 0
 });
 
-//var training = composite.sampleRegions({
-//collection: trainingpolygons,
-//properties: ['class'],
-//scale: 30,
-//tileScale: 16
-//});
 
 
 // Make a Random Forest classifier and train it.
