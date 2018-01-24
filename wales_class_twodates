@@ -91,7 +91,7 @@ var training2 = composite.addBands(trainingraster).stratifiedSample({
 //Export.featureCollection
 
 // Make a Random Forest classifier and train it.
-var classifier = ee.Classifier.randomForest(100)
+var classifier = ee.Classifier.randomForest(50)
     .train(training, 'b1');
 
 // Classify the input imagery.
