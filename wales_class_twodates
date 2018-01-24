@@ -127,7 +127,7 @@ var palette = [
 ];
 
 
-Map.centerObject(walespoint, 5);
+Map.centerObject(walespoint, 8);
 //Map.addLayer(trainingraster, {'date1');
 //Map.addLayer(date2ref, {bands: ['B4', 'B3', 'B2']}, 'date2');
 
