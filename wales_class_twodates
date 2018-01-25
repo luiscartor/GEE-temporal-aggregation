@@ -136,10 +136,10 @@ Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'composite');//Map.addLayer
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 
 
-Export.image.toDrive({
-    image: classified,
-    description: 'wales_classification_test',
-    scale: 30,
-    maxPixels: 128148372
-    //region: geometry
-});
+//Export.image.toDrive({
+//    image: classified,
+//    description: 'wales_classification_test',
+//    scale: 30,
+//    maxPixels: 128148372
+//    //region: geometry
+//});
