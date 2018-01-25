@@ -90,13 +90,13 @@ var samples = composite.addBands(trainingraster).stratifiedSample({
 //Export.table.toDrive(training2)
 
 // Split sample into training and validation  
-var training = samples.filter(ee.Filter.gte('random',0.3));// for classification
+var training = samples.filter(ee.Filter.gte('random',0.7));// for classification
 var validation = samples.filter(ee.Filter.lt('random',0.3));// for accuracy 
 
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(100)
-    .train(samples, 'b1');
+    .train(training, 'b1');
     
 Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
 
