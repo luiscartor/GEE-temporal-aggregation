@@ -90,8 +90,8 @@ var samples = composite.addBands(trainingraster).stratifiedSample({
 //Export.table.toDrive(training2)
 
 // Split sample into training and validation  
-var training = ran.filter(ee.Filter.gte('random',0.3));// for classification
-var validation = ran.filter(ee.Filter.lt('random',0.3));// for accuracy 
+var training = samples.filter(ee.Filter.gte('random',0.3));// for classification
+var validation = samples.filter(ee.Filter.lt('random',0.3));// for accuracy 
 
 
 // Make a Random Forest classifier and train it.
