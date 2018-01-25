@@ -96,7 +96,7 @@ var validation = samples.filter(ee.Filter.lt('random',0.3));// for accuracy
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(100)
-    .train(training, 'b1');
+    .train(samples, 'b1');
     
 Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
 
