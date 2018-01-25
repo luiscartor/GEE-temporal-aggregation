@@ -53,8 +53,8 @@ var composite = comp2.updateMask(landsat2.select(['fmask']).neq(4));
 
 // Load a FeatureCollection from a Fusion Table.
 // Load a FeatureCollection from a Fusion Table.
-var training2 = ee.FeatureCollection('ft:1NyuvnSsVnNcJprgPZRW945ibosCQwWO9ud6tVHRU', column:'b1')
-print(training2)
+var training2 = ee.FeatureCollection('ft:1NyuvnSsVnNcJprgPZRW945ibosCQwWO9ud6tVHRU');
+print(training2);
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(20)
