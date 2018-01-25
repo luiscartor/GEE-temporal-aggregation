@@ -1,1 +1,88 @@
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
+
+// Load Landsat 5 input imagery.
+//var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
+var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
+
+  // Filter to get only one year of images.
+  .filterDate('2015-01-01', '2015-05-30')
+  // Filter to get only images under the region of interest.
+  .filterBounds(walespoint)
+  // Sort by scene cloudiness, ascending.
+  .sort('CLOUD_COVER')
+  // Get the first (least cloudy) scene.
+  .first());
+
+// Load Landsat 5 input imagery.
+//var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
+var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
+  // Filter to get only one year of images.
+  .filterDate('2015-06-01', '2015-12-31')
+  // Filter to get only images under the region of interest.
+  .filterBounds(walespoint)
+  // Sort by scene cloudiness, ascending.
+  .sort('CLOUD_COVER')
+  // Get the first (least cloudy) scene.
+  .first());
+
+//var mosaic = landsat.mosaic();
+
+// Compute cloud score.
+//var cloudScore1 = ee.Algorithms.Landsat.simpleCloudScore(landsat1).select('cloud');
+//var cloudScore2 = ee.Algorithms.Landsat.simpleCloudScore(landsat2).select('cloud');
+
+// Mask the input for clouds.  Compute the min of the input mask to mask
+// pixels where any band is masked.  Combine that with the cloud mask.
+//var date1 = landsat1.updateMask(landsat1.mask().reduce('min').and(cloudScore1.lte(90)));
+//var date2 = landsat2.updateMask(landsat2.mask().reduce('min').and(cloudScore2.lte(90)));
+
+//var date1allb = landsat1.updateMask(landsat1.select(['fmask']).neq(4));
+//var date2allb = landsat2.updateMask(landsat2.select(['fmask']).neq(4));
+
+var date1ref = landsat1.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7'])
+var date2ref = landsat2.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7'])
+
+
+// Multi-date composite.
+var comp = date1ref.addBands(date2ref);
+
+var comp2 = comp.updateMask(landsat1.select(['fmask']).neq(4));
+var composite = comp2.updateMask(landsat2.select(['fmask']).neq(4));
+
+
+// Use MODIS land cover, IGBP classification, for training.
+//var modis = ee.Image('MODIS/051/MCD12Q1/2011_01_01')
+//    .select('Land_Cover_Type_1');
+
+var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
+var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_shapefile');
+
+// Sample the input imagery to get a FeatureCollection of training data.
+//var training = composite.addBands(trainingraster).sample({
+//  numPixels: 10000,
+//  seed: 0
+//});
+
+//var trainingsample = composite.addBands(trainingraster).addBands(ee.Image.pixelLonLat()).stratifiedSample({
+//  numPoints: 10000,
+//  classBand: 'b1',
+//  seed:0
+//}).map(function(f){
+//  var point = ee.Geometry.Point([f.get('longitude'),f.get('latitude')])
+//  return ee.Feature(point, f.toDictionary())
+//});
+//var training = composite.addBands(trainingraster).sample({
+//  region: trainingsample,
+//  factor: 1,
+//  scale: 30
+//});
+
+
+//Sample using sample regions to sample 10000 for each class
+var training2 = composite.addBands(trainingraster).stratifiedSample({
+  numPoints: 10000,
+  classBand: 'b1',
+  seed:0,
+  //tileScale: 16
+});
+Export.table.toDrive(training2)
