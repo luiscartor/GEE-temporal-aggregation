@@ -53,14 +53,14 @@ var composite = comp2.updateMask(landsat2.select(['fmask']).neq(4));
 
 // Load a FeatureCollection from a Fusion Table.
 // Load a FeatureCollection from a Fusion Table.
-var training2 = ee.FeatureCollection('ft:1414uA1zlzd4Hebb8S1OkXlY5SwlJZbDUkiTiQTrq')
+var training2 = ee.FeatureCollection('ft:1NyuvnSsVnNcJprgPZRW945ibosCQwWO9ud6tVHRU')
 
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(20)
     .train(training2, 'b1');
     
-Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
+//Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
 
 // Classify the input imagery.
 var classified = composite.classify(classifier);
