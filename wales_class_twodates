@@ -90,7 +90,7 @@ var training = composite.addBands(trainingraster).stratifiedSample({
 //Export.table.toDrive(training2)
 
 // Make a Random Forest classifier and train it.
-var classifier = ee.Classifier.randomForest(50)
+var classifier = ee.Classifier.randomForest(100)
     .train(training, 'b1');
     
 Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
@@ -109,7 +109,7 @@ var testsample = composite.addBands(trainingraster).stratifiedSample({
 
 // Accuracy assessment
 print(testsample)
-var trainAccuracy = testsample.classify(classifier).errorMatrix('Class', 'classification');
+var trainAccuracy = testsample.classify(classifier).errorMatrix('b1', 'classification');
 print('Resubstitution error matrix: ', trainAccuracy);
 print('Training overall accuracy: ', trainAccuracy.accuracy());
 print('Training kappa: ', trainAccuracy.kappa());
