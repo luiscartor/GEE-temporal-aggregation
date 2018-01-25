@@ -105,7 +105,7 @@ var classified = composite.classify(classifier);
 
 // Accuracy assessment
 print(validation)
-var trainAccuracyL8 = validation.classify(training).errorMatrix('Class', 'classification');
+var trainAccuracyL8 = validation.classify(classifier).errorMatrix('Class', 'classification');
 print('Resubstitution error matrix: ', trainAccuracyL8);
 print('Training overall accuracy: ', trainAccuracyL8.accuracy());
 print('Training kappa: ', trainAccuracyL8.kappa());
