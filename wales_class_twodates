@@ -82,7 +82,7 @@ var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_
 
 //Sample using sample regions to sample 10000 for each class
 var samples = composite.addBands(trainingraster).stratifiedSample({
-  numPoints: 1000,
+  numPoints: 10,
   classBand: 'b1',
   seed:0,
   //tileScale: 16
