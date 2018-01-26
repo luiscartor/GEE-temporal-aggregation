@@ -46,7 +46,13 @@ var date2ref = landsat2.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2',
 
 
 // Multi-date composite.
-var comp = date1ref.addBands(date2ref);
+var satcomp = date1ref.addBands(date2ref);
+
+// Elevation layer
+var dem = ee.Image('USGS/SRTMGL1_003').clip(composite.geometry())
+
+// Adds ancialliary data to satellite data
+var comp = satcomp.addBands(dem)
 
 var comp2 = comp.updateMask(landsat1.select(['fmask']).neq(4));
 var composite = comp2.updateMask(landsat2.select(['fmask']).neq(4));
@@ -59,8 +65,6 @@ var composite = comp2.updateMask(landsat2.select(['fmask']).neq(4));
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_shapefile');
 
-// Elevation layer
-var dem = ee.Image('USGS/SRTMGL1_003').clip(composite.geometry())
 
 
 // Sample the input imagery to get a FeatureCollection of training data.
