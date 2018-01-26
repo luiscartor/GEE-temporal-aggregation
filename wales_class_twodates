@@ -163,7 +163,7 @@ Map.addLayer(dem,{min:0,max:2000, palette:['black', 'white']},'dem')
 
 Export.image.toDrive({
     image: classified,
-    description: 'wales_classification_test',
+    description: 'wales_classification_test_dem',
     scale: 30,
     maxPixels: 128148372
     //region: geometry
