@@ -44,7 +44,7 @@ var dem = ee.Image('USGS/SRTMGL1_003').clip(satcomp.geometry())
 var distsea = ee.Image('users/luiscartor/distsea').int().clip(satcomp.geometry());
 
 // Adds ancialliary data to satellite data
-var comp = satcomp.addBands(dem)
+var comp = satcomp.addBands(dem).addBands(distsea)
 
 var comp2 = comp.updateMask(landsat1.select(['fmask']).neq(4));
 var composite = comp2.updateMask(landsat2.select(['fmask']).neq(4));
