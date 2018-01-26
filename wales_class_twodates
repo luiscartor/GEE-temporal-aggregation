@@ -59,6 +59,10 @@ var composite = comp2.updateMask(landsat2.select(['fmask']).neq(4));
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_shapefile');
 
+// Elevation layer
+var dem = ee.Image(ee.ImageCollection('USGS/SRTMGL1_003'))
+
+
 // Sample the input imagery to get a FeatureCollection of training data.
 //var training = composite.addBands(trainingraster).sample({
 //  numPixels: 10000,
