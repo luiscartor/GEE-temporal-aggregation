@@ -155,7 +155,7 @@ Map.centerObject(walespoint, 8);
 Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'composite');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 //Map.addLayer(trainingsample)
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
-
+Map.addLayer(dem)
 
 Export.image.toDrive({
     image: classified,
