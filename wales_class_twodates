@@ -60,7 +60,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_shapefile');
 
 // Elevation layer
-var dem = ee.Image('USGS/SRTMGL1_003').filterBounds(walespoint)
+var dem = ee.Image('USGS/SRTMGL1_003').Filter.bounds(wales)
 
 
 // Sample the input imagery to get a FeatureCollection of training data.
