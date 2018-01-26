@@ -109,7 +109,7 @@ var testsample = composite.addBands(trainingraster).stratifiedSample({
 
 // Accuracy assessment
 print(testsample)
-var trainAccuracy = testsample.classify(classifier).errorMatrix('b1', 'classification');
+var trainAccuracy = testsample.classify(classifier).errorMatrix('b1_1', 'classification');
 print('Resubstitution error matrix: ', trainAccuracy);
 print('Training overall accuracy: ', trainAccuracy.accuracy());
 print('Training kappa: ', trainAccuracy.kappa());
