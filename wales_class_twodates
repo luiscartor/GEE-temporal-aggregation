@@ -29,17 +29,6 @@ var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 
 //var mosaic = landsat.mosaic();
 
-// Compute cloud score.
-//var cloudScore1 = ee.Algorithms.Landsat.simpleCloudScore(landsat1).select('cloud');
-//var cloudScore2 = ee.Algorithms.Landsat.simpleCloudScore(landsat2).select('cloud');
-
-// Mask the input for clouds.  Compute the min of the input mask to mask
-// pixels where any band is masked.  Combine that with the cloud mask.
-//var date1 = landsat1.updateMask(landsat1.mask().reduce('min').and(cloudScore1.lte(90)));
-//var date2 = landsat2.updateMask(landsat2.mask().reduce('min').and(cloudScore2.lte(90)));
-
-//var date1allb = landsat1.updateMask(landsat1.select(['fmask']).neq(4));
-//var date2allb = landsat2.updateMask(landsat2.select(['fmask']).neq(4));
 
 var date1ref = landsat1.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7'])
 var date2ref = landsat2.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2','B3','B4','B5','B6','B7'])
@@ -50,6 +39,9 @@ var satcomp = date1ref.addBands(date2ref);
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(satcomp.geometry())
+
+// Distance to sea layer
+var distsea = ee.Image('users/luiscartor/distsea').int().clip(satcomp.geometry());
 
 // Adds ancialliary data to satellite data
 var comp = satcomp.addBands(dem)
@@ -159,7 +151,8 @@ Map.centerObject(walespoint, 8);
 Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'composite');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 //Map.addLayer(trainingsample)
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
-Map.addLayer(dem,{min:0,max:2000, palette:['black', 'white']},'dem')
+//Map.addLayer(dem,{min:0,max:2000, palette:['black', 'white']},'dem')
+Map.addLayer(seadist,{min:0,max:10000, palette:['black', 'white']},'seadist')
 
 Export.image.toDrive({
     image: classified,
