@@ -100,7 +100,7 @@ var classifier = ee.Classifier.randomForest(30)
 Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
 
 // Classify the input imagery.
-var classified = composite.classify(classifier);
+var classified = composite.addBands(dem).classify(classifier);
 
 //Sample used for validation
 var testsample = composite.addBands(trainingraster).stratifiedSample({
