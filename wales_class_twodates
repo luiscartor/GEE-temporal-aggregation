@@ -152,7 +152,7 @@ Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'composite');//Map.addLayer
 //Map.addLayer(trainingsample)
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 //Map.addLayer(dem,{min:0,max:2000, palette:['black', 'white']},'dem')
-Map.addLayer(seadist,{min:0,max:10000, palette:['black', 'white']},'seadist')
+Map.addLayer(distsea,{min:0,max:10000, palette:['black', 'white']},'distsea')
 
 Export.image.toDrive({
     image: classified,
