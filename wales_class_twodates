@@ -49,7 +49,7 @@ var date2ref = landsat2.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2',
 var satcomp = date1ref.addBands(date2ref);
 
 // Elevation layer
-var dem = ee.Image('USGS/SRTMGL1_003').clip(composite.geometry())
+var dem = ee.Image('USGS/SRTMGL1_003').clip(satcomp.geometry())
 
 // Adds ancialliary data to satellite data
 var comp = satcomp.addBands(dem)
