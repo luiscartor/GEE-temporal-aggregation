@@ -89,7 +89,7 @@ var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_
 
 
 //Training using sample regions to sample 10000 for each class
-var training = composite.addBands(trainingraster).addBands(dem).stratifiedSample({
+var training = composite.addBands(trainingraster).stratifiedSample({
   numPoints: 5000,
   classBand: 'b1',
   seed:0,
@@ -104,7 +104,7 @@ var classifier = ee.Classifier.randomForest(30)
 Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
 
 // Classify the input imagery.
-var classified = composite.addBands(dem).classify(classifier);
+var classified = composite.classify(classifier);
 
 //Sample used for validation
 var testsample = composite.addBands(trainingraster).stratifiedSample({
