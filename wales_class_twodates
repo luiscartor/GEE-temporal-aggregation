@@ -85,7 +85,7 @@ var dem = ee.Image('USGS/SRTMGL1_003')
 
 
 //Training using sample regions to sample 10000 for each class
-var training = composite.addBands(trainingraster,dem).stratifiedSample({
+var training = composite.addBands(trainingraster).addBands(dem).stratifiedSample({
   numPoints: 5000,
   classBand: 'b1',
   seed:0,
