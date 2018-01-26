@@ -101,10 +101,10 @@ var classified = composite.classify(classifier);
 //Sample used for validation
 var testsample = composite.addBands(trainingraster).stratifiedSample({
   numPoints: 100,
-  classBand: 'b1',
+  classBand: 'b1_1',
   seed:1, // Different seed from training sample
   //tileScale: 16
-}).filter(ee.Filter.neq('b1', null)); // Filter the result to get rid of any null pixels.
+}).filter(ee.Filter.neq('b1_1', null)); // Filter the result to get rid of any null pixels.
 
 
 // Accuracy assessment
