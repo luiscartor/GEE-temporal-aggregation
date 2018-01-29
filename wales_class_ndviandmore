@@ -19,8 +19,7 @@ var ndvi = lan_nocloud.map(function(image) {
   return image.normalizedDifference(['B4', 'B3']).addBands(image);
 });
 
-
-
+var ndvi_mean = ndvi.mean();
 
 
 // Elevation layer
@@ -29,6 +28,8 @@ var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())
 // Distance to sea layer
 var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat.geometry());
 
+
+var composite = ndvi_mean.addBands(dem).addBands(distsea);
 
 // Classification training data
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
