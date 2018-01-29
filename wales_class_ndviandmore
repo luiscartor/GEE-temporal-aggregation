@@ -13,16 +13,16 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 var lan_nocloud =  landsat.map(function(img) {
                   var mask = img.select(['fmask']).neq(4)
                    return img.updateMask(mask)
-                   })
+                   });
 
 var ndvi = lan_nocloud.map(function(image) {
   return image.normalizedDifference(['B4', 'B3']);
 });
 
 
-var scale = ee.Image(ndvi.first()).projection()
+var scale = ee.Image(ndvi.first()).projection();
 var ndvi_mean = ndvi.mean();
-var ndvi_mean = ndvi_mean.reproject(scale)
+var ndvi_mean = ndvi_mean.reproject(scale);
 print(ndvi_mean)
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())
