@@ -22,5 +22,85 @@ var mean = lan_nocloud.reduce(ee.Reducer.mean());
 
 
 
+// Elevation layer
+var dem = ee.Image('USGS/SRTMGL1_003').clip(satcomp.geometry())
+
+// Distance to sea layer
+var distsea = ee.Image('users/luiscartor/distsea').int().clip(satcomp.geometry());
+
+
+// Classification training data
+var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
+
+
+//Training using sample regions to sample 10000 for each class
+var training = composite.addBands(trainingraster).stratifiedSample({
+  numPoints: 5000,
+  classBand: 'b1_1',
+  seed:0,
+  //tileScale: 16
+});
+//Export.table.toDrive(training2)
+
+// Make a Random Forest classifier and train it.
+var classifier = ee.Classifier.randomForest(30)
+    .train(training, 'b1_1');
+    
+Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
+
+
+// Classify the input imagery.
+var classified = composite.classify(classifier);
+
+//Sample used for validation
+var testsample = composite.addBands(trainingraster).stratifiedSample({
+  numPoints: 100,
+  classBand: 'b1_1',
+  seed:1, // Different seed from training sample
+  //tileScale: 16
+}).filter(ee.Filter.neq('b1_1', null)); // Filter the result to get rid of any null pixels.
+
+
+// Accuracy assessment
+print(testsample)
+var trainAccuracy = testsample.classify(classifier).errorMatrix('b1_1', 'classification');
+print('Resubstitution error matrix: ', trainAccuracy);
+print('Training overall accuracy: ', trainAccuracy.accuracy());
+print('Training kappa: ', trainAccuracy.kappa());
+
+
+// Define a palette for the classification.
+var palette = [
+  //'FFFFFF', // non
+  'ff0000', // broadleaved f
+  '008000', // evergreen
+  '8b4513', // arable
+  '7CFC00', // improved
+  'FFA500', // rough
+  '66CDAA', // neutral
+  '2E8B57', // calcareous
+  '808000', // acid
+  'FFFF00', // fen
+  '800080', // heather
+  'EE82EE', // heather grassland
+  '008080', // bog
+  '40E0D0', // montaine
+  'B0C4DE', // bare rock
+  '00008B', // sea
+  '0000FF', // water
+  'B8860B', // supra
+  'B8860B', // supra
+  'F0E68C', // litoral
+  'F0E68C', // litoral
+  '9370DB', // marsh
+  '000000', // urban
+  'A9A9A9', // semi urban
+];
+
+
+Map.centerObject(walespoint, 8);
+Map.addLayer(lan_nocloud, {bands: ['B4', 'B3', 'B2']}, 'landsat');
+//Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
+//Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 
 
