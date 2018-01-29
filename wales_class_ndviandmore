@@ -19,7 +19,7 @@ var ndvi = lan_nocloud.map(function(image) {
   return image.normalizedDifference(['B4', 'B3']);
 });
 
-var ndvi_mean1 = ndvi.mean();
+var ndvi_mean = ndvi.mean();
 
 var scale = ee.Image(ndvi.first()).projection().nominalScale()
 print(scale)
