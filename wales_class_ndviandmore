@@ -42,7 +42,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
 var training = composite.addBands(trainingraster).stratifiedSample({
-  numPoints: 5000,
+  numPoints: 500,
   classBand: 'b1_1',
   seed:0,
   //scale:30,
