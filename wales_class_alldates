@@ -54,7 +54,6 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 //var trainingpolygons = ee.FeatureCollection('users/luiscartor/wales_c35training_shapefile');
 
 
-
 //Training using sample regions to sample 10000 for each class
 var training = composite.addBands(trainingraster).stratifiedSample({
   numPoints: 5000,
