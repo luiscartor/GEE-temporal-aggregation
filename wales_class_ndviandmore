@@ -16,7 +16,7 @@ var lan_nocloud =  landsat.map(function(img) {
                    })
 
 var ndvi = lan_nocloud.map(function(image) {
-  return image.normalizedDifference(['B4', 'B3']).addBands(image);
+  return image.normalizedDifference(['B4', 'B3']);
 });
 
 var ndvi_mean = ndvi.mean();
