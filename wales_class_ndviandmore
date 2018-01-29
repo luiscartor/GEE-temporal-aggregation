@@ -19,10 +19,10 @@ var ndvi = lan_nocloud.map(function(image) {
   return image.normalizedDifference(['B4', 'B3']);
 });
 
-var ndvi_mean = ndvi.mean().projection().nominalScale(30);
 
-var scale = ee.Image(ndvi.first()).projection().nominalScale()
-print(scale)
+var scale = ee.Image(ndvi.first()).projection()
+var ndvi_mean = ndvi.mean();
+var ndvi_mean = ndvi_mean.reproject(scale)
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())
