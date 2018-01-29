@@ -101,8 +101,8 @@ var palette = [
 
 
 Map.centerObject(walespoint, 8);
-Map.addLayer(ndvi, {lan_nocloud: ['B4', 'B3', 'B2']}, 'landsat masked');
-Map.addLayer(ndvi,{},'ndvi');
+Map.addLayer(lan_nocloud, {bands: ['B4', 'B3', 'B2']}, 'landsat masked');
+Map.addLayer(ndvi,{palette: min:-1, max: 1},'ndvi');
 
 //Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
 //Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
