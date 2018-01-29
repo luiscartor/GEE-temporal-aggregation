@@ -45,8 +45,8 @@ var training = composite.addBands(trainingraster).stratifiedSample({
   numPoints: 5000,
   classBand: 'b1_1',
   seed:0,
-  scale:30,
-  projection: 'EPSG:4326',
+  //scale:30,
+  //projection: 'EPSG:4326',
   //tileScale: 16
 });
 //Export.table.toDrive(training2)
