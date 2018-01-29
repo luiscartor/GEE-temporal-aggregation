@@ -30,7 +30,7 @@ var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat.geometry()
 
 
 var composite = ndvi_mean.addBands(dem).addBands(distsea);
-print(composite.select(dem).projection());
+print(composite.select(elevation).projection());
 // Classification training data
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
