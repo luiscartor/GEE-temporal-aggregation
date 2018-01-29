@@ -24,10 +24,10 @@ var ndvi = lan_nocloud.map(function(image) {
 
 
 // Elevation layer
-var dem = ee.Image('USGS/SRTMGL1_003').clip(satcomp.geometry())
+var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())
 
 // Distance to sea layer
-var distsea = ee.Image('users/luiscartor/distsea').int().clip(satcomp.geometry());
+var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat.geometry());
 
 
 // Classification training data
