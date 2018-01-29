@@ -43,10 +43,10 @@ var composite = stackCollection(colwithmean_ref);
 
 
 // Elevation layer
-var dem = ee.Image('USGS/SRTMGL1_003').clip(satcomp.geometry())
+//var dem = ee.Image('USGS/SRTMGL1_003').clip(satcomp.geometry())
 
 // Distance to sea layer
-var distsea = ee.Image('users/luiscartor/distsea').int().clip(satcomp.geometry());
+//var distsea = ee.Image('users/luiscartor/distsea').int().clip(satcomp.geometry());
 
 
 // Classification training data
