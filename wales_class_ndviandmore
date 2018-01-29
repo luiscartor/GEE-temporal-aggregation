@@ -42,7 +42,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
 var training = composite.addBands(trainingraster).stratifiedSample({
-  numPoints: 3000,
+  numPoints: 5000,
   classBand: 'b1_1',
   seed:0,
   //scale:30,
@@ -52,7 +52,7 @@ var training = composite.addBands(trainingraster).stratifiedSample({
 //Export.table.toDrive(training2)
 
 // Make a Random Forest classifier and train it.
-var classifier = ee.Classifier.randomForest(20)
+var classifier = ee.Classifier.randomForest(30)
     .train(training, 'b1_1');
     
 Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
