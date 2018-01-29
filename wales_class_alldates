@@ -64,6 +64,23 @@ Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier
 // Classify the input imagery.
 var classified = composite.classify(classifier);
 
+//Sample used for validation
+var testsample = composite.addBands(trainingraster).stratifiedSample({
+  numPoints: 100,
+  classBand: 'b1_1',
+  seed:1, // Different seed from training sample
+  //tileScale: 16
+}).filter(ee.Filter.neq('b1_1', null)); // Filter the result to get rid of any null pixels.
+
+
+// Accuracy assessment
+print(testsample)
+var trainAccuracy = testsample.classify(classifier).errorMatrix('b1_1', 'classification');
+print('Resubstitution error matrix: ', trainAccuracy);
+print('Training overall accuracy: ', trainAccuracy.accuracy());
+print('Training kappa: ', trainAccuracy.kappa());
+
+
 // Define a palette for the classification.
 var palette = [
   //'FFFFFF', // non
