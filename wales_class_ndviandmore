@@ -22,7 +22,7 @@ var ndvi = lan_nocloud.map(function(image) {
 
 var scale = ee.Image(ndvi.first()).projection();
 var ndvi_mean = ndvi.mean();
-//var ndvi_mean = ndvi_mean.reproject(ee.Projection('EPSG:4326'));
+var ndvi_mean = ndvi_mean.reproject('EPSG:4326',null,30);
 print(ndvi_mean)
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry());
