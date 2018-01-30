@@ -76,7 +76,7 @@ var classified = composite.classify(classifier);
 
 //Sample used for validation
 var testsample = composite.addBands(trainingraster).stratifiedSample({
-  numPoints: 1000,
+  numPoints: 100,
   classBand: 'b1_1',
   seed:1, // Different seed from training sample
   scale:30,
