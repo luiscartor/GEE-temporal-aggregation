@@ -10,7 +10,7 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   .map(function(img){
     var mask = img.select(['fmask']).neq(4)
     var nocloud = img.updateMask(mask)
-    return ndvi = nocloud.normalizedDifference(['B4', 'B3']);
+    return nocloud.normalizedDifference(['B4', 'B3']);
   });
 
 
