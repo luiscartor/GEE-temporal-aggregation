@@ -26,9 +26,9 @@ var ndvi = landsat.map(function(image) {
 });
 print(ee.Image(ndvi.first()).projection().nominalScale())
 
+
 //var ndvi_mean = landsat.mean().clip(landsat.geometry()).reproject('EPSG:4326',null,30);
-var ndvi_mean = ndvi.reduce(ee.Reducer.mean()).clip(landsat.geometry())//.reproject('EPSG:4326',null,30);
-var ndvi_mean = ndvi.mean().clip(landsat.geometry())
+var ndvi_mean = ndvi.reduce(ee.Reducer.median()).clip(landsat.geometry())//.reproject('EPSG:4326',null,30);
 //var ndvi_mean = ndvi_mean.reproject('EPSG:4326',null,30);
 print(ndvi_mean.projection())
 print(ndvi_mean.projection().nominalScale())
