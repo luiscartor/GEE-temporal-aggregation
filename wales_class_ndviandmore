@@ -14,7 +14,7 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   //.map(function(img){
   //  return img.normalizedDifference(['B4', 'B3'])
   //});
-print(ee.Image(landsat.first()).projection().nominalScale());
+print(ee.Image(landsat.first()).projection());
 
 // Cloud mask collection
 //var lan_nocloud =  landsat.map(function(img) {
@@ -22,7 +22,7 @@ print(ee.Image(landsat.first()).projection().nominalScale());
 //                   return img.updateMask(mask)
 //                   });
 var ndvi = landsat.map(function(image) {
-  return image.normalizedDifference(['B4', 'B3']);
+  return image.normalizedDifference(['B5', 'B4']);
 });
 print(ee.Image(ndvi.first()).projection())
 
