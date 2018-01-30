@@ -25,8 +25,8 @@ var ndvi = landsat.map(function(image) {
 
 
 
-var ndvi_mean = ndvi.mean();
-var ndvi_mean = ndvi_mean.clip(landsat.geometry()).reproject('EPSG:4326',null,30);
+var ndvi_mean = ndvi.mean().clip(landsat.geometry()).reproject('EPSG:4326',null,30);;
+//var ndvi_mean = ndvi_mean.clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 //print(ndvi_mean.projection())
 
 
