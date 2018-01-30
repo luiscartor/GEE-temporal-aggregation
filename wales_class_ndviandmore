@@ -50,7 +50,7 @@ var composite = ndvi_mean.addBands(dem).addBands(distsea);
 print(composite.projection().nominalScale());
 
 // Classification training data
-//var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int().reproject(proj);
+var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 
 //Training using sample regions to sample 10000 for each class
