@@ -34,9 +34,6 @@ var ndvi_mean = ndvi.reduce(ee.Reducer.mean(),4).clip(landsat.geometry()).reproj
 //print(ndvi_mean.projection())
 
 
-
-
-
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 //print(dem.projection())
