@@ -25,19 +25,12 @@ var ndvi = landsat.map(function(image) {
   return image.normalizedDifference(['B4', 'B3']);
 });
 
-print(ndvi)
 
-//var ndvi_mean = landsat.mean().clip(landsat.geometry()).reproject('EPSG:4326',null,30);
+var ndvi_mean = landsat.mean().clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 //var ndvi_mean = ndvi.reduce(ee.Reducer.mean()).clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 //print(ndvi_mean.projection())
 //var ndvi_mean = ee.Image(ndvi.first());
-var ndvi_mean = ndvi
-  .mean()
-  .reduceRegion({
-    reducer: 'mean',
-    geometry : landsat.geometry(),
-    scale:1,
-  });
+
 
 
 
