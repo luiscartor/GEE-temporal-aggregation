@@ -64,10 +64,10 @@ Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier
 
 
 // Classify the input imagery.
-var classified = composite.classify(classifier);
+var classified = ndvi_mean.addBands(dem).addBands(distsea).classify(classifier);
 
 //Sample used for validation
-var testsample = composite.addBands(trainingraster).stratifiedSample({
+var testsample = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 100,
   classBand: 'b1_1',
   seed:1, // Different seed from training sample
