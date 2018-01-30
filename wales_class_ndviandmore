@@ -14,7 +14,7 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   //.map(function(img){
   //  return img.normalizedDifference(['B4', 'B3'])
   //});
-//print(ee.Image((landsat.first()).select('B1')).projection());
+print(landsat.first().select('B1')).projection());
 
 // Cloud mask collection
 //var lan_nocloud =  landsat.map(function(img) {
