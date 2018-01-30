@@ -10,11 +10,11 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   .map(function(img){
     var mask = img.select(['fmask']).neq(4)
     return img.updateMask(mask)
-    });
-  //.map(function(img){
-  //  return img.normalizedDifference(['B4', 'B3'])
-  //});
-    //return nocloud.normalizedDifference(['B4', 'B3']);
+    })
+  .map(function(img){
+    return img.normalizedDifference(['B4', 'B3'])
+  });
+    
 
 // Cloud mask collection
 //var lan_nocloud =  landsat.map(function(img) {
@@ -22,13 +22,13 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 //                   return img.updateMask(mask)
 //                   });
 
-var ndvi = landsat.map(function(image) {
-  return image.normalizedDifference(['B4', 'B3']);
-});
+//var ndvi = landsat.map(function(image) {
+//  return image.normalizedDifference(['B4', 'B3']);
+//});
 
 
 //var ndvi_mean = landsat.mean().clip(landsat.geometry()).reproject('EPSG:4326',null,30);
-var ndvi_mean = ndvi.reduce(ee.Reducer.mean(),4).clip(landsat.geometry()).reproject('EPSG:4326',null,30);
+var ndvi_mean = landsat.reduce(ee.Reducer.mean(),4).clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 
 //var ndvi_mean = ndvi.reduceRegion
 //print(ndvi_mean.projection())
@@ -122,7 +122,7 @@ var palette = [
 
 Map.centerObject(walespoint, 8);
 //Map.addLayer(landsat, {bands: ['B4', 'B3', 'B2']}, 'landsat masked');
-Map.addLayer(ndvi, {palette: palette, min:-1, max: 1},'ndvi');
+Map.addLayer(landsat, {palette: palette, min:-1, max: 1},'ndvi');
 //Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
 //Map.addLayer(composite, {bands: ['nd','elevation','b1']},'composite');
 
