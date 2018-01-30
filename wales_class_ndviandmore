@@ -58,7 +58,7 @@ var training = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingraster
   numPoints: 1000,
   classBand: 'b1_1',
   seed:0,
-  scale:30,
+  scale:111319,
   projection: 'EPSG:4326',
   //tileScale: 16
 });
