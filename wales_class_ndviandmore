@@ -24,7 +24,7 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 var ndvi = landsat.map(function(image) {
   return image.normalizedDifference(['B5', 'B4']);
 });
-print(ee.Image(ndvi.first()).projection().nominalScale());
+print(ee.Image(ndvi.first()).projection());
 
 
 var ndvi_mean = ndvi.reduce(ee.Reducer.mean()).clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
