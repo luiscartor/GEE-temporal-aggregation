@@ -25,7 +25,7 @@ var ndvi = landsat.map(function(image) {
 
 
 
-var ndvi_mean = ndvi.mean().clip(landsat.geometry()).reproject('EPSG:4326',null,30);;
+var ndvi_mean = ndvi.mean().clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 //var ndvi_mean = ndvi_mean.clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 //print(ndvi_mean.projection())
 
@@ -119,6 +119,6 @@ Map.addLayer(landsat, {bands: ['B4', 'B3', 'B2']}, 'landsat masked');
 Map.addLayer(composite, {bands: ['nd','elevation','b1']},'composite');
 
 //Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
-Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
+//Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 
 
