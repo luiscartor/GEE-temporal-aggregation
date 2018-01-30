@@ -29,7 +29,7 @@ var ndvi = landsat.map(function(image) {
 var ndvi_mean = ndvi.reduce(ee.Reducer.mean()).clip(landsat.geometry())//.reproject('EPSG:4326',null,30);
 //var ndvi_mean = ndvi_mean.reproject('EPSG:4326',null,30);
 print(ndvi_mean.projection())
-
+print(ndvi_mean.projection().nominalScale())
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 print(dem.projection())
