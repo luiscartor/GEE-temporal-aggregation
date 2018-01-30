@@ -49,7 +49,7 @@ var training = composite.addBands(trainingraster).stratifiedSample({
   //projection: 'EPSG:4326',
   //tileScale: 16
 });
-//Export.table.toDrive(training2)
+Export.table.toDrive(training)
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(30)
