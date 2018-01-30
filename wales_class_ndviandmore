@@ -33,7 +33,7 @@ print(ndvi_mean.projection())
 print(ndvi_mean.projection().nominalScale())
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())//.reproject('EPSG:4326',null,30);
-print(dem.projection().nominalScale())
+print(dem.projection())
 
 
 // Distance to sea layer
