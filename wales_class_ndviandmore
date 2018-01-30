@@ -22,7 +22,7 @@ print(ee.Image(landsat.first()).projection());
 //                   return img.updateMask(mask)
 //                   });
 var ndvi = landsat.map(function(image) {
-  return image.normalizedDifference(['B5', 'B4']);
+  return image.normalizedDifference(['B5', 'B4']).reproject('EPSG:4326',null,30);
 });
 print(ee.Image(ndvi.first()).projection());
 
