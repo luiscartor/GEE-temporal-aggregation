@@ -118,8 +118,8 @@ var palette = [
 
 
 Map.centerObject(walespoint, 8);
-Map.addLayer(landsat, {palette: palette, min:-1, max: 1}, 'landsat masked');
-//Map.addLayer(ndvi, {palette: palette, min:-1, max: 1},'ndvi');
+//Map.addLayer(landsat, {palette: palette, min:-1, max: 1}, 'landsat masked');
+Map.addLayer(ndvi, {palette: palette, min:-1, max: 1},'ndvi');
 //Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
 //Map.addLayer(composite, {bands: ['nd','elevation','b1']},'composite');
 
