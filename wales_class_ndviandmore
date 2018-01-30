@@ -28,18 +28,19 @@ var ndvi = landsat.map(function(image) {
 //var ndvi_mean = landsat.mean().clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 var ndvi_mean = ndvi.reduce(ee.Reducer.mean()).clip(landsat.geometry())//.reproject('EPSG:4326',null,30);
 //var ndvi_mean = ndvi_mean.reproject('EPSG:4326',null,30);
+print(dem.project())
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry()).reproject('EPSG:4326',null,30);
-//print(dem.projection())
+print(dem.projection())
 
 
 // Distance to sea layer
 var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat.geometry()).reproject('EPSG:4326',null,30);
-//print(distsea.projection())
+print(distsea.projection())
 
 var composite = ndvi_mean.addBands(dem).addBands(distsea);
-//print(composite.projection());
+print(composite.projection());
 
 // Classification training data
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
@@ -50,8 +51,8 @@ var training = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingraster
   numPoints: 1000,
   classBand: 'b1_1',
   seed:0,
-  scale:30,
-  projection: 'EPSG:4326',
+  //scale:30,
+  //projection: 'EPSG:4326',
   //tileScale: 16
 });
 Export.table.toDrive(training)
@@ -68,7 +69,7 @@ var classified = composite.classify(classifier);
 
 //Sample used for validation
 var testsample = composite.addBands(trainingraster).stratifiedSample({
-  numPoints: 100,
+  numPoints: 1000,
   classBand: 'b1_1',
   seed:1, // Different seed from training sample
   //tileScale: 16
@@ -78,9 +79,9 @@ var testsample = composite.addBands(trainingraster).stratifiedSample({
 // Accuracy assessment
 //print(testsample)
 var trainAccuracy = testsample.classify(classifier).errorMatrix('b1_1', 'classification');
-print('Resubstitution error matrix: ', trainAccuracy);
-print('Training overall accuracy: ', trainAccuracy.accuracy());
-print('Training kappa: ', trainAccuracy.kappa());
+//print('Resubstitution error matrix: ', trainAccuracy);
+//print('Training overall accuracy: ', trainAccuracy.accuracy());
+//print('Training kappa: ', trainAccuracy.kappa());
 
 
 // Define a palette for the classification.
