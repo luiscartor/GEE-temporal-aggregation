@@ -42,7 +42,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
 var training = composite.addBands(trainingraster).stratifiedSample({
-  numPoints: 5000,
+  numPoints: 1000,
   classBand: 'b1_1',
   seed:0,
   //scale:30,
@@ -71,7 +71,7 @@ var testsample = composite.addBands(trainingraster).stratifiedSample({
 
 
 // Accuracy assessment
-print(testsample)
+//print(testsample)
 var trainAccuracy = testsample.classify(classifier).errorMatrix('b1_1', 'classification');
 print('Resubstitution error matrix: ', trainAccuracy);
 print('Training overall accuracy: ', trainAccuracy.accuracy());
