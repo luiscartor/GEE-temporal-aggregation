@@ -27,9 +27,9 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 
 
 //var ndvi_mean = landsat.mean().clip(landsat.geometry()).reproject('EPSG:4326',null,30);
-var ndvi_mean = landsat.reduce(ee.Reducer.mean()).clip(landsat.geometry()).reproject('EPSG:4326',null,30);
+//var ndvi_mean = landsat.reduce(ee.Reducer.mean()).clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 //print(ndvi_mean.projection())
-
+var ndvi_mean = landsat.first()
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry()).reproject('EPSG:4326',null,30);
@@ -48,7 +48,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
 var training = composite.addBands(trainingraster).stratifiedSample({
-  numPoints: 100,
+  numPoints: 1000,
   classBand: 'b1_1',
   seed:0,
   //scale:30,
