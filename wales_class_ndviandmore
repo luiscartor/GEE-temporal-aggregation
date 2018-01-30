@@ -39,7 +39,7 @@ var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry()).reproject('EPSG:
 var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 //print(distsea.projection())
 
-//var composite = ndvi_mean.addBands(dem).addBands(distsea);
+var composite = ndvi_mean.addBands(dem).addBands(distsea);
 //print(composite.projection());
 
 // Classification training data
@@ -47,7 +47,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 
 //Training using sample regions to sample 10000 for each class
-var training = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
+var training = composite.addBands(trainingraster).stratifiedSample({
   numPoints: 1000,
   classBand: 'b1_1',
   seed:0,
