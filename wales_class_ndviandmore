@@ -9,7 +9,8 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   .filterBounds(walespoint)
   .map(function(img){
     var mask = img.select(['fmask']).neq(4)
-    return img.updateMask(mask)
+    var nocloud = img.updateMask(mask)
+    return ndvi = nocloud.normalizedDifference(['B4', 'B3']);
   });
 
 
@@ -19,13 +20,13 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 //                   return img.updateMask(mask)
 //                   });
 
-var ndvi = landsat.map(function(image) {
-  return image.normalizedDifference(['B4', 'B3']);
-});
+//var ndvi = landsat.map(function(image) {
+//  return image.normalizedDifference(['B4', 'B3']);
+//});
 
 
 
-var ndvi_mean = ndvi.mean().clip(landsat.geometry()).reproject('EPSG:4326',null,30);
+var ndvi_mean = landsat.mean()//.clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 //var ndvi_mean = ndvi_mean.clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 //print(ndvi_mean.projection())
 
