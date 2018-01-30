@@ -10,10 +10,11 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   .map(function(img){
     var mask = img.select(['fmask']).neq(4)
     return img.updateMask(mask)
-    //var nocloud = img.updateMask(mask)
+    });
+  //.map(function(img){
+  //  return img.normalizedDifference(['B4', 'B3'])
+  //});
     //return nocloud.normalizedDifference(['B4', 'B3']);
-  });
-
 
 // Cloud mask collection
 //var lan_nocloud =  landsat.map(function(img) {
@@ -53,7 +54,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
 var training = composite.addBands(trainingraster).stratifiedSample({
-  numPoints: 100,
+  numPoints: 1000,
   classBand: 'b1_1',
   seed:0,
   //scale:30,
