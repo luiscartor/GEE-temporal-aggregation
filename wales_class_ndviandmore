@@ -47,12 +47,12 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
 var training = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
-  numPoints: 1000,
+  numPoints: 100,
   classBand: 'b1_1',
   seed:0,
   scale:30,
   projection: 'EPSG:4326',
-  tileScale: 16
+  //tileScale: 16
 });
 Export.table.toDrive(training)
 
