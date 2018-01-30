@@ -116,7 +116,7 @@ Map.centerObject(walespoint, 8);
 //Map.addLayer(landsat, {bands: ['B4', 'B3', 'B2']}, 'landsat masked');
 //Map.addLayer(ndvi, {palette: palette, min:-1, max: 1},'ndvi');
 Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
-Map.addLayer(composite, {bands: ['nd','elevation','b1']},'composite');
+Map.addLayer(composite, {bands: ['nd_mean','elevation','b1']},'composite');
 
 //Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
 //Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
