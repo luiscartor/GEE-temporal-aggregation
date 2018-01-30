@@ -9,7 +9,7 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   .filterBounds(walespoint)
   .map(function(img){
     var mask = img.select(['fmask']).neq(4)
-    return lan_cloud = img.updateMask(mask)
+    return img.updateMask(mask)
   });
 
 
@@ -19,7 +19,7 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 //                   return img.updateMask(mask)
 //                   });
 
-var ndvi = lan_nocloud.map(function(image) {
+var ndvi = landsat.map(function(image) {
   return image.normalizedDifference(['B4', 'B3']);
 });
 
