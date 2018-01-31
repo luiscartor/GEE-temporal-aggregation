@@ -59,7 +59,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 var training = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 100,
   classBand: 'b1_1',
-  region: landsat.geometry()
+  region: landsat.geometry(),
   seed:0,
   scale:30,
   projection: 'EPSG:4326',
