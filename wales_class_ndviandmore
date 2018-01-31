@@ -58,7 +58,7 @@ var training = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingraster
   seed:0,
   scale:30,
   projection: 'EPSG:4326',
-  tileScale: 4
+  //tileScale: 4
 });
 Export.table.toDrive(training)
 
@@ -80,7 +80,7 @@ var testsample = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingrast
   seed:1, // Different seed from training sample
   scale:30,
   projection: 'EPSG:4326',
-  tileScale: 4
+  //tileScale: 4
 }).filter(ee.Filter.neq('b1_1', null)); // Filter the result to get rid of any null pixels.
 
 
