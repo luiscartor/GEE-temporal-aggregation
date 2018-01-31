@@ -33,6 +33,8 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 var landsat_spr_median = landsat_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var landsat_win_median = landsat_win.median();
 
+var landsat_spr_var = landsat_spr.variance();
+var landsat_win_var = landsat_win.variance();
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat_spr.geometry())//.reproject(proj);
@@ -45,7 +47,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
 var training = landsat_spr_median.addBands(landsat_win_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
-  numPoints: 5000,
+  numPoints: 4000,
   classBand: 'b1_1',
   region: landsat_spr.geometry(),
   seed:0,
