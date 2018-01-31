@@ -33,7 +33,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 var training = landsat_median.addBands(landsat_var).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 4000,
   classBand: 'b1_1',
-  region: landsat_spr.geometry(),
+  region: landsat.geometry(),
   seed:0,
   scale:30,
   projection: 'EPSG:4326',
@@ -54,7 +54,7 @@ var classified = landsat_median.addBands(landsat_var).addBands(dem).addBands(dis
 //Sample used for validation
 var testsample = landsat_median.addBands(landsat_var).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 100,
-  region: landsat_spr.geometry(), //If region not specified: issues with projections!
+  region: landsat.geometry(), //If region not specified: issues with projections!
   classBand: 'b1_1',
   seed:1, // Different seed from training sample
   scale:30,
