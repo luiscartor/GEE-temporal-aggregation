@@ -16,15 +16,15 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
   
 
-var landsat_median = landsat_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
-var landsat_var = landsat_spr.reduce(ee.Reducer.variance());
+var landsat_median = landsat.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
+var landsat_var = landsat.reduce(ee.Reducer.variance());
 
 
 // Elevation layer
-var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat_spr.geometry())//.reproject(proj);
+var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())//.reproject(proj);
 
 // Distance to sea layer
-var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat_spr.geometry())//.reproject(proj);
+var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat.geometry())//.reproject(proj);
 
 // Classification training data
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
