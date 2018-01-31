@@ -80,7 +80,7 @@ Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier
 
 
 // Classify the input imagery.
-var classified = ndvi_spr_median.addBands(ndvi_win_median)..addBands(dem).addBands(distsea).classify(classifier);
+var classified = ndvi_spr_median.addBands(ndvi_win_median).addBands(dem).addBands(distsea).classify(classifier);
 
 //Sample used for validation
 var testsample = ndvi_spr_median.addBands(ndvi_win_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
