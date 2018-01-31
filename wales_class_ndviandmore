@@ -50,7 +50,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
 var training = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
-  numPoints: 5000,
+  numPoints: 3000,
   classBand: 'b1_1',
   region: landsat.geometry(),
   seed:0,
@@ -61,7 +61,7 @@ var training = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingraster
 Export.table.toDrive(training)
 
 // Make a Random Forest classifier and train it.
-var classifier = ee.Classifier.randomForest(20)
+var classifier = ee.Classifier.randomForest(30)
     .train(training, 'b1_1');
     
 Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
