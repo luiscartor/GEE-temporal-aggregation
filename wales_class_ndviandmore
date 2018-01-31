@@ -50,13 +50,13 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
 var training = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
-  numPoints: 1000,
+  numPoints: 4000,
   classBand: 'b1_1',
   region: landsat.geometry(),
   seed:0,
   scale:30,
   projection: 'EPSG:4326',
-  //tileScale: 16
+  tileScale: 4
 });
 Export.table.toDrive(training)
 
@@ -78,7 +78,7 @@ var testsample = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingrast
   seed:1, // Different seed from training sample
   scale:30,
   projection: 'EPSG:4326',
-  //tileScale: 16
+  tileScale: 4
 }).filter(ee.Filter.neq('b1_1', null)); // Filter the result to get rid of any null pixels.
 
 
