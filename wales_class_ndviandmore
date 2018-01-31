@@ -52,10 +52,10 @@ var ndvi_win_var = ndvi_win.reduce(ee.Reducer.variance());
 
 
 // Elevation layer
-var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())//.reproject(proj);
+var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat_spr.geometry())//.reproject(proj);
 
 // Distance to sea layer
-var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat.geometry())//.reproject(proj);
+var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat_spr.geometry())//.reproject(proj);
 
 // Classification training data
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
