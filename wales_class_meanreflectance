@@ -30,11 +30,11 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
 
 
 
-var landsat_spr_median = landsat_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
-var landsat_win_median = landsat_win.median();
+var landsat_spr_median = landsat_spr.mean()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
+var landsat_win_median = landsat_win.mean();
 
-var landsat_spr_var = landsat_spr.variance();
-var landsat_win_var = landsat_win.variance();
+//var landsat_spr_var = landsat_spr.variance();
+//var landsat_win_var = landsat_win.variance();
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat_spr.geometry())//.reproject(proj);
