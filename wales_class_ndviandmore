@@ -61,7 +61,7 @@ var training = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingraster
 Export.table.toDrive(training)
 
 // Make a Random Forest classifier and train it.
-var classifier = ee.Classifier.randomForest(30)
+var classifier = ee.Classifier.randomForest(20)
     .train(training, 'b1_1');
     
 Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
