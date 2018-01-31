@@ -32,6 +32,14 @@ print(ee.Image(ndvi.first()).projection());
 var ndvi_mean = ndvi.reduce(ee.Reducer.mean())//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 //print(ndvi_mean.projection())
 //print(ndvi_mean.projection().nominalScale())
+Export.image.toDrive({
+    image: ndvi_mean,
+    description: 'wales_meanndvi',
+    scale: 30,
+    maxPixels: 128148372
+    //region: geometry
+});
+
 
 // Extract projection of mean ndvi
 var proj = ndvi_mean.projection()
