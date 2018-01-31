@@ -30,7 +30,7 @@ print(ee.Image(ndvi.first()).projection());
 var mosaic = ndvi.mosaic();
 print(mosaic.projection());
 
-var ndvi_mean = ndvi.mean()//reduce(ee.Reducer.mean())//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
+var ndvi_mean = ndvi.reduce(ee.Reducer.mean())//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 //var ndvi_mean = ndvi_mean.reproject('EPSG:4326',null,30);
 print(ndvi_mean.projection())
 print(ndvi_mean.projection().nominalScale())
@@ -39,12 +39,12 @@ print(ndvi_mean.projection().nominalScale())
 var proj = ndvi_mean.projection()
 
 // Elevation layer
-var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())//.reproject(proj);
+var dem = ee.Image('USGS/SRTMGL1_003')//.clip(landsat.geometry())//.reproject(proj);
 print(dem.projection())
 
 
 // Distance to sea layer
-var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat.geometry())//.reproject(proj);
+var distsea = ee.Image('users/luiscartor/distsea').int()//.clip(landsat.geometry())//.reproject(proj);
 //var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat.geometry()).reproject('EPSG:4326',null,30);
 print(distsea.projection().nominalScale())
 
