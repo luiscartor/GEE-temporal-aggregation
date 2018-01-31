@@ -32,13 +32,7 @@ print(ee.Image(ndvi.first()).projection());
 var ndvi_mean = ndvi.reduce(ee.Reducer.mean())//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 //print(ndvi_mean.projection())
 //print(ndvi_mean.projection().nominalScale())
-Export.image.toDrive({
-    image: ndvi_mean,
-    description: 'wales_meanndvi',
-    scale: 30,
-    maxPixels: 128148372
-    //region: geometry
-});
+
 
 
 // Extract projection of mean ndvi
@@ -58,7 +52,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
 var training = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
-  numPoints: 2000,
+  numPoints: 1000,
   classBand: 'b1_1',
   region: landsat.geometry(),
   seed:0,
