@@ -81,8 +81,8 @@ var testsample = ndvi_mean.addBands(dem).addBands(distsea).addBands(trainingrast
   numPoints: 100,
   classBand: 'b1_1',
   seed:1, // Different seed from training sample
-  scale:30,
-  projection: 'EPSG:4326',
+  //scale:30,
+  //projection: 'EPSG:4326',
   //tileScale: 16
 }).filter(ee.Filter.neq('b1_1', null)); // Filter the result to get rid of any null pixels.
 
