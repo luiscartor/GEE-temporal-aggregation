@@ -6,7 +6,9 @@ var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   // Filter to get only one year of images.
   .filterDate('2015-01-01', '2015-12-31')
   // Filter to get only images under the region of interest.
-  .filterBounds(walespoint)
+  .filter(ee.Filter.eq('WRS_PATH', 204))
+  .filter(ee.Filter.eq('WRS_ROW', 23))
+  //.filterBounds(walespoint)
   .map(function(img){
     var mask = img.select(['fmask']).neq(4)
     return img.updateMask(mask)
