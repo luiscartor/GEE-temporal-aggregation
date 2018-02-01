@@ -27,7 +27,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .filterBounds(walespoint)
   .map(maskS2clouds)
-  //.select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
@@ -36,7 +36,8 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
   .filterBounds(walespoint)
-  .map(maskS2clouds);
+  .map(maskS2clouds)
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 
 var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
