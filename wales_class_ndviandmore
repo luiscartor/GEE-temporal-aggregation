@@ -73,7 +73,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
 var training = ndvi_spr_median.addBands(ndmi_spr_median).addBands(ndvi_spr_var).addBands(ndmi_spr_var).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
-  numPoints: 4000,
+  numPoints: 1000,
   classBand: 'b1_1',
   region: landsat_spr.geometry(),
   seed:0,
