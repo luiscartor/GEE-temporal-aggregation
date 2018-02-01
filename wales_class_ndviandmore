@@ -4,7 +4,7 @@ var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 var landsat_spr = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   // Filter to get only one year of images.
-  .filterDate('2015-01-01', '2015-12-31')
+  .filterDate('2015-03-01', '2015-07-30')
   // Filter to get only images under the region of interest.
   .filter(ee.Filter.eq('WRS_PATH', 204))
   .filter(ee.Filter.eq('WRS_ROW', 23))
@@ -53,42 +53,22 @@ var ndmi_win = landsat_win.map(function(image) {
 });
 
 var ndvi_spr_median = ndvi_spr.reduce(ee.Reducer.median())//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
-Export.image.toAsset({
-  image: ndvi_spr_median,
-  description: 'landsat_ndvi_median_2015',
-  assetId: 'landsat_ndvi_median',
-  scale: 30,
-  maxPixels: 197659476
-});
 var ndvi_spr_var = ndvi_spr.reduce(ee.Reducer.variance());
-Export.image.toAsset({
-  image: ndvi_spr_var,
-  description: 'landsat_ndvi_var_2015',
-  assetId: 'landsat_ndvi_var',
-  scale: 30,
-  maxPixels: 197659476
-});
 var ndmi_spr_median = ndmi_spr.reduce(ee.Reducer.median());
-Export.image.toAsset({
-  image: ndmi_spr_median,
-  description: 'landsat_ndmi_median_2015',
-  assetId: 'landsat_ndmi_median',
-  scale: 30,
-  maxPixels: 197659476
-});
 var ndmi_spr_var = ndmi_spr.reduce(ee.Reducer.variance());
-Export.image.toAsset({
-  image: ndmi_spr_var,
-  description: 'landsat_ndmi_var_2015',
-  assetId: 'landsat_ndmi_var',
-  scale: 30,
-  maxPixels: 197659476
-});
 
 var ndvi_win_median = ndvi_win.reduce(ee.Reducer.median())//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var ndvi_win_var = ndvi_win.reduce(ee.Reducer.variance());
 var ndmi_win_median = ndmi_win.reduce(ee.Reducer.median());
 var ndmi_win_var = ndmi_win.reduce(ee.Reducer.variance());
+
+// NDVI all year
+var ndvi_median = ee.Image('users/luiscartor/landsat_ndvi_median')
+var ndvi_var = ee.Image('users/luiscartor/landsat_ndvi_var')
+
+// NDMI all year
+var ndmi_median = ee.Image('users/luiscartor/landsat_ndmi_median')
+var ndmi_var = ee.Image('users/luiscartor/landsat_ndmi_var')
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat_spr.geometry())//.reproject(proj);
@@ -100,7 +80,7 @@ var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat_spr.geomet
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
-var training = ndvi_spr_median.addBands(ndmi_spr_median).addBands(ndvi_spr_var).addBands(ndmi_spr_var).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
+var training = ndvi_median.addBands(ndmi_median).addBands(ndvi_var).addBands(ndmi_var).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 4000,
   classBand: 'b1_1',
   region: landsat_spr.geometry(),
@@ -119,10 +99,10 @@ Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier
 
 
 // Classify the input imagery.
-var classified = ndvi_spr_median.addBands(ndmi_spr_median).addBands(ndvi_spr_var).addBands(ndmi_spr_var).addBands(dem).addBands(distsea).classify(classifier);
+var classified = ndvi_median.addBands(ndmi_median).addBands(ndvi_var).addBands(ndmi_var).addBands(dem).addBands(distsea).classify(classifier);
 
 //Sample used for validation
-var testsample = ndvi_spr_median.addBands(ndmi_spr_median).addBands(ndvi_spr_var).addBands(ndmi_spr_var).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
+var testsample = ndvi_median.addBands(ndmi_median).addBands(ndvi_var).addBands(ndmi_var).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 100,
   region: landsat_spr.geometry(), //If region not specified: issues with projections!
   classBand: 'b1_1',
