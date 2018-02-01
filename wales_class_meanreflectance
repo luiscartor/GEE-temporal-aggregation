@@ -22,6 +22,7 @@ Export.image.toAsset({
   description: 'landsat_medianreflectance_2015',
   assetId: 'landsat_median',
   scale: 30,
+  maxPixels: 181238292
 });
 var landsat_var = landsat.reduce(ee.Reducer.variance());
 
