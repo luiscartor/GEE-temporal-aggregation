@@ -161,7 +161,7 @@ Export.image.toDrive({
     image: classified,
     description: 'wales_classification_ndvindmi_medians_twodates',
     scale: 30,
-    maxPixels: 181238292 
+    maxPixels: 198317376
     //region: geometry
 });
 
