@@ -58,7 +58,7 @@ Export.image.toAsset({
   description: 'landsat_ndvi_median_2015',
   assetId: 'landsat_ndvi_median',
   scale: 30,
-  maxPixels: 181238292
+  maxPixels: 197659476
 });
 var ndvi_spr_var = ndvi_spr.reduce(ee.Reducer.variance());
 Export.image.toAsset({
@@ -66,7 +66,7 @@ Export.image.toAsset({
   description: 'landsat_ndvi_var_2015',
   assetId: 'landsat_ndvi_var',
   scale: 30,
-  maxPixels: 181238292
+  maxPixels: 197659476
 });
 var ndmi_spr_median = ndmi_spr.reduce(ee.Reducer.median());
 Export.image.toAsset({
@@ -74,7 +74,7 @@ Export.image.toAsset({
   description: 'landsat_ndmi_median_2015',
   assetId: 'landsat_ndmi_median',
   scale: 30,
-  maxPixels: 181238292
+  maxPixels: 197659476
 });
 var ndmi_spr_var = ndmi_spr.reduce(ee.Reducer.variance());
 Export.image.toAsset({
@@ -82,7 +82,7 @@ Export.image.toAsset({
   description: 'landsat_ndmi_var_2015',
   assetId: 'landsat_ndmi_var',
   scale: 30,
-  maxPixels: 181238292
+  maxPixels: 197659476
 });
 
 var ndvi_win_median = ndvi_win.reduce(ee.Reducer.median())//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
