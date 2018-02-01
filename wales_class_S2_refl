@@ -21,8 +21,8 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2016-03-01', '2016-07-31')
   // Filter to get only images under the region of interest.
-  .filter(ee.Filter.eq('WRS_PATH', 204))
-  .filter(ee.Filter.eq('WRS_ROW', 23))
+  //.filter(ee.Filter.eq('WRS_PATH', 204))
+  //.filter(ee.Filter.eq('WRS_ROW', 23))
   // Sentinel cloud mask is less selective than Landsat, so some people pre filter by relatively cloud free images
   //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .filterBounds(walespoint)
@@ -32,8 +32,8 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2016-09-01', '2016-12-30')
   // Filter to get only images under the region of interest.
-  .filter(ee.Filter.eq('WRS_PATH', 204))
-  .filter(ee.Filter.eq('WRS_ROW', 23))
+  //.filter(ee.Filter.eq('WRS_PATH', 204))
+  //.filter(ee.Filter.eq('WRS_ROW', 23))
   .filterBounds(walespoint)
   .map(maskS2clouds);
 
