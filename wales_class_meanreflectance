@@ -64,7 +64,7 @@ var testsample = landsat_median.addBands(landsat_var).addBands(dem).addBands(dis
 
 
 // Accuracy assessment
-print(testsample)
+//print(testsample)
 var trainAccuracy = testsample.classify(classifier).errorMatrix('b1_1', 'classification');
 //print('Resubstitution error matrix: ', trainAccuracy);
 //print('Training overall accuracy: ', trainAccuracy.accuracy());
