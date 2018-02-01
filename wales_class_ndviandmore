@@ -72,7 +72,7 @@ var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat_spr.geomet
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
-var training = ndvi_spr_median.addBands(ndvi_win_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
+var training = ndvi_spr_median.addBands(ndvi_win_median).addBands(ndmi_spr_median).addBands(ndmi_win_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 4000,
   classBand: 'b1_1',
   region: landsat_spr.geometry(),
@@ -91,10 +91,10 @@ Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier
 
 
 // Classify the input imagery.
-var classified = ndvi_spr_median.addBands(ndvi_win_median).addBands(dem).addBands(distsea).classify(classifier);
+var classified = ndvi_spr_median.addBands(ndvi_win_median).addBands(ndmi_spr_median).addBands(ndmi_win_median).addBands(dem).addBands(distsea).classify(classifier);
 
 //Sample used for validation
-var testsample = ndvi_spr_median.addBands(ndvi_win_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
+var testsample = ndvi_spr_median.addBands(ndvi_win_median).addBands(ndmi_spr_median).addBands(ndmi_win_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 100,
   region: landsat_spr.geometry(), //If region not specified: issues with projections!
   classBand: 'b1_1',
