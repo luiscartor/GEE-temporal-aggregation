@@ -17,7 +17,7 @@ function maskS2clouds(image) {
 
 
 // Load S2 1-C input imagery.
-var S2_spr = ee.ImageCollection(''COPERNICUS/S2')
+var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2015-03-01', '2015-07-31')
   // Filter to get only images under the region of interest.
@@ -28,7 +28,7 @@ var S2_spr = ee.ImageCollection(''COPERNICUS/S2')
   .filterBounds(walespoint)
   .map(maskS2clouds);
   
-var S2_win = ee.ImageCollection(''COPERNICUS/S2')
+var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2015-09-01', '2015-12-30')
   // Filter to get only images under the region of interest.
