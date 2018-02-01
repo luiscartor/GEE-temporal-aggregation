@@ -53,9 +53,37 @@ var ndmi_win = landsat_win.map(function(image) {
 });
 
 var ndvi_spr_median = ndvi_spr.reduce(ee.Reducer.median())//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
+Export.image.toDrive({
+    image: classified,
+    description: 'wales_classification_ndvi_median',
+    scale: 30,
+    maxPixels: 181238292 
+    //region: geometry
+});
 var ndvi_spr_var = ndvi_spr.reduce(ee.Reducer.variance());
+Export.image.toDrive({
+    image: classified,
+    description: 'wales_classification_ndvi_var',
+    scale: 30,
+    maxPixels: 181238292 
+    //region: geometry
+});
 var ndmi_spr_median = ndmi_spr.reduce(ee.Reducer.median());
+Export.image.toDrive({
+    image: classified,
+    description: 'wales_classification_ndmi_median',
+    scale: 30,
+    maxPixels: 181238292 
+    //region: geometry
+});
 var ndmi_spr_var = ndmi_spr.reduce(ee.Reducer.variance());
+Export.image.toDrive({
+    image: classified,
+    description: 'wales_classification_ndmi_var',
+    scale: 30,
+    maxPixels: 181238292 
+    //region: geometry
+});
 
 var ndvi_win_median = ndvi_win.reduce(ee.Reducer.median())//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var ndvi_win_var = ndvi_win.reduce(ee.Reducer.variance());
@@ -106,11 +134,11 @@ var testsample = ndvi_spr_median.addBands(ndmi_spr_median).addBands(ndvi_spr_var
 
 
 // Accuracy assessment
-print(testsample)
+//print(testsample)
 var trainAccuracy = testsample.classify(classifier).errorMatrix('b1_1', 'classification');
-print('Resubstitution error matrix: ', trainAccuracy);
-print('Training overall accuracy: ', trainAccuracy.accuracy());
-print('Training kappa: ', trainAccuracy.kappa());
+//print('Resubstitution error matrix: ', trainAccuracy);
+//print('Training overall accuracy: ', trainAccuracy.accuracy());
+//print('Training kappa: ', trainAccuracy.kappa());
 
 
 // Define a palette for the classification.
