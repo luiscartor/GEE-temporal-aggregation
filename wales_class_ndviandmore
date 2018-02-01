@@ -36,6 +36,7 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
     return img.updateMask(mask)
     });
 
+// NDVI Index
 var ndvi_spr = landsat_spr.map(function(image) {
   return image.normalizedDifference(['B5', 'B4']);
 });
@@ -43,13 +44,23 @@ var ndvi_win = landsat_win.map(function(image) {
   return image.normalizedDifference(['B5', 'B4']);
 });
 
+// NDMI Index
+var ndmi_spr = landsat_spr.map(function(image) {
+  return image.normalizedDifference(['B6', 'B5']);
+});
+var ndmi_win = landsat_win.map(function(image) {
+  return image.normalizedDifference(['B6', 'B5']);
+});
 
 var ndvi_spr_median = ndvi_spr.reduce(ee.Reducer.median())//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var ndvi_spr_var = ndvi_spr.reduce(ee.Reducer.variance());
+var ndmi_spr_median = ndmi_spr.reduce(ee.Reducer.median());
+var ndmi_spr_var = ndmi_spr.reduce(ee.Reducer.variance());
 
 var ndvi_win_median = ndvi_win.reduce(ee.Reducer.median())//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var ndvi_win_var = ndvi_win.reduce(ee.Reducer.variance());
-
+var ndmi_win_median = ndmi_win.reduce(ee.Reducer.median());
+var ndmi_win_var = ndmi_win.reduce(ee.Reducer.variance());
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat_spr.geometry())//.reproject(proj);
