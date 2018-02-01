@@ -90,9 +90,9 @@ var testsample = S2_spr_median.addBands(S2_win_median).addBands(S2_spr_var).addB
 // Accuracy assessment
 //print(testsample)
 var trainAccuracy = testsample.classify(classifier).errorMatrix('b1_1', 'classification');
-//print('Resubstitution error matrix: ', trainAccuracy);
-//print('Training overall accuracy: ', trainAccuracy.accuracy());
-//print('Training kappa: ', trainAccuracy.kappa());
+print('Resubstitution error matrix: ', trainAccuracy);
+print('Training overall accuracy: ', trainAccuracy.accuracy());
+print('Training kappa: ', trainAccuracy.kappa());
 
 
 // Define a palette for the classification.
@@ -127,7 +127,7 @@ Map.centerObject(walespoint, 8);
 Map.addLayer(S2_spr, {bands: ['B4', 'B3', 'B2']}, 'S2 masked');
 //Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
 //Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
-//Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
+Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 //Export.image.toDrive({
 //    image: classified,
 //    description: 'wales_classification_refl_medianvar_twoseasons',
