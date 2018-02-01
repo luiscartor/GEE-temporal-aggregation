@@ -56,7 +56,7 @@ var distsea = ee.Image('users/luiscartor/distsea').int().clip(S2_spr.geometry())
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
-var training = S2_spr_median.addBands(S2_win_median).addBands(S2_spr_var).addBands(S2_win_var).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
+var training = S2_spr_median.addBands(S2_win_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 4000,
   classBand: 'b1_1',
   region: S2_spr.geometry(),
@@ -75,10 +75,10 @@ Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier
 
 
 // Classify the input imagery.
-var classified = S2_spr_median.addBands(S2_win_median).addBands(S2_spr_var).addBands(S2_win_var).addBands(dem).addBands(distsea).classify(classifier);
+var classified = S2_spr_median.addBands(S2_win_median).addBands(dem).addBands(distsea).classify(classifier);
 
 //Sample used for validation
-var testsample = S2_spr_median.addBands(S2_win_median).addBands(S2_spr_var).addBands(S2_win_var).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
+var testsample = S2_spr_median.addBands(S2_win_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 100,
   region: S2_spr.geometry(), //If region not specified: issues with projections!
   classBand: 'b1_1',
@@ -128,7 +128,7 @@ var palette = [
 Map.centerObject(walespoint, 8);
 Map.addLayer(S2_spr, {bands: ['B4', 'B3', 'B2']}, 'S2 masked');
 //Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
-//Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
+Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 //Export.image.toDrive({
 //    image: classified,
