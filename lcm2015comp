@@ -5,7 +5,13 @@ var landsat_orig = ee.Image('users/luiscartor/c35');
 var landsat_mask = ee.Image('users/luiscartor/c35_mask');
 
 var landsat = landsat_orig.updateMask(landsat_mask.neq(0));
-
+Export.image.toAsset({
+  image: landsat_median,
+  description: 'c35maskedwithGEEscript',
+  assetId: 'c35_GGEmasked',
+  scale: 30,
+  //maxPixels: 181238292
+});
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())//.reproject(proj);
@@ -53,9 +59,9 @@ var testsample = landsat.addBands(dem).addBands(distsea).addBands(trainingraster
 // Accuracy assessment
 //print(testsample)
 var trainAccuracy = testsample.classify(classifier).errorMatrix('b1_1', 'classification');
-print('Resubstitution error matrix: ', trainAccuracy);
-print('Training overall accuracy: ', trainAccuracy.accuracy());
-print('Training kappa: ', trainAccuracy.kappa());
+//print('Resubstitution error matrix: ', trainAccuracy);
+//print('Training overall accuracy: ', trainAccuracy.accuracy());
+//print('Training kappa: ', trainAccuracy.kappa());
 
 
 // Define a palette for the classification.
