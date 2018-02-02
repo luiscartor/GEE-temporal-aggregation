@@ -5,7 +5,7 @@ var landsat_orig = ee.Image('users/luiscartor/c35');
 var landsat_mask = ee.Image('users/luiscartor/c35_mask');
 
 var landsat = landsat_orig.updateMask(landsat_mask.neq(0));
-print(landsat.projection().nominalScale())
+
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())//.reproject(proj);
@@ -20,7 +20,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 var training = landsat.addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 4000,
   classBand: 'b1_1',
-  region: landsat.geometry(),
+  //region: landsat.geometry(),
   seed:0,
   scale:30,
   projection: 'EPSG:4326',
