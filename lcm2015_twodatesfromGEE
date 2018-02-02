@@ -95,7 +95,7 @@ var training = composite.addBands(trainingraster).stratifiedSample({
   seed:0,
   //tileScale: 16
 });
-//Export.table.toDrive(training2)
+Export.table.toDrive(training)
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(30)
