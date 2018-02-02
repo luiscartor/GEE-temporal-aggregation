@@ -40,7 +40,9 @@ var date2ref = landsat2.select(['B1','B2','B3','B4','B5','B6','B7'], ['B1','B2',
 
 
 // Multi-date composite.
-var satcomp = date1ref.addBands(date2ref);
+var satcomp_OLD = date1ref.addBands(date2ref);
+
+var satcomp = ee.Image('users/luiscartor/c35');
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(satcomp.geometry())
@@ -53,6 +55,7 @@ var comp = satcomp.addBands(dem).addBands(distsea)
 
 var comp2 = comp.updateMask(landsat1.select(['fmask']).neq(4));
 var composite = comp2.updateMask(landsat2.select(['fmask']).neq(4));
+
 
 
 // Use MODIS land cover, IGBP classification, for training.
