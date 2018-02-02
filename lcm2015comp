@@ -1,19 +1,13 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var landsat_orig = ee.Image("users/luiscartor/c35"),
-    landsat_mask = ee.Image("users/luiscartor/c35_mask"),
-    lan1 = ee.Image("users/luiscartor/p204_r023_2015_161_sr_cm_tc"),
-    lan2 = ee.Image("users/luiscartor/p204_r023_2015_305_sr_cm_tc");
+    landsat_mask = ee.Image("users/luiscartor/c35_mask");
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
 
-//var landsat_orig = ee.Image('users/luiscartor/c35');
-//var landsat_mask = ee.Image('users/luiscartor/c35_mask');
 
-//var landsat = landsat_orig.updateMask(landsat_mask.neq(0));
+var landsat = landsat_orig.updateMask(landsat_mask.neq(0));
 
-var landsat_com = lan1.addBands(lan2)
-var landsat = landsat_com.updateMask(landsat_mask.neq(0)).int();
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())//.reproject(proj);
