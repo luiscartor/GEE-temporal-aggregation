@@ -9,7 +9,9 @@ var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   // Filter to get only one year of images.
   .filterDate('2015-03-01', '2015-07-30')
   // Filter to get only images under the region of interest.
-  .filterBounds(walespoint)
+  //.filterBounds(walespoint)
+  .filter(ee.Filter.eq('WRS_PATH', 204))
+  .filter(ee.Filter.eq('WRS_ROW', 23))
   // Sort by scene cloudiness, ascending.
   .sort('CLOUD_COVER')
   // Get the first (least cloudy) scene.
@@ -21,7 +23,9 @@ var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   // Filter to get only one year of images.
   .filterDate('2015-09-01', '2015-12-30')
   // Filter to get only images under the region of interest.
-  .filterBounds(walespoint)
+  //.filterBounds(walespoint)
+  .filter(ee.Filter.eq('WRS_PATH', 204))
+  .filter(ee.Filter.eq('WRS_ROW', 23))
   // Sort by scene cloudiness, ascending.
   .sort('CLOUD_COVER')
   // Get the first (least cloudy) scene.
