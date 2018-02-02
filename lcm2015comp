@@ -10,7 +10,7 @@ Export.image.toAsset({
   description: 'c35maskedwithGEEscript',
   assetId: 'c35_GGEmasked',
   scale: 30,
-  //maxPixels: 181238292
+  maxPixels: 119976156
 });
 
 // Elevation layer
