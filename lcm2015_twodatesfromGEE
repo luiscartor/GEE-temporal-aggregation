@@ -1,3 +1,6 @@
+var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
+
+
 // Load Landsat 5 input imagery.
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
