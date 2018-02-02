@@ -1,41 +1,7 @@
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
-// Load Landsat 5 input imagery.
-//var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
-var landsat = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
-  // Filter to get only one year of images.
-  .filterDate('2015-01-01', '2015-12-31')
-  // Filter to get only images under the region of interest.
-  .filter(ee.Filter.eq('WRS_PATH', 204))
-  .filter(ee.Filter.eq('WRS_ROW', 23))
-  //.filterBounds(walespoint)
-  .map(function(img){
-    var mask = img.select(['fmask']).neq(4)
-    return img.updateMask(mask)
-    })
-  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
-  
 
-//var landsat_median = landsat.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
-//Export.image.toAsset({
-//  image: landsat_median,
-//  description: 'landsat_medianreflectance_2015',
-//  assetId: 'landsat_median',
-//  scale: 30,
-//  maxPixels: 181238292
-//});
-var landsat_median = ee.Image('users/luiscartor/landsat_median')
-
-//var landsat_var = landsat.reduce(ee.Reducer.variance());
-//Export.image.toAsset({
-//  image: landsat_var,
-//  description: 'landsat_variancereflectance_2015',
-//  assetId: 'landsat_var',
-//  scale: 30,
-//  maxPixels: 181238292
-//});
-var landsat_var = ee.Image('users/luiscartor/landsat_var')
-
+var landsat = ee.Image('users/luiscartor/c35')
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())//.reproject(proj);
@@ -48,7 +14,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
 var training = landsat_median.addBands(landsat_var).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
-  numPoints: 5000,
+  numPoints: 4000,
   classBand: 'b1_1',
   region: landsat.geometry(),
   seed:0,
