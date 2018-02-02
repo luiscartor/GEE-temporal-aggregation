@@ -1,7 +1,7 @@
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
 
-var landsat_orig = ee.Image('users/luiscartor/c35_int16');
+var landsat_orig = ee.Image('users/luiscartor/c35');
 var landsat_mask = ee.Image('users/luiscartor/c35_mask');
 
 var landsat = landsat_orig.updateMask(landsat_mask.neq(0));
@@ -53,9 +53,9 @@ var testsample = landsat.addBands(dem).addBands(distsea).addBands(trainingraster
 // Accuracy assessment
 //print(testsample)
 var trainAccuracy = testsample.classify(classifier).errorMatrix('b1_1', 'classification');
-print('Resubstitution error matrix: ', trainAccuracy);
-print('Training overall accuracy: ', trainAccuracy.accuracy());
-print('Training kappa: ', trainAccuracy.kappa());
+//print('Resubstitution error matrix: ', trainAccuracy);
+//print('Training overall accuracy: ', trainAccuracy.accuracy());
+//print('Training kappa: ', trainAccuracy.kappa());
 
 
 // Define a palette for the classification.
