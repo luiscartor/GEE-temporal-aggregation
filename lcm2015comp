@@ -4,7 +4,7 @@ var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1
 var landsat_orig = ee.Image('users/luiscartor/c35');
 var landsat_mask = ee.Image('users/luiscartor/c35_mask');
 
-var landsat_orig.map(function{
+var landsat = landsat_orig.map(function(img){
   return img.updateMask(landsat_mask.neq(1))
 });
 
