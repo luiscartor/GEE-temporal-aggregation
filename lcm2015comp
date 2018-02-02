@@ -14,7 +14,7 @@ var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())//.reproject(proj
 var distsea = ee.Image('users/luiscartor/distsea').int().clip(landsat.geometry())//.reproject(proj);
 
 // Classification training data
-var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
+var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int().clip(landsat.geometry());
 
 //Training using sample regions to sample 10000 for each class
 var training = landsat_orig.addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
