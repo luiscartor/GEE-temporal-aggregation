@@ -15,7 +15,8 @@ var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   // Sort by scene cloudiness, ascending.
   .sort('CLOUD_COVER')
   // Get the first (least cloudy) scene.
-  .first());
+  .first())
+  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
 
 // Load Landsat 5 input imagery.
 //var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
@@ -29,7 +30,8 @@ var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   // Sort by scene cloudiness, ascending.
   .sort('CLOUD_COVER')
   // Get the first (least cloudy) scene.
-  .first());
+  .first())
+  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
 
 //var mosaic = landsat.mosaic();
 
