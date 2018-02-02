@@ -4,7 +4,7 @@ var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1
 var landsat_orig = ee.Image('users/luiscartor/c35');
 var landsat_mask = ee.Image('users/luiscartor/c35_mask');
 
-var landsat = landsat_orig.updateMask(landsat_mask.neq(1));
+var landsat = landsat_orig.updateMask(landsat_mask.neq(0));
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())//.reproject(proj);
