@@ -17,7 +17,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
 var training = landsat.addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
-  numPoints: 4000,
+  numPoints: 400,
   classBand: 'b1_1',
   region: landsat.geometry(),
   seed:0,
