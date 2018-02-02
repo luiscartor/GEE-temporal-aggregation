@@ -12,8 +12,8 @@ var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1
 
 //var landsat = landsat_orig.updateMask(landsat_mask.neq(0));
 
-var landsat_com = lan1.addBands(lan2).int()
-var landsat = landsat_com.updateMask(landsat_mask.neq(0));
+var landsat_com = lan1.addBands(lan2)
+var landsat = landsat_com.updateMask(landsat_mask.neq(0)).int();
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat.geometry())//.reproject(proj);
