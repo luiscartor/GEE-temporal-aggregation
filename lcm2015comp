@@ -6,7 +6,7 @@ var landsat_mask = ee.Image('users/luiscartor/c35_mask');
 
 var landsat = landsat_orig.updateMask(landsat_mask.neq(0));
 Export.image.toAsset({
-  image: landsat_median,
+  image: landsat,
   description: 'c35maskedwithGEEscript',
   assetId: 'c35_GGEmasked',
   scale: 30,
