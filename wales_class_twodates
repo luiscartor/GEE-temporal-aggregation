@@ -154,7 +154,7 @@ Map.centerObject(walespoint, 8);
 //Map.addLayer(trainingraster, {'date1');
 //Map.addLayer(date2ref, {bands: ['B4', 'B3', 'B2']}, 'date2');
 
-Map.addLayer(composite, {bands: ['b4', 'b3', 'b2']}, 'composite');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
+Map.addLayer(composite, {bands: ['B4', 'B3', 'B2']}, 'composite');//Map.addLayer(classified, {palette: igbpPalette, min: 0, max: 17}, 'classification');
 //Map.addLayer(trainingsample)
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 //Map.addLayer(dem,{min:0,max:2000, palette:['black', 'white']},'dem')
