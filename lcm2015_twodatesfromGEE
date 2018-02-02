@@ -1,3 +1,6 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var image = ee.Image("users/luiscartor/c35_mask");
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
 
@@ -51,8 +54,8 @@ var distsea = ee.Image('users/luiscartor/distsea').int().clip(satcomp.geometry()
 // Adds ancialliary data to satellite data
 var comp = satcomp.addBands(dem).addBands(distsea)
 
-var comp2 = comp.updateMask(landsat1.select(['fmask']).neq(4));
-var composite = comp2.updateMask(landsat2.select(['fmask']).neq(4));
+// Mask with own mask
+var composite = comp.updateMask()
 
 
 // Use MODIS land cover, IGBP classification, for training.
