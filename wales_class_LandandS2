@@ -4,7 +4,7 @@ var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 var landsat_spr = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   // Filter to get only one year of images.
-  .filterDate('2015-01-01', '2015-12-31')
+  .filterDate('2015-03-01', '2015-07-30')
   // Filter to get only images under the region of interest.
   .filter(ee.Filter.eq('WRS_PATH', 204))
   .filter(ee.Filter.eq('WRS_ROW', 23))
@@ -48,7 +48,7 @@ function maskS2clouds(image) {
 // Load S2 1-C input imagery.
 var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
-  .filterDate('2016-01-01', '2016-12-31')
+  .filterDate('2016-03-01', '2016-07-30')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
@@ -83,7 +83,7 @@ var distsea = ee.Image('users/luiscartor/distsea').int().clip(S2_spr.geometry())
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
-var training = S2_spr_median.addBands(landsat_spr_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
+var training = S2_spr_median.addBands(S2_win_median).addBands(landsat_spr_median).addBands(landsat_win_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 4000,
   classBand: 'b1_1',
   region: S2_spr.geometry(),
@@ -102,10 +102,10 @@ Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier
 
 
 // Classify the input imagery.
-var classified = S2_spr_median.addBands(landsat_spr_median.clip(S2_spr.geometry())).addBands(dem).addBands(distsea).classify(classifier);
+var classified = S2_spr_median.addBands(S2_win_median).addBands(landsat_spr_median.clip(S2_spr.geometry())).addBands(landsat_win_median.clip(S2_spr.geometry())).addBands(dem).addBands(distsea).classify(classifier);
 
 //Sample used for validation
-var testsample = S2_spr_median.addBands(landsat_spr_median.clip(S2_spr.geometry())).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
+var testsample = S2_spr_median.addBands(S2_win_median).addBands(landsat_spr_median).addBands(landsat_win_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 100,
   region: S2_spr.geometry(), //If region not specified: issues with projections!
   classBand: 'b1_1',
