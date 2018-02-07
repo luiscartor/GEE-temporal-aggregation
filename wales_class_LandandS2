@@ -1,6 +1,36 @@
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
+// Load Landsat 5 input imagery.
+//var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
+var landsat_spr = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
+  // Filter to get only one year of images.
+  .filterDate('2015-01-01', '2015-12-31')
+  // Filter to get only images under the region of interest.
+  .filter(ee.Filter.eq('WRS_PATH', 204))
+  .filter(ee.Filter.eq('WRS_ROW', 23))
+  //.filterBounds(walespoint)
+  .map(function(img){
+    var mask = img.select(['fmask']).neq(4)
+    return img.updateMask(mask)
+    })
+  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
+  
+var landsat_win = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
+  // Filter to get only one year of images.
+  .filterDate('2015-09-01', '2015-12-30')
+  // Filter to get only images under the region of interest.
+  .filter(ee.Filter.eq('WRS_PATH', 204))
+  .filter(ee.Filter.eq('WRS_ROW', 23))
+  //.filterBounds(walespoint)
+  .map(function(img){
+    var mask = img.select(['fmask']).neq(4)
+    return img.updateMask(mask)
+    })
+  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
 
+
+var landsat_spr_median = landsat_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
+var landsat_win_median = landsat_win.median();
 
 // Function to mask clouds using the Sentinel-2 QA band.
 function maskS2clouds(image) {
@@ -14,7 +44,6 @@ function maskS2clouds(image) {
   // Return the masked and scaled data.
   return image.updateMask(mask).divide(10000);
 }
-
 
 // Load S2 1-C input imagery.
 var S2_spr = ee.ImageCollection('COPERNICUS/S2')
@@ -44,7 +73,6 @@ var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPS
 var S2_win_median = S2_win.median();
 
 
-
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(S2_spr.geometry())//.reproject(proj);
 
@@ -55,7 +83,7 @@ var distsea = ee.Image('users/luiscartor/distsea').int().clip(S2_spr.geometry())
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 //Training using sample regions to sample 10000 for each class
-var training = S2_spr_median.addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
+var training = S2_spr_median.addBands(landsat_spr_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 4000,
   classBand: 'b1_1',
   region: S2_spr.geometry(),
@@ -74,10 +102,10 @@ Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier
 
 
 // Classify the input imagery.
-var classified = S2_spr_median.addBands(dem).addBands(distsea).classify(classifier);
+var classified = S2_spr_median.addBands(landsat_spr_median).addBands(dem).addBands(distsea).classify(classifier);
 
 //Sample used for validation
-var testsample = S2_spr_median.addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
+var testsample = S2_spr_median.addBands(landsat_spr_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 100,
   region: S2_spr.geometry(), //If region not specified: issues with projections!
   classBand: 'b1_1',
