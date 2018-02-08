@@ -45,7 +45,7 @@ var vv_roi = vv_2016.filterBounds(roi);
 //var vhDescending = vh_roi.filter(ee.Filter.eq('orbitProperties_pass', 'DESCENDING'));
 //var vhAscending = vh_roi.filter(ee.Filter.eq('orbitProperties_pass', 'ASCENDING'));
 // Load S2 1-C input imagery.
-var S2_spr = ee.ImageCollection('COPERNICUS/S2')
+var S2 = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2016-01-01', '2016-12-31')
   // Filter to get only images under the region of interest.
@@ -79,6 +79,8 @@ Map.addLayer(composite, {min: [-20, -20, -15], max: [-6, -6, 0]}, 'composite');
 // for ocean applications
 // Map.addLayer(composite2, {min: [-30, -25, -20], max: [-20, -20, -10]}, 'composite');
 // Add the chart to the map.
+Map.addLayer(S2, {min: [-20, -20, -15], max: [-6, -6, 0]}, 'S2');
+
 
 chart.style().set({
   position: 'bottom-right',
