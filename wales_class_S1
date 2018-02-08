@@ -201,10 +201,10 @@ Map.addLayer(s1_composite, {min: [-20, -20, -15], max: [-6, -6, 0]}, 's1_composi
 //Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
 //Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
-//Export.image.toDrive({
-//    image: classified,
-//    description: 'wales_classification_refl_L8S2_median_twoseasons',
-//    scale: 30,
-//    maxPixels: 181238292
-//    //region: geometry
-//});
+Export.image.toDrive({
+    image: classified,
+    description: 'wales_classification_S1fourseasons_L8S2_twoseasons',
+    scale: 30,
+    maxPixels: 181238292
+    //region: geometry
+});
