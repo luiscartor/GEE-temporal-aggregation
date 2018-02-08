@@ -79,7 +79,7 @@ Map.addLayer(composite, {min: [-20, -20, -15], max: [-6, -6, 0]}, 'composite');
 // for ocean applications
 // Map.addLayer(composite2, {min: [-30, -25, -20], max: [-20, -20, -10]}, 'composite');
 // Add the chart to the map.
-Map.addLayer(S2, {min: [-20, -20, -15], max: [-6, -6, 0]}, 'S2');
+Map.addLayer(S2, {bands: ['B5', 'B4', 'B3']}, 'S2');
 
 
 chart.style().set({
