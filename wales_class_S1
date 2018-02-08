@@ -1,5 +1,28 @@
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
+// Load the Sentinel-1 ImageCollection.
+var s1_2016 = ee.ImageCollection('COPERNICUS/S1_GRD')
+  // Filter to get images with VV and VH dual polarization.
+  .filter(ee.Filter.listContains('transmitterReceiverPolarisation', 'VH'))
+  .filter(ee.Filter.listContains('transmitterReceiverPolarisation', 'VV'))
+  // Filter to get images collected in interferometric wide swath mode.
+  .filter(ee.Filter.eq('instrumentMode', 'IW'))
+  // select relative orbit number
+  .filter(ee.Filter.eq('relativeOrbitNumber_start', 52))
+  //select slice
+  //.filter(ee.Filter.eq('sliceNumber', 5))
+  // Filter time to images form 2017
+  .filterDate('2016-01-01', '2016-12-31')
+  // Filter to orbitdirection Descending
+  .filter(ee.Filter.eq('orbitProperties_pass', 'DESCENDING'));
+  
+  
+var vh_2016 = s1_2016.select('VH').filterBounds(walespoint);
+var vv_2016 = s1_2016.select('VV').filterBounds(walespoint);
+
+
+
+
 // Load Landsat 5 input imagery.
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 var landsat_spr = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
