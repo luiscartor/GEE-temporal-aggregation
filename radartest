@@ -87,7 +87,7 @@ chart.style().set({
   width: '500px',
   height: '300px'
 });
-Map.add(chart);
+//Map.add(chart);
 
 // Outline the region and centre on the map.
 var sfLayer = ui.Map.Layer(test_area, {color: 'FF0000'}, 'test_area');
