@@ -205,6 +205,6 @@ Export.image.toDrive({
     image: classified,
     description: 'wales_classification_S1fourseasons_L8S2_twoseasons',
     scale: 30,
-    maxPixels: 181238292
+    maxPixels: 298452024
     //region: geometry
 });
