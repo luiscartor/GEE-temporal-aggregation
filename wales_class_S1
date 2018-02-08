@@ -203,6 +203,7 @@ Map.addLayer(s1_composite, {min: [-20, -20, -15], max: [-6, -6, 0]}, 's1_composi
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 Export.image.toDrive({
     image: classified,
+    region: S2_spr.geometry(),
     description: 'wales_classification_S1fourseasons_L8S2_twoseasons',
     scale: 30,
     maxPixels: 298452024
