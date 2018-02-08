@@ -33,13 +33,13 @@ var vv = s1_2016.select('VV').filterBounds(S1area);
 
 // Create 3 single images that can be displayed as one 3-band composite image
 // Calculate the median for different times and polarisations
-var comp1 = vh.filterDate('2016-01-01', '2016-02-30').median();
+var comp1 = vh.filterDate('2016-01-01', '2016-02-28').median();
 var comp2 = vh.filterDate('2016-03-01', '2016-04-30').median();
 var comp3 = vh.filterDate('2016-05-01', '2016-06-30').median();
 var comp4 = vh.filterDate('2016-07-01', '2016-08-30').median();
 var comp5 = vh.filterDate('2016-09-01', '2016-10-30').median();
 var comp6 = vh.filterDate('2016-11-01', '2016-12-30').median();
-var comp7 = vv.filterDate('2016-01-01', '2016-02-30').median();
+var comp7 = vv.filterDate('2016-01-01', '2016-02-28').median();
 var comp8 = vv.filterDate('2016-03-01', '2016-04-30').median();
 var comp9 = vv.filterDate('2016-05-01', '2016-06-30').median();
 var comp10 = vv.filterDate('2016-07-01', '2016-08-30').median();
