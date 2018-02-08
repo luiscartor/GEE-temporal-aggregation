@@ -1,5 +1,16 @@
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
-
+var S1area = /* color: #d63000 */ee.Geometry.Polygon(
+        [[[-4.01275634765625, 53.37028208616266],
+          [-4.10064697265625, 52.831042628047356],
+          [-3.35357666015625, 52.7313647635022],
+          [-2.74932861328125, 53.02806217301498],
+          [-3.13934326171875, 53.38502804902532],
+          [-4.00177001953125, 53.39485585446581]]]),
+    test_area = /* color: #98ff00 */ee.Geometry.Polygon(
+        [[[-3.6199951171875, 53.248905518153315],
+          [-3.5540771484375, 53.265336258629475],
+          [-3.5540771484375, 53.30802665091056],
+          [-3.636474609375, 53.301461674349845]]]);
 // Load the Sentinel-1 ImageCollection.
 var s1_2016 = ee.ImageCollection('COPERNICUS/S1_GRD')
   // Filter to get images with VV and VH dual polarization.
@@ -17,8 +28,8 @@ var s1_2016 = ee.ImageCollection('COPERNICUS/S1_GRD')
   .filter(ee.Filter.eq('orbitProperties_pass', 'DESCENDING'));
   
   
-var vh = s1_2016.select('VH').filterBounds(walespoint);
-var vv = s1_2016.select('VV').filterBounds(walespoint);
+var vh = s1_2016.select('VH').filterBounds(S1area);
+var vv = s1_2016.select('VV').filterBounds(S1area);
 
 // Create 3 single images that can be displayed as one 3-band composite image
 // Calculate the median for different times and polarisations
