@@ -17,11 +17,17 @@ var s1_2016 = ee.ImageCollection('COPERNICUS/S1_GRD')
   .filter(ee.Filter.eq('orbitProperties_pass', 'DESCENDING'));
   
   
-var vh_2016 = s1_2016.select('VH').filterBounds(walespoint);
-var vv_2016 = s1_2016.select('VV').filterBounds(walespoint);
+var vh = s1_2016.select('VH').filterBounds(walespoint);
+var vv = s1_2016.select('VV').filterBounds(walespoint);
 
+// Create 3 single images that can be displayed as one 3-band composite image
+// Calculate the median for different times and polarisations
+var comp1 = vh.filterDate('2016-01-01', '2016-04-30').median();
+var comp2 = vh.filterDate('2016-05-01', '2016-08-30').median();
+var comp3 = vv.filterDate('2016-09-01', '2016-12-30').median();
 
-
+// merge the 3-bands as single composite
+var s1_composite = ee.Image.cat ([comp1, comp2, comp3]).focal_median();
 
 // Load Landsat 5 input imagery.
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
@@ -176,10 +182,11 @@ var palette = [
 ];
 
 Map.centerObject(walespoint, 8);
-Map.addLayer(S2_spr, {bands: ['B5', 'B4', 'B3']}, 'S2 masked');
+Map.addLayer(s1_composite, {min: [-20, -20, -15], max: [-6, -6, 0]}, 's1_composite');
+//Map.addLayer(composite, {bands: ['B5', 'B4', 'B3']}, 'S2');
 //Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
-Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
-Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
+//Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
+//Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 //Export.image.toDrive({
 //    image: classified,
 //    description: 'wales_classification_refl_L8S2_median_twoseasons',
