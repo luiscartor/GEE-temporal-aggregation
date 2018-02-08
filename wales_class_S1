@@ -33,15 +33,15 @@ var vv = s1_2016.select('VV').filterBounds(S1area);
 
 // Create 3 single images that can be displayed as one 3-band composite image
 // Calculate the median for different times and polarisations
-var comp1 = vh.filterDate('2016-01-01', '2016-04-30').median();
+var comp1 = vh.filterDate('2016-01-01', '2016-12-30').median();
 var comp2 = vh.filterDate('2016-05-01', '2016-08-30').median();
 var comp3 = vh.filterDate('2016-09-01', '2016-12-30').median();
-var comp4 = vv.filterDate('2016-01-01', '2016-04-30').median();
+var comp4 = vv.filterDate('2016-01-01', '2016-12-30').median();
 var comp5 = vv.filterDate('2016-05-01', '2016-06-30').median();
 var comp6 = vv.filterDate('2016-09-01', '2016-12-30').median();
 
 // merge the 3-bands as single composite
-var s1_composite = ee.Image.cat ([comp1,comp2,comp3,comp4,comp5,comp6]).focal_median();
+var s1_composite = ee.Image.cat ([comp1,comp4]).focal_median();
 
 // Load Landsat 5 input imagery.
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
@@ -201,11 +201,11 @@ Map.addLayer(s1_composite, {min: [-20, -20, -15], max: [-6, -6, 0]}, 's1_composi
 //Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
 //Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
 Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
-Export.image.toDrive({
-    image: classified,
-    region: S2_spr.geometry(),
-    description: 'wales_classification_S1fourseasons_L8S2_twoseasons',
-    scale: 30,
-    maxPixels: 298452024
-    //region: geometry
-});
+//Export.image.toDrive({
+//  image: classified,
+//    region: S2_spr.geometry(),
+//    description: 'wales_classification_S1fourseasons_L8S2_twoseasons',
+//    scale: 30,
+//    maxPixels: 298452024
+//    //region: geometry
+//});
