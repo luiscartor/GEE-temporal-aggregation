@@ -47,7 +47,7 @@ var vv_roi = vv_2016.filterBounds(roi);
 // Load S2 1-C input imagery.
 var S2 = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
-  .filterDate('2016-09-01', '2016-11-30')
+  .filterDate('2016-01-01', '2016-03-30')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
