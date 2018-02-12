@@ -152,7 +152,7 @@ Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier
 
 
 // Classify the input imagery.
-var classified =  s1_composite.addBands(S2_spr_median).addBands(S2_win_median).addBands(landsat_spr_median).addBands(landsat_win_median).addBands(dem).addBands(distsea).classify(classifier);
+var classified =  s1_composite.clip(S2_spr.geometry()).addBands(S2_spr_median).addBands(S2_win_median).addBands(landsat_spr_median.clip(S2_spr.geometry())).addBands(landsat_win_median.clip(S2_spr.geometry())).addBands(dem).addBands(distsea).classify(classifier);
 
 //Sample used for validation
 var testsample =  s1_composite.addBands(S2_spr_median).addBands(S2_win_median).addBands(landsat_spr_median).addBands(landsat_win_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
