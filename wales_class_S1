@@ -148,7 +148,7 @@ Export.table.toDrive(training)
 var classifier = ee.Classifier.randomForest(30)
     .train(training, 'b1_1');
 
-Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
+Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})),'S1S2L8training');
 
 
 // Classify the input imagery.
