@@ -142,7 +142,7 @@ var training = s1_composite.addBands(S2_spr_median).addBands(S2_win_median).addB
   projection: 'EPSG:4326',
   //tileScale: 4
 });
-Export.table.toDrive(training,,'S1S2L8training')
+Export.table.toDrive(training,'S1S2L8training')
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(30)
