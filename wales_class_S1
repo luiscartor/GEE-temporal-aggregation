@@ -48,7 +48,7 @@ var comp10 = vv.filterDate('2016-10-01', '2016-12-31').median();
 
 
 // merge the 3-bands as single composite
-var s1_composite = ee.Image.cat ([comp1,comp2,comp3,comp4,comp5,comp6,comp7,comp8,comp9,comp10,comp11,comp12]).focal_median();
+var s1_composite = ee.Image.cat ([comp1,comp2,comp3,comp4,comp7,comp8,comp9,comp10]).focal_median();
 
 // Load Landsat 5 input imagery.
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
