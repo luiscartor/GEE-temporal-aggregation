@@ -39,12 +39,12 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   
 //print(ee.Image(S2_spr.first()).date().format());
 
-var comp = S2_spr.mosaic();
+
 
 
 print(ee.Image(S2_spr.first()).select('month').reduceRegion({
   reducer: ee.Reducer.countEvery().group(0),
-  geometry: waleswhole,
+  geometry: walespoint,
   scale: 30
 }))
   
