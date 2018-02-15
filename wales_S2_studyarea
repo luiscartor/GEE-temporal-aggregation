@@ -45,7 +45,7 @@ print(ee.Image(S2_spr.first()).get('system:time_start'));
 
 print(ee.Image(S2_spr.first()).reduceRegion({
   reducer: ee.Reducer.countEvery().group(0),
-  geometry: S2_spr.geometry(),
+  geometry: walespoint,
   scale: 30
 }))
   
