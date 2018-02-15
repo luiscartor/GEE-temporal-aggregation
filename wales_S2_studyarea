@@ -37,7 +37,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   .map(maskS2clouds)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
-print(ee.Image(S2_spr.first().set('system:time_start',img.get('system:time_start'))).get('system:time_start'));
+print(ee.Image(S2_spr.first().set('system:time_start',S2_spr.first().get('system:time_start'))).get('system:time_start'));
 
 //print(ee.Image(S2_spr.first()).get('system:time_start').get('month');
 
