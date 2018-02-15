@@ -56,7 +56,7 @@ print(allyear);
 Map.addLayer(allyear,{bands: ['B5_count'],min:0,max:30}, 'allyear');
 
 // Histogram
-var histogram = ui.Chart.allyear.histogram(allyear)
+var histogram = ui.Chart.allyear.histogram(allyear,S2_spr.geometry(),30)
   .setSeriesNames(['B5_count'])
 
 print(histogram)
