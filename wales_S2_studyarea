@@ -43,11 +43,8 @@ print(ee.Image(S2_spr.first()).get('system:time_start'));
 
 
 
-print(ee.Image(S2_spr.first()).reduceRegion({
-  reducer: ee.Reducer.countEvery().group(0),
-  geometry: walespoint,
-  scale: 30
-}))
+var new = S2_spr.count();
+print(new)
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
