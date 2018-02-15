@@ -54,6 +54,11 @@ var allyear = ee.ImageCollection(S2_spr.merge(S2_win));
 var allyear = allyear.reduce(ee.Reducer.count());
 print(allyear);
 Map.addLayer(allyear,{bands: ['B5_count'],min:0,max:30}, 'allyear');
+v
+// Histogram
+print(ui.Chart.allyear.histogram(allyear,S2_spr.geometry(),30)
+  .setSeriesNames(['B5_count']);
+  )
 
 
 var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
