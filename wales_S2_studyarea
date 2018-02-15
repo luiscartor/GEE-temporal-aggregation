@@ -37,9 +37,9 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   .map(maskS2clouds)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
-print(S2_spr.first());
+print(S2_spr.first().get('month'));
 
-print(ee.Image(S2_spr.first()).select('2016-01-01').reduceRegion({
+print(ee.Image(S2_spr.first()).select('month').reduceRegion({
   reducer: ee.Reducer.countEvery().group(0),
   geometry: waleswhole,
   scale: 30
