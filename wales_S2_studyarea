@@ -56,9 +56,10 @@ print(allyear);
 Map.addLayer(allyear,{bands: ['B5_count'],min:0,max:30}, 'allyear');
 
 // Histogram
-print(ui.Chart.allyear.histogram(allyear)
+var histogram = ui.Chart.allyear.histogram(allyear)
   .setSeriesNames(['B5_count'])
-  )
+
+print(histogram)
 
 
 var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
