@@ -51,7 +51,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
-  .filterBounds(waleswhole)
+  .filterBounds(walespoint)
   .map(maskS2clouds)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
