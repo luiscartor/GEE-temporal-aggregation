@@ -35,8 +35,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .filterBounds(waleswhole)
   .map(maskS2clouds)
-  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12'])
-  .first();
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
@@ -137,7 +136,7 @@ var palette = [
 
 
 Map.centerObject(walespoint, 8);
-Map.addLayer(S2_spr, {bands: ['B5', 'B4', 'B3']}, 'S2 masked');
+Map.addLayer(S2_spr_median, {bands: ['B5', 'B4', 'B3']}, 'S2 masked');
 
 
 //Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
