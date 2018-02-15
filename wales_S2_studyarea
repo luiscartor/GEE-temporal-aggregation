@@ -39,7 +39,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   
 print(S2_spr.first());
 
-print(ee.Image(S2_spr.first()).select('2016').reduceRegion({
+print(ee.Image(S2_spr.first()).select('2016-01-01').reduceRegion({
   reducer: ee.Reducer.countEvery().group(0),
   geometry: waleswhole,
   scale: 30
