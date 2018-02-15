@@ -43,8 +43,8 @@ print(ee.Image(S2_spr.first()).get('system:time_start'));
 
 
 
-var new = S2_spr.count();
-print(new)
+var s2new = S2_spr.count();
+print(s2new);
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
