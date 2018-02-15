@@ -33,11 +33,11 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   //.filter(ee.Filter.eq('WRS_ROW', 23))
   // Sentinel cloud mask is less selective than Landsat, so some people pre filter by relatively cloud free images
   //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
-  .filterBounds(waleswhole)
+  .filterBounds(walespoint)
   .map(maskS2clouds)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
-print(ee.Image(S2_spr.first()).date();
+print(ee.Image(S2_spr.first()).date());
 
 print(ee.Image(S2_spr.first()).select('month').reduceRegion({
   reducer: ee.Reducer.countEvery().group(0),
