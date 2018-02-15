@@ -45,7 +45,7 @@ print(ee.Image(S2_spr.first()).get('system:time_start'));
 
 var s2new = S2_spr.reduce(ee.Reducer.count());
 print(s2new);
-Map.addLayer(s2new,{bands: ['B5', 'B4', 'B3']}, 'S2new');
+Map.addLayer(s2new,{bands: ['B5_count']}, 'S2new');
 
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
