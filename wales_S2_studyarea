@@ -38,6 +38,12 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
 print(S2_spr.first());
+
+print(ee.Image(S2_spr.first()).select('year').reduceRegion({
+  reducer: ee.Reducer.countEvery().group(0),
+  geometry: region.geometry(),
+  scale: 30
+}))
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
