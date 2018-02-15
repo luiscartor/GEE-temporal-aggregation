@@ -42,7 +42,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
 
 
 
-print(ee.Image(S2_spr.first()).select('month').reduceRegion({
+print(ee.Image(S2_spr.first()).reduceRegion({
   reducer: ee.Reducer.countEvery().group(0),
   geometry: walespoint,
   scale: 30
