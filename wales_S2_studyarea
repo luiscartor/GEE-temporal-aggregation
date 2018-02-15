@@ -54,7 +54,7 @@ var allyear = ee.ImageCollection(S2_spr.merge(S2_win));
 var allyear = allyear.reduce(ee.Reducer.count());
 print(allyear);
 Map.addLayer(allyear,{bands: ['B5_count'],min:0,max:30}, 'allyear');
-v
+
 // Histogram
 print(ui.Chart.allyear.histogram(allyear)
   .setSeriesNames(['B5_count'])
