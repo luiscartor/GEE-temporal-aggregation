@@ -41,7 +41,7 @@ print(S2_spr.first());
 
 print(ee.Image(S2_spr.first()).select('year').reduceRegion({
   reducer: ee.Reducer.countEvery().group(0),
-  geometry: waleswhole.geometry(),
+  geometry: waleswhole,
   scale: 30
 }))
   
