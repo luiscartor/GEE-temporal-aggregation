@@ -51,7 +51,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
 
 // Number of non-cloud images per pixel
 //var allyear = ee.ImageCollection(S2_spr.merge(S2_win));
-var allyear = S2_spr
+var allyear = S2_win
 var allyear = allyear.reduce(ee.Reducer.count());
 print(allyear);
 Map.addLayer(allyear,{bands: ['B5_count'],min:0,max:30}, 'allyear');
