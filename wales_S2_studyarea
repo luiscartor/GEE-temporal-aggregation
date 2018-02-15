@@ -57,7 +57,7 @@ Map.addLayer(allyear,{bands: ['B5_count'],min:0,max:30}, 'allyear');
 v
 // Histogram
 print(ui.Chart.allyear.histogram(allyear,S2_spr.geometry(),30)
-  .setSeriesNames(['B5_count']);
+  .setSeriesNames(['B5_count'])
   )
 
 
