@@ -1,4 +1,4 @@
-var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var S1area = /* color: #d63000 */ee.Geometry.Polygon(
         [[[-4.01275634765625, 53.37028208616266],
           [-4.10064697265625, 52.831042628047356],
@@ -11,6 +11,9 @@ var S1area = /* color: #d63000 */ee.Geometry.Polygon(
           [-3.5540771484375, 53.265336258629475],
           [-3.5540771484375, 53.30802665091056],
           [-3.636474609375, 53.301461674349845]]]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
+
 // Load the Sentinel-1 ImageCollection.
 var s1_2016 = ee.ImageCollection('COPERNICUS/S1_GRD')
   // Filter to get images with VV and VH dual polarization.
@@ -203,16 +206,16 @@ var palette = [
 ];
 
 Map.centerObject(walespoint, 8);
-Map.addLayer(s1_composite, {min: [-20, -20, -15], max: [-6, -6, 0]}, 's1_composite');
+Map.addLayer(s2_spr, {min: [-20, -20, -15], max: [-6, -6, 0]}, 's1_composite');
 //Map.addLayer(composite, {bands: ['B5', 'B4', 'B3']}, 'S2');
 //Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
 //Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
-Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
-Export.image.toDrive({
-  image: classified,
-    region: S2_spr.geometry(),
-    description: 'wales_classification_S1fourseasons_L8S2_twoseasons',
-    scale: 30,
-    maxPixels: 298452024
-    //region: geometry
-});
+//Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
+//Export.image.toDrive({
+//  image: classified,
+//    region: S2_spr.geometry(),
+//    description: 'wales_classification_S1fourseasons_L8S2_twoseasons',
+//    scale: 30,
+//    maxPixels: 298452024
+//    //region: geometry
+//});
