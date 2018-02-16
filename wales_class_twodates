@@ -32,6 +32,20 @@ var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   .first());
 
 
+// Number of non-cloud images per pixel
+var allyear = ee.ImageCollection(landsat1.merge(landsat2));
+//var allyear = S2_spr
+var allyear = allyear.reduce(ee.Reducer.count());
+print(allyear);
+Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:30}, 'allyear');
+// Histogram
+var histogram = ui.Chart.image.histogram(allyear.select(['B2_count']),S2_spr.geometry(),100)
+  .setSeriesNames(['B2_count']);
+print(histogram);
+
+
+
+
 //var mosaic = landsat.mosaic();
 
 
@@ -99,7 +113,7 @@ var training = composite.addBands(trainingraster).stratifiedSample({
 var classifier = ee.Classifier.randomForest(30)
     .train(training, 'b1_1');
     
-Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
+//Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
 
 // Classify the input imagery.
 var classified = composite.classify(classifier);
@@ -114,11 +128,11 @@ var testsample = composite.addBands(trainingraster).stratifiedSample({
 
 
 // Accuracy assessment
-print(testsample)
-var trainAccuracy = testsample.classify(classifier).errorMatrix('b1_1', 'classification');
-print('Resubstitution error matrix: ', trainAccuracy);
-print('Training overall accuracy: ', trainAccuracy.accuracy());
-print('Training kappa: ', trainAccuracy.kappa());
+//print(testsample)
+//var trainAccuracy = testsample.classify(classifier).errorMatrix('b1_1', 'classification');
+//print('Resubstitution error matrix: ', trainAccuracy);
+//print('Training overall accuracy: ', trainAccuracy.accuracy());
+//print('Training kappa: ', trainAccuracy.kappa());
 
 
 // Define a palette for the classification.
@@ -160,10 +174,10 @@ Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
 //Map.addLayer(dem,{min:0,max:2000, palette:['black', 'white']},'dem')
 //Map.addLayer(distsea,{min:0,max:10000, palette:['black', 'white']},'distsea')
 
-Export.image.toDrive({
-    image: classified,
-    description: 'wales_classification_test_dem',
-    scale: 30,
-    maxPixels: 128148372
-    //region: geometry
-});
+//Export.image.toDrive({
+//    image: classified,
+//    description: 'wales_classification_test_dem',
+//    scale: 30,
+//    maxPixels: 128148372
+//    //region: geometry
+//});
