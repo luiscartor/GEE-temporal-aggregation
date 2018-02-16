@@ -83,8 +83,7 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
     })
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
 
-var lan = ee.Image(landsat_win.first())
-Map.addLayer(lan, {bands: ['B5', 'B4', 'B3']}, 'lan');
+
 
 var landsat_spr_median = landsat_spr.mean()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var landsat_win_median = landsat_win.mean();
@@ -140,8 +139,8 @@ var distsea = ee.Image('users/luiscartor/distsea').int().clip(S2_spr.geometry())
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 // Extract dataset
-//var dataset = S2_spr_median.addBands(S2_win_median)
-//Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3']}, 'dataset');
+var dataset = lansat_spr_median.addBands(landsat_win_median)
+Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3']}, 'dataset');
 //Export.image.toDrive({
 //  image: dataset,
 //    //region: S2_spr.geometry(),
