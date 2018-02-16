@@ -1,3 +1,16 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #98ff00 */ee.Geometry.Polygon(
+        [[[-4.647216796875, 53.474682650031866],
+          [-4.801025390625, 53.21232306690182],
+          [-4.449462890625, 53.087136252217356],
+          [-4.801025390625, 52.96820135898116],
+          [-4.5263671875, 52.676089351813786],
+          [-4.2626953125, 52.76924711626983],
+          [-2.8125, 52.742650916047715],
+          [-2.9443359375, 53.540020484598884],
+          [-3.394775390625, 53.428886220883776],
+          [-3.955078125, 53.435431591460336]]]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
 
@@ -38,7 +51,7 @@ var allyear = allyear.reduce(ee.Reducer.count());
 print(allyear);
 Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:30}, 'allyear');
 // Histogram
-var histogram = ui.Chart.image.histogram(allyear.select(['B2_count']),landsat_spr.geometry(),100)
+var histogram = ui.Chart.image.histogram(allyear.select(['B2_count']),geometry,100)
   .setSeriesNames(['B2_count']);
 print(histogram);
 
