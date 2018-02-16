@@ -138,16 +138,16 @@ var distsea = ee.Image('users/luiscartor/distsea').int().clip(S2_spr.geometry())
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 // Extract dataset
-var dataset = S2_spr_median.addBands(S2_win_median)
-Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3']}, 'dataset');
-Export.image.toDrive({
-  image: dataset,
-    //region: S2_spr.geometry(),
-    description: 'S2_composite',
-    scale: 20,
-    maxPixels:  481016943
-    //region: geometry
-});
+//var dataset = S2_spr_median.addBands(S2_win_median)
+//Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3']}, 'dataset');
+//Export.image.toDrive({
+//  image: dataset,
+//    //region: S2_spr.geometry(),
+//    description: 'S2_composite',
+//    scale: 20,
+//    maxPixels: 481016943
+//    //region: geometry
+//});
 
 
 //Training using sample regions to sample 10000 for each class
