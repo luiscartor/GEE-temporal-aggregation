@@ -59,7 +59,7 @@ var s1_composite = ee.Image.cat ([comp1,comp2,comp3,comp4,comp7,comp8,comp9,comp
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
-  .filterDate('2016-03-01', '2016-07-30')
+  .filterDate('2017-04-01', '2017-07-31')
   // Filter to get only images under the region of interest.
   .filter(ee.Filter.eq('WRS_PATH', 204))
   .filter(ee.Filter.eq('WRS_ROW', 23))
@@ -72,7 +72,7 @@ var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   
 var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
-  .filterDate('2016-09-01', '2016-12-30')
+  .filterDate('2016-10-01', '2017-02-30')
   // Filter to get only images under the region of interest.
   .filter(ee.Filter.eq('WRS_PATH', 204))
   .filter(ee.Filter.eq('WRS_ROW', 23))
