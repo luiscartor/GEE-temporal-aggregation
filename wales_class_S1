@@ -77,7 +77,7 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.rangeContains("PATH", 23, 24))
   .filter(ee.Filter.greaterThanOrEquals('WRS_ROW', 23))
-  .filter(ee.Filter.lessThanOrEquals('WRS_ROW', 24));
+  .filter(ee.Filter.lessThanOrEquals('WRS_ROW', 24))
   //.filterBounds(walespoint)
   .map(function(img){
     var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0)
