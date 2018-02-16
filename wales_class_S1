@@ -141,7 +141,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 var dataset = S2_spr_median.addBands(S2_win_median)
 Export.image.toDrive({
   image: dataset,
-    region: S2_spr.geometry(),
+    //region: S2_spr.geometry(),
     description: 'S2_composite',
     scale: 20,
     //maxPixels: 298452024
