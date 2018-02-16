@@ -47,7 +47,7 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
 // Number of non-cloud images per pixel
 //var allyear = ee.ImageCollection(landsat_spr.merge(landsat_win));
 var allyear = landsat_spr
-var allyear = allyear.reduce(ee.Reducer.count());
+var allyear = allyear.reduce(ee.Reducer.count({maxPixels:36604016}));
 print(allyear);
 Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:30}, 'allyear');
 // Histogram
