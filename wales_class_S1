@@ -153,7 +153,7 @@ Export.image.toDrive({
     //region: S2_spr.geometry(),
     description: 'landsat_composite1',
     scale: 30,
-    //maxPixels: 481016943
+    maxPixels: 481016943
     //region: geometry
 });
 
