@@ -150,7 +150,7 @@ var dataset = landsat_spr_median.clip(S2_spr.geometry()).addBands(landsat_win_me
 Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3']}, 'dataset');
 Export.image.toDrive({
   image: dataset,
-    region: S2_spr.geometry(),
+    //region: S2_spr.geometry(),
     description: 'landsat_composite',
     scale: 30,
     maxPixels: 481016943
