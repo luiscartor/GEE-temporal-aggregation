@@ -38,7 +38,7 @@ var allyear = allyear.reduce(ee.Reducer.count());
 print(allyear);
 Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:30}, 'allyear');
 // Histogram
-var histogram = ui.Chart.image.histogram(allyear.select(['B2_count']),landsat_spr.geometry(),100)
+var histogram = ui.Chart.image.histogram(allyear.select(['B2_count']),landsat_spr.geometry(),1000)
   .setSeriesNames(['B2_count']);
 print(histogram);
 
