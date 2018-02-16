@@ -57,7 +57,7 @@ var s1_composite = ee.Image.cat ([comp1,comp2,comp3,comp4,comp7,comp8,comp9,comp
 
 // Load Landsat 5 input imagery.
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
-var landsat_spr = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
+var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
   .filterDate('2016-03-01', '2016-07-30')
   // Filter to get only images under the region of interest.
@@ -70,7 +70,7 @@ var landsat_spr = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
     })
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
   
-var landsat_win = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
+var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
   .filterDate('2016-09-01', '2016-12-30')
   // Filter to get only images under the region of interest.
