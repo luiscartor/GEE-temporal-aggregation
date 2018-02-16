@@ -89,6 +89,18 @@ Map.addLayer(lan, {bands: ['B5', 'B4', 'B3']}, 'lan');
 var landsat_spr_median = landsat_spr.mean()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var landsat_win_median = landsat_win.mean();
 
+// Extract dataset
+var dataset = landsat_spr_median.addBands(landsat_win_median)
+Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3']}, 'dataset');
+//Export.image.toDrive({
+//  image: dataset,
+//    //region: S2_spr.geometry(),
+//    description: 'S2_composite',
+//    scale: 20,
+//    maxPixels: 481016943
+//    //region: geometry
+//});
+
 // Function to mask clouds using the Sentinel-2 QA band.
 function maskS2clouds(image) {
   var qa = image.select('QA60');
@@ -140,8 +152,8 @@ var distsea = ee.Image('users/luiscartor/distsea').int().clip(S2_spr.geometry())
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 // Extract dataset
-var dataset = landsat_spr_median.addBands(landsat_win_median)
-Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3']}, 'dataset');
+//var dataset = landsat_spr_median.addBands(landsat_win_median)
+//Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3']}, 'dataset');
 //Export.image.toDrive({
 //  image: dataset,
 //    //region: S2_spr.geometry(),
