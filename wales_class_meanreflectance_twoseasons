@@ -27,6 +27,21 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
     return img.updateMask(mask)
     })
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
+  
+  
+  
+// Number of non-cloud images per pixel
+var allyear = ee.ImageCollection(landsat_spr.merge(landsat_win));
+//var allyear = S2_spr
+var allyear = allyear.reduce(ee.Reducer.count());
+print(allyear);
+Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:30}, 'allyear');
+// Histogram
+var histogram = ui.Chart.image.histogram(allyear.select(['B2_count']),S2_spr.geometry(),100)
+  .setSeriesNames(['B2_count']);
+print(histogram);
+
+
 
 
 var landsat_spr_median = landsat_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
@@ -54,13 +69,13 @@ var training = landsat_spr_median.addBands(landsat_win_median).addBands(landsat_
   projection: 'EPSG:4326',
   //tileScale: 4
 });
-Export.table.toDrive(training)
+//Export.table.toDrive(training)
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(30)
     .train(training, 'b1_1');
 
-Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
+//Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
 
 
 // Classify the input imagery.
@@ -118,11 +133,11 @@ Map.centerObject(walespoint, 8);
 //Map.addLayer(landsat, {bands: ['B4', 'B3', 'B2']}, 'landsat masked');
 //Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
 //Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
-Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
-Export.image.toDrive({
-    image: classified,
-    description: 'wales_classification_refl_medianvar_twoseasons',
-    scale: 30,
-    maxPixels: 181238292
-    //region: geometry
-});
+//Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
+//Export.image.toDrive({
+//    image: classified,
+//    description: 'wales_classification_refl_medianvar_twoseasons',
+//    scale: 30,
+//    maxPixels: 181238292
+//    //region: geometry
+//});
