@@ -27,7 +27,7 @@ var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
     var mask = img.select(['pixel_qa']).neq(5)
     return img.updateMask(mask)
     })
-  .select(['B1']);//, 'B2', 'B3','B4', 'B5', 'B6','B7']);
+  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
   
 var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
@@ -40,7 +40,7 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
     var mask = img.select(['pixel_qa']).neq(5)
     return img.updateMask(mask)
     })
-  .select(['B1']);//, 'B2', 'B3','B4', 'B5', 'B6','B7']);
+  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
   
   
   
@@ -49,10 +49,10 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
 var allyear = landsat_spr
 var allyear = allyear.reduce(ee.Reducer.count());
 print(allyear);
-Map.addLayer(allyear,{bands: ['B1_count'],min:0,max:30}, 'allyear');
+Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:30}, 'allyear');
 // Histogram
-var histogram = ui.Chart.image.histogram(allyear.select(['B1_count']),landsat_spr.geometry(),100)
-  .setSeriesNames(['B1_count']);
+var histogram = ui.Chart.image.histogram(allyear.select(['B2_count']),landsat_spr.geometry(),100)
+  .setSeriesNames(['B2_count']);
 print(histogram);
 
 
