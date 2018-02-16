@@ -65,7 +65,7 @@ var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .filter(ee.Filter.eq('WRS_ROW', 23))
   //.filterBounds(walespoint)
   .map(function(img){
-    var mask = img.select(['pixel_qa']).bitwiseAnd(2).neq(5)
+    var mask = img.select(['pixel_qa']).bitwiseAnd(32).neq(0)
     return img.updateMask(mask)
     })
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
@@ -78,7 +78,7 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .filter(ee.Filter.eq('WRS_ROW', 23))
   //.filterBounds(walespoint)
   .map(function(img){
-    var mask = img.select(['pixel_qa']).bitwiseAnd(2).neq(5)
+    var mask = img.select(['pixel_qa']).bitwiseAnd(32).neq(0)
     return img.updateMask(mask)
     })
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
