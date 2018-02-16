@@ -103,7 +103,7 @@ function maskS2clouds(image) {
 // Load S2 1-C input imagery.
 var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
-  .filterDate('2016-03-01', '2016-07-30')
+  .filterDate('2017-04-01', '2017-07-30')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
@@ -115,7 +115,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
-  .filterDate('2016-09-01', '2016-12-30')
+  .filterDate('2016-10-01', '2017-02-01')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
@@ -142,7 +142,7 @@ var dataset = S2_spr_median.addBands(S2_win_median)
 Export.image.toDrive({
   image: dataset,
     region: S2_spr.geometry(),
-    description: 'wales_classification_S1fourseasons_L8S2_twoseasons',
+    description: 'S2_composite',
     scale: 20,
     //maxPixels: 298452024
     //region: geometry
