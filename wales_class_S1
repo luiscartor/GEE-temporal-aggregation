@@ -206,8 +206,8 @@ var palette = [
 ];
 
 Map.centerObject(walespoint, 8);
-Map.addLayer(s2_spr, {min: [-20, -20, -15], max: [-6, -6, 0]}, 's1_composite');
-//Map.addLayer(composite, {bands: ['B5', 'B4', 'B3']}, 'S2');
+//Map.addLayer(s1_composite, {min: [-20, -20, -15], max: [-6, -6, 0]}, 's1_composite');
+Map.addLayer(composite, {bands: ['B5', 'B4', 'B3']}, 'S2');
 //Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
 //Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
 //Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
