@@ -1,5 +1,6 @@
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
+
 // Load Landsat 5 input imagery.
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
@@ -10,12 +11,12 @@ var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .filter(ee.Filter.eq('WRS_ROW', 23))
   //.filterBounds(walespoint)
   .map(function(img){
-    var mask = img.select(['fmask']).neq(4)
+    var mask = img.select(['pixel_qa']).neq(5)
     return img.updateMask(mask)
     })
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
   
-var landsat_win = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
+var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
   .filterDate('2015-09-01', '2015-12-30')
   // Filter to get only images under the region of interest.
@@ -23,7 +24,7 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   .filter(ee.Filter.eq('WRS_ROW', 23))
   //.filterBounds(walespoint)
   .map(function(img){
-    var mask = img.select(['fmask']).neq(4)
+    var mask = img.select(['pixel_qa']).neq(5)
     return img.updateMask(mask)
     })
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
