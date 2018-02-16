@@ -83,7 +83,8 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
     })
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
 
-Map.addLayer(landsat_spr.first(), {bands: ['B5', 'B4', 'B3']}, 'lan');
+var lan = eeImage(landsat_spr.first())
+Map.addLayer(lan, {bands: ['B5', 'B4', 'B3']}, 'lan');
 
 var landsat_spr_median = landsat_spr.mean()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var landsat_win_median = landsat_win.mean();
