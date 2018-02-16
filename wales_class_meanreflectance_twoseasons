@@ -30,16 +30,7 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
   
   
   
-// Number of non-cloud images per pixel
-var allyear = ee.ImageCollection(landsat_spr.merge(landsat_win));
-//var allyear = S2_spr
-var allyear = allyear.reduce(ee.Reducer.count());
-print(allyear);
-Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:30}, 'allyear');
-// Histogram
-var histogram = ui.Chart.image.histogram(allyear.select(['B2_count']),landsat_spr.geometry(),100)
-  .setSeriesNames(['B2_count']);
-print(histogram);
+
 
 
 
