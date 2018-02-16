@@ -55,43 +55,6 @@ var comp10 = vv.filterDate('2016-10-01', '2016-12-31').median();
 // merge the 3-bands as single composite
 var s1_composite = ee.Image.cat ([comp1,comp2,comp3,comp4,comp7,comp8,comp9,comp10]).focal_median();
 
-// Load Landsat 5 input imagery.
-//var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
-var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-  // Filter to get only one year of images.
-  .filterDate('2017-04-01', '2017-07-31')
-  // Filter to get only images under the region of interest.
-  .filter(ee.Filter.eq('WRS_PATH', 204))
-  .filter(ee.Filter.rangeContains("PATH", 23, 24))
-  //.filterBounds(walespoint)
-  .map(function(img){
-    var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0)
-    return img.updateMask(mask)
-    })
-  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
-  
-var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
-  // Filter to get only one year of images.
-  .filterDate('2016-10-01', '2017-02-28')
-  // Filter to get only images under the region of interest.
-  .filter(ee.Filter.eq('WRS_PATH', 204))
-  //.filter(ee.Filter.rangeContains("PATH", 23, 24))
-  .filter(ee.Filter.greaterThanOrEquals('WRS_ROW', 23))
-  .filter(ee.Filter.lessThanOrEquals('WRS_ROW', 24))
-  //.filterBounds(walespoint)
-  .map(function(img){
-    var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0)
-    return img.updateMask(mask)
-    })
-  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
-
-var lan = ee.Image(landsat_spr.first())
-Map.addLayer(lan, {bands: ['B5', 'B4', 'B3']}, 'lan');
-
-var landsat_spr_median = landsat_spr.mean()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
-var landsat_win_median = landsat_win.mean();
-
-
 
 // Function to mask clouds using the Sentinel-2 QA band.
 function maskS2clouds(image) {
@@ -132,6 +95,44 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
 
 var S2_spr_median = S2_spr.mean()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var S2_win_median = S2_win.mean();
+
+
+// Load Landsat 5 input imagery.
+//var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
+var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+  // Filter to get only one year of images.
+  .filterDate('2017-04-01', '2017-07-31')
+  // Filter to get only images under the region of interest.
+  .filter(ee.Filter.eq('WRS_PATH', 204))
+  //.filter(ee.Filter.rangeContains("PATH", 23, 24))
+  .filterBounds(S2_spr.geometry())
+  .map(function(img){
+    var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0)
+    return img.updateMask(mask)
+    })
+  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
+  
+var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+  // Filter to get only one year of images.
+  .filterDate('2016-10-01', '2017-02-28')
+  // Filter to get only images under the region of interest.
+  .filter(ee.Filter.eq('WRS_PATH', 204))
+  //.filter(ee.Filter.rangeContains("PATH", 23, 24))
+  .filterBounds(S2_spr.geometry())
+  .map(function(img){
+    var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0)
+    return img.updateMask(mask)
+    })
+  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
+
+var lan = ee.Image(landsat_spr.first())
+Map.addLayer(lan, {bands: ['B5', 'B4', 'B3']}, 'lan');
+
+var landsat_spr_median = landsat_spr.mean()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
+var landsat_win_median = landsat_win.mean();
+
+
+
 
 
 // Elevation layer
