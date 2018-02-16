@@ -115,7 +115,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
-  .filterDate('2016-10-01', '2017-02-01')
+  .filterDate('2016-10-01', '2017-02-28')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
