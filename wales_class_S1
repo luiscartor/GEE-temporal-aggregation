@@ -151,9 +151,9 @@ Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3']}, 'dataset');
 Export.image.toDrive({
   image: dataset,
     //region: S2_spr.geometry(),
-    description: 'landsat_composite',
+    description: 'landsat_composite1',
     scale: 30,
-    maxPixels: 481016943
+    //maxPixels: 481016943
     //region: geometry
 });
 
