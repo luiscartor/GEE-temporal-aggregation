@@ -62,7 +62,7 @@ var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .filterDate('2017-04-01', '2017-07-31')
   // Filter to get only images under the region of interest.
   .filter(ee.Filter.eq('WRS_PATH', 204))
-  .filter(ee.Filter.eq('WRS_ROW', 23))
+  .filter(ee.Filter.rangeContains("PATH", 23, 24))
   //.filterBounds(walespoint)
   .map(function(img){
     var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0)
@@ -75,7 +75,7 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .filterDate('2016-10-01', '2017-02-28')
   // Filter to get only images under the region of interest.
   .filter(ee.Filter.eq('WRS_PATH', 204))
-  .filter(ee.Filter.eq('WRS_ROW', 23))
+  .filter(ee.Filter.rangeContains("PATH", 23, 24))
   //.filterBounds(walespoint)
   .map(function(img){
     var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0)
