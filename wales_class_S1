@@ -144,7 +144,7 @@ Export.image.toDrive({
     //region: S2_spr.geometry(),
     description: 'S2_composite',
     scale: 20,
-    //maxPixels: 298452024
+    maxPixels: 472431258
     //region: geometry
 });
 
