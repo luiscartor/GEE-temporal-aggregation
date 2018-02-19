@@ -165,9 +165,9 @@ var dataset2 = s1_composite.addBands(S2_spr_median).addBands(S2_win_median).addB
 Map.addLayer(dataset2, {bands: ['B5', 'B4', 'B3']}, 'dataset');
 Export.image.toDrive({
   image: dataset2,
-    region: S2_spr.geometry().bounds(),
+    region: S2_spr.geometry(),
     description: 'composite_all',
-    //dimensions:"399960x5690220",
+    dimensions:"399960x5690220",
     scale: 30,
     maxPixels: 399960*5690220
 });
