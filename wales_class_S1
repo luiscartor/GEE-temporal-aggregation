@@ -144,7 +144,7 @@ var distsea = ee.Image('users/luiscartor/distsea').int().clip(S2_spr.geometry())
 // Classification training data
 var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
-print(ee.Image(landsat_spr_median.clip(S2_spr.geometry()))projection.nominalScale().getInfo());
+print(ee.Image(landsat_spr_median.clip(S2_spr.geometry())).arrayDimensions());
 
 // Extract dataset
 var dataset = landsat_spr_median.clip(S2_spr.geometry()).addBands(landsat_win_median.clip(S2_spr.geometry()))
