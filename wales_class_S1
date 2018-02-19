@@ -160,28 +160,18 @@ Export.image.toDrive({
 });
 
 
-Export.image.toCloudStorage({
-  image: dataset,
+// Extract dataset
+var dataset2 = s1_composite.addBands(S2_spr_median).addBands(S2_win_median).addBands(landsat_spr_median).addBands(landsat_win_median)
+//Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3']}, 'dataset');
+Export.image.toDrive({
+  image: dataset2,
     //region: S2_spr.geometry(),
-    description: 'landsat_composite_cloud',
+    description: 'S2_composite',
     dimensions:"399960x5690220",
     scale: 30,
     maxPixels: 399960*5690220
     //region: geometry
 });
-
-
-// Extract dataset
-//var dataset = landsat_spr_median.addBands(landsat_win_median)
-//Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3']}, 'dataset');
-//Export.image.toDrive({
-//  image: dataset,
-//    //region: S2_spr.geometry(),
-//    description: 'S2_composite',
-//    scale: 20,
-//    maxPixels: 481016943
-//    //region: geometry
-//});
 
 
 //Training using sample regions to sample 10000 for each class
