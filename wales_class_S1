@@ -167,10 +167,9 @@ Export.image.toDrive({
   image: dataset2,
     region: S2_spr.geometry(),
     description: 'composite_all',
-    //dimensions:"399960x5690220",
+    dimensions:"399960x5690220",
     scale: 30,
     maxPixels: 399960*5690220
-    //region: geometry
 });
 
 
