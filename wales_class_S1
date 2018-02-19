@@ -153,7 +153,7 @@ Export.image.toDrive({
   image: dataset,
     region: S2_spr.geometry(),
     crs : 'EPSG:4326',
-    crsTransform : vCRS,
+    crsTransform : [1,0,0,0,1,0],
     description: 'landsat_composite2',
     dimensions:"399960x5690220",
     scale: 30,
