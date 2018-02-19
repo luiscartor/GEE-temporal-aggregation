@@ -156,7 +156,7 @@ Export.image.toDrive({
     crsTransform : [1,0,0,0,1,0],
     description: 'landsat_composite2',
     dimensions:"399960x5690220",
-    scale: 30,
+    //scale: 30,
     maxPixels: 399960*5690220
     //region: geometry
 });
