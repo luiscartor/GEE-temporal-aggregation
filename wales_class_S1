@@ -133,7 +133,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   //CLOUD METHOD 1
   .map(function(img){
     var score = sentinelCloudScore(img)
-    score.select('cloudScore')
+    return score.select('cloudScore')
   })
   
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
