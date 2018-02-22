@@ -95,8 +95,8 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 
-var S2_spr_median = S2_spr.mean()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
-var S2_win_median = S2_win.mean();
+var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
+var S2_win_median = S2_win.median();
 
 
 // Load Landsat 5 input imagery.
