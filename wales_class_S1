@@ -16,6 +16,11 @@ var S1area = /* color: #d63000 */ee.Geometry.Polygon(
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
+//Parameters for cloud masking functions
+var cloudThresh =20;//Ranges from 1-100.Lower value will mask more pixels out. Generally 10-30 works well with 20 being used most commonly 
+var dilatePixels = 2; //Pixels to dilate around clouds
+var contractPixels = 1;//Pixels to reduce cloud mask and dark shadows by to reduce inclusion of single-pixel comission errors
+
 // Load the Sentinel-1 ImageCollection.
 var s1_2016 = ee.ImageCollection('COPERNICUS/S1_GRD')
   // Filter to get images with VV and VH dual polarization.
