@@ -207,7 +207,7 @@ Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'dataset');
 Export.image.toDrive({
   image: dataset.int16(),
     //region: S2_spr.geometry(),
-    description: 'p22',
+    description: 'p24',
     dimensions:"399960x5690220",
     scale: 30,
     maxPixels: 399960*5690220
