@@ -56,7 +56,45 @@ var comp10 = vv.filterDate('2016-10-01', '2016-12-31').median();
 var s1_composite = ee.Image.cat ([comp1,comp2,comp3,comp4,comp7,comp8,comp9,comp10]).focal_median();
 
 
-// Function to mask clouds using the Sentinel-2 QA band.
+////////////////////////////////////////
+// Cloud masking algorithm for Sentinel2
+//METHOD 1: Built on ideas from Landsat cloudScore algorithm
+//Currently in beta and may need tweaking for individual study areas
+var rescale = function(img, exp, thresholds) {
+    return img.expression(exp, {img: img})
+        .subtract(thresholds[0]).divide(thresholds[1] - thresholds[0]);
+  };
+  
+function sentinelCloudScore(img) {
+  
+
+  // Compute several indicators of cloudyness and take the minimum of them.
+  var score = ee.Image(1);
+  
+  // Clouds are reasonably bright in the blue and cirrus bands.
+  score = score.min(rescale(img, 'img.blue', [0.1, 0.5]));
+  score = score.min(rescale(img, 'img.cb', [0.1, 0.3]));
+  score = score.min(rescale(img, 'img.cb + img.cirrus', [0.15, 0.2]));
+  
+  // Clouds are reasonably bright in all visible bands.
+  score = score.min(rescale(img, 'img.red + img.green + img.blue', [0.2, 0.8]));
+
+  
+  //Clouds are moist
+  var ndmi = img.normalizedDifference(['nir','swir1']);
+  score=score.min(rescale(ndmi, 'img', [-0.1, 0.1]));
+  
+  // However, clouds are not snow.
+  var ndsi = img.normalizedDifference(['green', 'swir1']);
+  score=score.min(rescale(ndsi, 'img', [0.8, 0.6]));
+  
+  score = score.multiply(100).byte();
+ 
+  return img.addBands(score.rename('cloudScore'));
+}
+//////////////////////////////////////////////////////////////////////////
+
+// METHOD 2: Function to mask clouds using the Sentinel-2 QA band.
 function maskS2clouds(image) {
   var qa = image.select('QA60');
   // Bits 10 and 11 are clouds and cirrus, respectively.
@@ -79,7 +117,8 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   // Sentinel cloud mask is less selective than Landsat, so some people pre filter by relatively cloud free images
   //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .filterBounds(S1area)
-  .map(maskS2clouds)
+  //.map(maskS2clouds)
+  .map(sentinelCloudScore)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
@@ -91,7 +130,8 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Sentinel cloud mask is less selective than Landsat, so some people pre filter by relatively cloud free images
   //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .filterBounds(S1area)
-  .map(maskS2clouds)
+  //.map(maskS2clouds)
+  .map(sentinelCloudScore)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 
