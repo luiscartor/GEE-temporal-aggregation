@@ -131,7 +131,7 @@ Map.addLayer(lan, {bands: ['B5', 'B4', 'B3']}, 'lan');
 var landsat_spr_median = landsat_spr.mean()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var landsat_win_median = landsat_win.median();
 
-
+var landsat_spr_var = landsat_spr.variance();
 
 
 
