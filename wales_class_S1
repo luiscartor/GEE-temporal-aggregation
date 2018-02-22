@@ -101,7 +101,7 @@ var S2_win_median = S2_win.mean();
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
-  .filterDate('2016-10-01', '2017-09-31')
+  .filterDate('2016-10-01', '2017-09-30')
   // Filter to get only images under the region of interest.
   .filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.rangeContains("PATH", 23, 24))
