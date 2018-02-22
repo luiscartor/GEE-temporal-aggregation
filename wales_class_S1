@@ -71,19 +71,19 @@ function sentinelCloudScore(img) {
   var score = ee.Image(1);
   
   // Clouds are reasonably bright in the blue and cirrus bands.
-  score = score.min(rescale(img, 'img.blue', [0.1, 0.5]));
-  score = score.min(rescale(img, 'img.cb', [0.1, 0.3]));
-  score = score.min(rescale(img, 'img.cb + img.cirrus', [0.15, 0.2]));
+  score = score.min(rescale(img, 'img.B2', [0.1, 0.5]));
+  score = score.min(rescale(img, 'img.B1', [0.1, 0.3]));
+  score = score.min(rescale(img, 'img.B1 + img.B10', [0.15, 0.2]));
   
   // Clouds are reasonably bright in all visible bands.
-  score = score.min(rescale(img, 'img.red + img.B3 + img.blue', [0.2, 0.8]));
+  score = score.min(rescale(img, 'img.B4 + img.B3 + img.B2', [0.2, 0.8]));
 
   //Clouds are moist
-  var ndmi = img.normalizedDifference(['B8','swir1']);
+  var ndmi = img.normalizedDifference(['B8','B11']);
   score=score.min(rescale(ndmi, 'img', [-0.1, 0.1]));
   
   // However, clouds are not snow.
-  var ndsi = img.normalizedDifference(['B3', 'swir1']);
+  var ndsi = img.normalizedDifference(['B3', 'B11']);
   score=score.min(rescale(ndsi, 'img', [0.8, 0.6]));
   
   score = score.multiply(100).byte();
