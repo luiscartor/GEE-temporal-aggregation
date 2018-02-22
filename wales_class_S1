@@ -67,7 +67,6 @@ var rescale = function(img, exp, thresholds) {
   
 function sentinelCloudScore(img) {
   
-
   // Compute several indicators of cloudyness and take the minimum of them.
   var score = ee.Image(1);
   
@@ -79,13 +78,12 @@ function sentinelCloudScore(img) {
   // Clouds are reasonably bright in all visible bands.
   score = score.min(rescale(img, 'img.red + img.green + img.blue', [0.2, 0.8]));
 
-  
   //Clouds are moist
   var ndmi = img.normalizedDifference(['nir','swir1']);
   score=score.min(rescale(ndmi, 'img', [-0.1, 0.1]));
   
   // However, clouds are not snow.
-  var ndsi = img.normalizedDifference(['green', 'swir1']);
+  var ndsi = img.normalizedDifference(['B3', 'swir1']);
   score=score.min(rescale(ndsi, 'img', [0.8, 0.6]));
   
   score = score.multiply(100).byte();
