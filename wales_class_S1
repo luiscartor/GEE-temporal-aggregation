@@ -79,7 +79,7 @@ function sentinelCloudScore(img) {
   score = score.min(rescale(img, 'img.red + img.green + img.blue', [0.2, 0.8]));
 
   //Clouds are moist
-  var ndmi = img.normalizedDifference(['nir','swir1']);
+  var ndmi = img.normalizedDifference(['B8','swir1']);
   score=score.min(rescale(ndmi, 'img', [-0.1, 0.1]));
   
   // However, clouds are not snow.
