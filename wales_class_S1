@@ -93,15 +93,15 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 
-var S2_spr_median = S2_spr.mean()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
-var S2_win_median = S2_win.mean();
+var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
+var S2_win_median = S2_win.median();
 
 
 // Load Landsat 5 input imagery.
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
-  .filterDate('2016-10-01', '2017-09-30')
+  .filterDate('2017-04-01', '2017-07-31')
   // Filter to get only images under the region of interest.
   .filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.rangeContains("PATH", 23, 24))
@@ -131,7 +131,7 @@ Map.addLayer(lan, {bands: ['B5', 'B4', 'B3']}, 'lan');
 var landsat_spr_median = landsat_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var landsat_win_median = landsat_win.median();
 
-var landsat_spr_var = landsat_spr.reduce(ee.Reducer.variance()).divide(100);
+//var landsat_spr_var = landsat_spr.reduce(ee.Reducer.variance()).divide(100);
 
 
 
@@ -147,13 +147,15 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 
 print(ee.Image(landsat_spr_median.clip(S2_spr.geometry())).arrayDimensions());
 print(ee.Image(landsat_spr_median.projection()));
+
+
 // Extract dataset
-var dataset = landsat_spr_median.clip(S2_spr.geometry()).addBands(landsat_spr_var.clip(S2_spr.geometry()));
+var dataset = S2_spr_median.addBands(S2_win_median);
 Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3']}, 'dataset');
 Export.image.toDrive({
   image: dataset.int16(),
     //region: S2_spr.geometry(),
-    description: 'p6',
+    description: 'p22',
     dimensions:"399960x5690220",
     scale: 30,
     maxPixels: 399960*5690220
