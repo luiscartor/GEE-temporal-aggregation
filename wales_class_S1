@@ -101,7 +101,7 @@ var S2_win_median = S2_win.mean();
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
-  .filterDate('2017-04-01', '2017-07-31')
+  .filterDate('2016-10-01', '2017-09-31')
   // Filter to get only images under the region of interest.
   .filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.rangeContains("PATH", 23, 24))
@@ -135,6 +135,7 @@ var landsat_win_median = landsat_win.median();
 
 
 
+
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(S2_spr.geometry())//.reproject(proj);
 
@@ -147,12 +148,12 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 print(ee.Image(landsat_spr_median.clip(S2_spr.geometry())).arrayDimensions());
 print(ee.Image(landsat_spr_median.projection()));
 // Extract dataset
-var dataset = landsat_spr_median.clip(S2_spr.geometry()).addBands(landsat_win_median.clip(S2_spr.geometry()))
+var dataset = landsat_spr_median.clip(S2_spr.geometry())
 Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3']}, 'dataset');
 Export.image.toDrive({
   image: dataset.int16(),
     //region: S2_spr.geometry(),
-    description: 'p2',
+    description: 'p4',
     dimensions:"399960x5690220",
     scale: 30,
     maxPixels: 399960*5690220
