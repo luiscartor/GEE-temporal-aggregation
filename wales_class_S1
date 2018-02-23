@@ -148,7 +148,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
 var S2_spr_median = S2_spr.mean()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var S2_win_median = S2_win.mean();
 var S2_spr_var = S2_spr.reduce(ee.Reducer.variance()).divide(1000);
-var S2_win_var = S2_win.reduce(ee.Reducer.variance());
+var S2_win_var = S2_win.reduce(ee.Reducer.variance()).divide(1000);
 
 
 // Load Landsat 5 input imagery.
@@ -204,12 +204,12 @@ print(ee.Image(landsat_spr_median.projection()));
 
 
 // Extract dataset
-var dataset = S2_spr_median.clip(S2_spr.geometry()).addBands(S2_spr_var).clip(S2_spr.geometry());
+var dataset = S2_spr_median.clip(S2_spr.geometry()).addBands(S2_win_median).clip(S2_spr.geometry()).addBands(S2_spr_var).clip(S2_spr.geometry()).addBands(S2_win_var).clip(S2_spr.geometry());
 Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'dataset');
 Export.image.toDrive({
   image: dataset.int16(),
     //region: S2_spr.geometry(),
-    description: 'p21',
+    description: 'p23',
     dimensions:"399960x5690220",
     scale: 30,
     maxPixels: 399960*5690220
