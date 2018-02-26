@@ -213,7 +213,7 @@ Export.image.toDrive({
     //region: S2_spr.geometry().bounds(),
     description: 'p22_2',
     scale: 30,
-    crs : 'EPSG:4326',
+    crs : 'EPSG:32630',
     //crsTransform : [1,0,0,0,1,0],
     // Dimensions for 30m scale
     dimensions:"399960x5690220",
