@@ -210,12 +210,20 @@ Export.image.toDrive({
   image: dataset.int16(),
     //region: S2_spr.geometry(),
     description: 'p26',
+    scale: 20,
     // Dimensions for 30m scale
     //dimensions:"399960x5690220",
-    scale: 20,
+    // Dimensions for 20m scale
+    //dimensions:"399960x5690220",
+    // Dimensions for 10m scale
+    //dimensions:"399960x5690220",
+   
     // Max pixels for 30m scale
     //maxPixels: 399960*5690220
-    maxPixels: 388409110,
+    // Max pixels for 20m scale
+    //maxPixels: 388409110,
+    // Max pixels for 10m scale
+    //maxPixels: ,
     
 });
 
