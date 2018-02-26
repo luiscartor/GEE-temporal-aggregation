@@ -211,17 +211,19 @@ Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'dataset');
 Export.image.toDrive({
   image: dataset.int16(),
     region: S2_spr.geometry().bounds(),
-    description: 'p27',
-    scale: 10,
+    description: 'p22_2',
+    scale: 30,
+    crs : 'EPSG:4326',
+    crsTransform : [1,0,0,0,1,0],
     // Dimensions for 30m scale
-    //dimensions:"399960x5690220",
+    dimensions:"399960x5690220",
    
     // Max pixels for 30m scale
-    //maxPixels: 399960*5690220
+    maxPixels: 399960*5690220
     // Max pixels for 20m scale
     //maxPixels: 388409110,
     // Max pixels for 10m scale
-    maxPixels: 386470383,
+    //maxPixels: 386470383,
     
 });
 
