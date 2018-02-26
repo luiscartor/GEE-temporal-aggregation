@@ -208,7 +208,7 @@ var dataset = S2_spr_median.clip(S2_spr.geometry()).addBands(S2_win_median.clip(
 Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'dataset');
 Export.image.toDrive({
   image: dataset.int16(),
-    region: S2_spr.geometry(),
+    //region: S2_spr.geometry(),
     description: 'p26',
     // Dimensions for 30m scale
     //dimensions:"399960x5690220",
@@ -218,7 +218,7 @@ Export.image.toDrive({
     maxPixels: 388409110
     
     
-    //region: geometry
+    region: geometry
 });
 
 
