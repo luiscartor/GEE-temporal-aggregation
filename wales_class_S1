@@ -217,8 +217,6 @@ Export.image.toDrive({
     //maxPixels: 399960*5690220
     maxPixels: 388409110,
     
-    
-    region: geometry
 });
 
 
