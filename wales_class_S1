@@ -149,7 +149,7 @@ var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPS
 var S2_win_median = S2_win.median();
 var S2_spr_var = S2_spr.reduce(ee.Reducer.variance()).divide(1000);
 var S2_win_var = S2_win.reduce(ee.Reducer.variance()).divide(1000);
-printee.Image(S2_spr_median.projection()));
+print(ee.Image(S2_spr_median.projection()));
 
 
 // Load Landsat 5 input imagery.
