@@ -215,7 +215,7 @@ Export.image.toDrive({
     scale: 20,
     // Max pixels for 30m scale
     //maxPixels: 399960*5690220
-    maxPixels: 388409110
+    maxPixels: 388409110,
     
     
     region: geometry
