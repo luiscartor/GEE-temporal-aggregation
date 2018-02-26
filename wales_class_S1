@@ -108,7 +108,7 @@ function maskS2clouds(image) {
 // Load S2 1-C input imagery.
 var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
-  .filterDate('2016-10-01', '2017-09-30')
+  .filterDate('2016-04-01', '2017-07-31')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
@@ -204,15 +204,19 @@ print(ee.Image(landsat_spr_median.projection()));
 
 
 // Extract dataset
-var dataset = S2_spr_median.clip(S2_spr.geometry()).addBands(S2_spr_var.clip(S2_spr.geometry()));
+var dataset = S2_spr_median.clip(S2_spr.geometry()).addBands(S2_win_median.clip(S2_spr.geometry()));
 Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'dataset');
 Export.image.toDrive({
   image: dataset.int16(),
     //region: S2_spr.geometry(),
-    description: 'p21',
-    dimensions:"399960x5690220",
-    scale: 30,
-    maxPixels: 399960*5690220
+    description: 'p26',
+    // Dimensions for 30m scale
+    //dimensions:"399960x5690220",
+    scale: 20,
+    // Max pixels for 30m scale
+    //maxPixels: 399960*5690220
+    
+    
     //region: geometry
 });
 
