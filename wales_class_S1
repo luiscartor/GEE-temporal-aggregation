@@ -124,7 +124,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   //return img
   //})
   // GEE uses nearest neighbour as default, so we specify resampling method for the export part
-  .resample('bilinear')
+  .sample('bilinear')
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
@@ -145,7 +145,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   //return img
   //})
   // GEE uses nearest neighbour as default, so we specify resampling method for the export part
-  .resample('bilinear')
+  .sample('bilinear')
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 
