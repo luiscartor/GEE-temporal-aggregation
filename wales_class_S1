@@ -123,8 +123,6 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   //img = img.updateMask(img.select(['cloudScore']).gt(cloudThresh).focal_min(contractPixels).focal_max(dilatePixels).not());
   //return img
   //})
-  // GEE uses nearest neighbour as default, so we specify resampling method for the export part
-  .sample('bilinear')
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
@@ -144,8 +142,6 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   //img = img.updateMask(img.select(['cloudScore']).gt(cloudThresh).focal_min(contractPixels).focal_max(dilatePixels).not());
   //return img
   //})
-  // GEE uses nearest neighbour as default, so we specify resampling method for the export part
-  .sample('bilinear')
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 
@@ -157,7 +153,8 @@ print(ee.Image(S2_spr_median.projection()));
 
 
 // Extract dataset
-var dataset = S2_spr_median.clip(S2_spr.geometry()).addBands(S2_win_median.clip(S2_spr.geometry()));
+// GEE uses nearest neighbour as default, so we specify resampling method for the export part
+var dataset = S2_spr_median.clip(S2_spr.geometry()).addBands(S2_win_median.clip(S2_spr.geometry())).resample('bilinear');
 
 Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'dataset');
 Export.image.toDrive({
