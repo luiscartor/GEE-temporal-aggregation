@@ -145,8 +145,8 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 
-var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
-var S2_win_median = S2_win.median();
+var S2_spr_median = S2_spr.median().resample('bilinear')//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
+var S2_win_median = S2_win.median().resample('bilinear');
 var S2_spr_var = S2_spr.reduce(ee.Reducer.variance()).divide(1000);
 var S2_win_var = S2_win.reduce(ee.Reducer.variance()).divide(1000);
 print(ee.Image(S2_spr_median.projection()));
@@ -154,7 +154,7 @@ print(ee.Image(S2_spr_median.projection()));
 
 // Extract dataset
 // GEE uses nearest neighbour as default, so we specify resampling method for the export part
-var dataset = S2_spr_median.clip(S2_spr.geometry()).addBands(S2_win_median.clip(S2_spr.geometry())).resample('bilinear');
+var dataset = S2_spr_median.clip(S2_spr.geometry()).addBands(S2_win_median.clip(S2_spr.geometry()));
 
 Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'dataset');
 Export.image.toDrive({
