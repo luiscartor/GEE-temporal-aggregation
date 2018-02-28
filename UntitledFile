@@ -14,7 +14,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   //.map(maskS2clouds)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
-Map.addLayer(S2_spr, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'S2');
+//Map.addLayer(S2_spr, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'S2');
 
 
 var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
@@ -23,4 +23,14 @@ var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   .filterBounds(geometry)
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
   
-Map.addLayer(landsat_spr, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'lan');
+//Map.addLayer(landsat_spr, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'lan');
+
+
+
+var highres = ee.ImageCollection('SKYSAT/GEN-A/PUBLIC/ORTHO/RGB')
+  // Filter to get only one year of images.
+  .filterDate('2014-01-01', '2016-02-27')
+  .filterBounds(geometry)
+  //.select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
+
+Map.addLayer(highres, 'highres');
