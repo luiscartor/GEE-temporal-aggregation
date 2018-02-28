@@ -35,4 +35,4 @@ var highres = ee.ImageCollection('SKYSAT/GEN-A/PUBLIC/ORTHO/RGB')
 
 print(highres)
 
-Map.addLayer(highres, {bands: ['R', 'G', 'B'],min:0,max:500},'highres');
+Map.addLayer(highres, {bands: ['R', 'G', 'B'],min:0,max:300},'highres');
