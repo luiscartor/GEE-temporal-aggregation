@@ -10,9 +10,6 @@ var geometry = /* color: #d63000 */ee.Geometry.Polygon(
 var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2018-02-20', '2018-02-27')
-  
   .filterBounds(geometry)
- 
   //.map(maskS2clouds)
-
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
