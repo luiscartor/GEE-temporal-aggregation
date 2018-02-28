@@ -156,12 +156,12 @@ print(ee.Image(S2_spr_median.projection()));
 
 // Extract dataset
 // GEE uses nearest neighbour as default, so we specify resampling method for the export part
-var dataset = S2_spr_median.clip(S2_spr.geometry()).addBands(S2_spr_var.clip(S2_spr.geometry()));
+var dataset = S2_spr_median.clip(S2_spr.geometry());
 Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'dataset');
 Export.image.toDrive({
   image: dataset.int16(),
   //region: S2_spr.geometry().bounds(),
-  description: 'p21',
+  description: 'p20',
   scale: 30,
   crs : 'EPSG:27700',
   // Dimensions for 30m scale
