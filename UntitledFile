@@ -33,4 +33,4 @@ var highres = ee.ImageCollection('SKYSAT/GEN-A/PUBLIC/ORTHO/RGB')
   .filterBounds(geometry)
   //.select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
 
-Map.addLayer(highres, 'highres');
+Map.addLayer(highres, {bands: ['B5', 'B4', 'B3'],min:0,max:3000},'highres');
