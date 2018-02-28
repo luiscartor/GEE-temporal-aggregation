@@ -13,3 +13,5 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   .filterBounds(geometry)
   //.map(maskS2clouds)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
+  
+Map.addLayer(S2_spr, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'dataset');
