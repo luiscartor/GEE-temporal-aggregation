@@ -169,7 +169,7 @@ Export.image.toDrive({
     // Max pixels for 30m scale
     //maxPixels: 399960*5690220
     // Max pixels for 20m scale
-   // maxPixels: 388409110,
+   maxPixels: 314889015,
     // Max pixels for 10m scale
     //maxPixels: 2868546986,
     //dimensions:"22016x130293",
