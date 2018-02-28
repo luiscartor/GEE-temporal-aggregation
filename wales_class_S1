@@ -161,7 +161,7 @@ Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'dataset');
 Export.image.toDrive({
   image: dataset.int16(),
   //region: S2_spr.geometry().bounds(),
-  description: 'p22',
+  description: 'p21',
   scale: 30,
   crs : 'EPSG:27700',
   // Dimensions for 30m scale
