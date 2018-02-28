@@ -209,8 +209,8 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
 var lan = ee.Image(landsat_spr.first())
 //Map.addLayer(lan, {bands: ['B5', 'B4', 'B3']}, 'lan');
 
-var landsat_spr_median = landsat_spr.median();//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
-var landsat_win_median = landsat_win.median();
+var landsat_spr_median = landsat_spr.mean();//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
+var landsat_win_median = landsat_win.mean();
 
 var landsat_spr_var = landsat_spr.reduce(ee.Reducer.variance()).divide(100);
 var landsat_win_var = landsat_win.reduce(ee.Reducer.variance()).divide(100);
@@ -221,7 +221,7 @@ Map.addLayer(dataset_lan, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_l
 Export.image.toDrive({
   image: dataset_lan.int16(),
   //region: S2_spr.geometry().bounds(),
-  description: 'p2',
+  description: 'p3',
   scale: 30,
   crs : 'EPSG:27700',
   // Dimensions for 30m scale
