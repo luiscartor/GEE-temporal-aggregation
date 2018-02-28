@@ -219,7 +219,7 @@ var landsat_win_var = landsat_win.reduce(ee.Reducer.variance()).divide(100);
 var dataset_lan = S2_spr_median.clip(S2_spr.geometry()).addBands(S2_win_median.clip(S2_spr.geometry()));
 Map.addLayer(dataset_lan, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_lan');
 Export.image.toDrive({
-  image: dataset.int16(),
+  image: dataset_lan.int16(),
   //region: S2_spr.geometry().bounds(),
   description: 'p2',
   scale: 30,
@@ -332,7 +332,7 @@ var palette = [
 
 Map.centerObject(walespoint, 8);
 //Map.addLayer(s1_composite, {min: [-20, -20, -15], max: [-6, -6, 0]}, 's1_composite');
-Map.addLayer(S2_spr, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'S2');
+//Map.addLayer(S2_spr, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'S2');
 //Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
 //Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
 //Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
