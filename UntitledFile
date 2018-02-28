@@ -13,11 +13,6 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   
   .filterBounds(geometry)
  
-  .map(maskS2clouds)
-  //CLOUD METHOD 1
-  //.map(function bustClouds(img){
-  //img = sentinelCloudScore(img);
-  //img = img.updateMask(img.select(['cloudScore']).gt(cloudThresh).focal_min(contractPixels).focal_max(dilatePixels).not());
-  //return img
-  //})
+  //.map(maskS2clouds)
+
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
