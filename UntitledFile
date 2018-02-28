@@ -19,7 +19,7 @@ Map.addLayer(S2_spr, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'S2');
 
 var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
-  .filterDate('2018-02-10', '2018-02-27')
+  .filterDate('2018-01-10', '2018-02-27')
   .filterBounds(geometry)
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
   
