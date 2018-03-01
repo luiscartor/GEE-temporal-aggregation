@@ -74,7 +74,7 @@ var ndvi_win_median = ndvi_win.reduce(ee.Reducer.median())//.clip(landsat.geomet
 var ndmi_win_median = ndmi_win.reduce(ee.Reducer.median());
 //var ndmi_win_var = ndmi_win.reduce(ee.Reducer.variance());
 
-var dataset_ndvi = landsat_spr_median.clip(S2_spr.geometry());
+var dataset_ndvi = ndvi_spr_median.clip(S2_spr.geometry());
 Map.addLayer(dataset_ndvi, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_lan');
 Export.image.toDrive({
   image: dataset_ndvi.int16(),
