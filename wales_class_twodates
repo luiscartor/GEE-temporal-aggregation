@@ -18,14 +18,16 @@ var S1area = /* color: #d63000 */ee.Geometry.Polygon(
 
 var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
-  .filterDate('2016-10-01', '2017-09-30')
+  .filterDate('2017-04-01', '2017-07-31')
   .filterBounds(S1area)
+  //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2016-10-01', '2017-02-28')
   .filterBounds(S1area)
+  //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
   
