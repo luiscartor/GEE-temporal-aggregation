@@ -39,7 +39,7 @@ var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   //.filter(ee.Filter.rangeContains("PATH", 23, 24))
   .filterBounds(S2_spr.geometry())
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7'])
-  .first();
+  //.first();
   
 var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
@@ -49,7 +49,7 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   //.filter(ee.Filter.rangeContains("PATH", 23, 24))
   .filterBounds(S2_spr.geometry())
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7'])
-  .first();
+  //.first();
 
 
 
