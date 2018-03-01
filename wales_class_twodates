@@ -2,6 +2,19 @@
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
+var S2_spr = ee.ImageCollection('COPERNICUS/S2')
+  // Filter to get only one year of images.
+  .filterDate('2016-10-01', '2017-09-30')
+  .filterBounds(S1area)
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
+  
+var S2_win = ee.ImageCollection('COPERNICUS/S2')
+  // Filter to get only one year of images.
+  .filterDate('2016-10-01', '2017-02-28')
+  .filterBounds(S1area)
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
+  
+  
 // Load Landsat 5 input imagery.
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
