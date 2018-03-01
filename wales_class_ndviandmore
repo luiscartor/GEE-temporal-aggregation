@@ -64,7 +64,7 @@ var ndmi_win = landsat_win.map(function(image) {
   return image.normalizedDifference(['B6', 'B5']);
 });
 
-var ndvi_spr_median = ndvi_spr.reduce(ee.Reducer.median()).multiply(1000);//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
+var ndvi_spr_median = ndvi_spr.reduce(ee.Reducer.median()).multiply(10000);//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var ndvi_spr_var = ndvi_spr.reduce(ee.Reducer.variance());
 var ndmi_spr_median = ndmi_spr.reduce(ee.Reducer.median());
 var ndmi_spr_var = ndmi_spr.reduce(ee.Reducer.variance());
