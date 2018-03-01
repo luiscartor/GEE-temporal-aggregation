@@ -74,6 +74,23 @@ var ndvi_win_median = ndvi_win.reduce(ee.Reducer.median())//.clip(landsat.geomet
 var ndmi_win_median = ndmi_win.reduce(ee.Reducer.median());
 //var ndmi_win_var = ndmi_win.reduce(ee.Reducer.variance());
 
+var dataset_ndvi = landsat_spr_median.clip(S2_spr.geometry());
+Map.addLayer(dataset_ndvi, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_lan');
+Export.image.toDrive({
+  image: dataset_ndvi.int16(),
+  //region: S2_spr.geometry().bounds(),
+  description: 'p6',
+  scale: 30,
+  crs : 'EPSG:27700',
+  // Dimensions for 30m scale
+  dimensions:"399960x5690220",
+  // Max pixels for 30m scale
+  maxPixels: 399960*5690220
+ 
+});
+
+
+
 
 // Elevation layer
 var dem = ee.Image('USGS/SRTMGL1_003').clip(landsat_spr.geometry())//.reproject(proj);
