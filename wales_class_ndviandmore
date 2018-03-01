@@ -64,7 +64,7 @@ var ndmi_win = landsat_win.map(function(image) {
   return image.normalizedDifference(['B6', 'B5']);
 });
 
-var ndvi_spr_median = ndvi_spr.reduce(ee.Reducer.median())//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
+var ndvi_spr_median = ndvi_spr.reduce(ee.Reducer.mean())//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var ndvi_spr_var = ndvi_spr.reduce(ee.Reducer.variance());
 var ndmi_spr_median = ndmi_spr.reduce(ee.Reducer.median());
 var ndmi_spr_var = ndmi_spr.reduce(ee.Reducer.variance());
@@ -75,11 +75,11 @@ var ndmi_win_median = ndmi_win.reduce(ee.Reducer.median());
 var ndmi_win_var = ndmi_win.reduce(ee.Reducer.variance());
 
 var dataset_ndvi = ndvi_spr_median.clip(S2_spr.geometry());
-Map.addLayer(dataset_ndvi, {bands: ['nd_median'],min:-1,max:1}, 'dataset_ndvi');
+Map.addLayer(dataset_ndvi, {bands: ['nd_mean'],min:-1,max:1}, 'dataset_ndvi');
 Export.image.toDrive({
   image: dataset_ndvi.int16(),
   //region: S2_spr.geometry().bounds(),
-  description: 'p11',
+  description: 'p13',
   scale: 30,
   crs : 'EPSG:27700',
   // Dimensions for 30m scale
