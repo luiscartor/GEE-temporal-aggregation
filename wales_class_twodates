@@ -4,36 +4,30 @@ var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1
 
 // Load Landsat 5 input imagery.
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
-var landsat1 = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
-
+var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
-  .filterDate('2015-03-01', '2015-07-30')
+  .filterDate('2017-04-01', '2017-07-31')
   // Filter to get only images under the region of interest.
-  //.filterBounds(walespoint)
   .filter(ee.Filter.eq('WRS_PATH', 204))
-  .filter(ee.Filter.eq('WRS_ROW', 23))
-  // Sort by scene cloudiness, ascending.
-  .sort('CLOUD_COVER')
-  // Get the first (least cloudy) scene.
+  //.filter(ee.Filter.rangeContains("PATH", 23, 24))
+  .filterBounds(S2_spr.geometry())
+  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7'])
   .first();
   
-// Load Landsat 5 input imagery.
-//var landsat2 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
-var landsat2 = ee.ImageCollection('LANDSAT/LC8_L1T_TOA_FMASK')
+var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
-  .filterDate('2015-09-01', '2015-12-30')
+  .filterDate('2016-10-01', '2017-02-28')
   // Filter to get only images under the region of interest.
-  //.filterBounds(walespoint)
   .filter(ee.Filter.eq('WRS_PATH', 204))
-  .filter(ee.Filter.eq('WRS_ROW', 23))
-  // Sort by scene cloudiness, ascending.
-  .sort('CLOUD_COVER')
-  // Get the first (least cloudy) scene.
+  //.filter(ee.Filter.rangeContains("PATH", 23, 24))
+  .filterBounds(S2_spr.geometry())
+  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7'])
   .first();
+
 
 
 // Number of non-cloud images per pixel
-var allyear = ee.ImageCollection(landsat1.merge(landsat2));
+var allyear = ee.ImageCollection(landsat_spr.merge(landsat_win));
 //var allyear = S2_spr
 var allyear = allyear.reduce(ee.Reducer.count());
 print(allyear);
