@@ -75,7 +75,7 @@ var ndmi_win_median = ndmi_win.reduce(ee.Reducer.median());
 var ndmi_win_var = ndmi_win.reduce(ee.Reducer.variance());
 
 var dataset_ndvi = ndvi_spr_median.clip(S2_spr.geometry());
-Map.addLayer(dataset_ndvi, {bands: ['nd_median'],min:-1000,max:1000}, 'dataset_ndvi');
+Map.addLayer(dataset_ndvi, {bands: ['nd_median'],min:-10000,max:10000}, 'dataset_ndvi');
 Export.image.toDrive({
   image: dataset_ndvi.int16(),
   //region: S2_spr.geometry().bounds(),
