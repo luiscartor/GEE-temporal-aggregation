@@ -92,7 +92,7 @@ Map.addLayer(dataset_ndvi, {bands: ['nd_median','nd_median_1'],min:0,max:20000},
 Export.image.toDrive({
   image: dataset_ndvi.int16(),
   //region: S2_spr.geometry().bounds(),
-  description: 'p16',
+  description: 'p16_2',
   scale: 30,
   crs : 'EPSG:27700',
   // Dimensions for 30m scale
