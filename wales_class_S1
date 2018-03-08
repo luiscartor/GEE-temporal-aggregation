@@ -56,7 +56,7 @@ var comp10 = vv.filterDate('2016-10-01', '2016-12-31').median();
 //var comp11 = vv.filterDate('2016-09-01', '2016-10-30').median();
 //var comp12 = vv.filterDate('2016-11-01', '2016-12-30').median();
 
-var singles1 = vh.filterDate('2016-01-01', '2017-10-20');
+var singles1 = vh.filterDate('2016-01-01', '2016-10-20');
 Map.addLayer(singles1, {min: [-20], max: [-6]}, 'singleS1');
 
 // merge the 3-bands as single composite
