@@ -168,7 +168,7 @@ Map.addLayer(singles1, {min: [-35], max: [-1]}, 'singleS1');
 // merge the 3-bands as single composite
 var s1_composite = ee.Image.cat ([comp1,comp2,comp7,comp8]).focal_median();
 s1_composite = toDB(RefinedLee(toNatural(s1_composite)));
-Map.addLayer(s1_composite, {min: [-35], max: [-1]}, 's1');
+Map.addLayer(s1_composite, {bands: ['0','1','2'], min: [-35], max: [-1]}, 's1');
 Export.image.toDrive({
   image: s1_composite.int16(),
   //region: S2_spr.geometry().bounds(),
