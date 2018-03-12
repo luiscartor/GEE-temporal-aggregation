@@ -47,7 +47,7 @@ function RefinedLee(img) {
   var sample_var = variance3.neighborhoodToBands(sample_kernel);
 
   // Determine the 4 gradients for the sampled windows
-  var gradients = sample_mean.select(1).subtract(sample_mean.select(7)).abs();
+  var gradients = sample_mean.select(1).subtract(sample_mean.select(5)).abs();
   gradients = gradients.addBands(sample_mean.select(6).subtract(sample_mean.select(2)).abs());
   gradients = gradients.addBands(sample_mean.select(3).subtract(sample_mean.select(5)).abs());
   gradients = gradients.addBands(sample_mean.select(0).subtract(sample_mean.select(8)).abs());
