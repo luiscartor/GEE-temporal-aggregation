@@ -38,9 +38,9 @@ function RefinedLee(img) {
   var variance3 = img.reduceNeighborhood(ee.Reducer.variance(), kernel3);
 
   // Use a sample of the 3x3 windows inside a 7x7 windows to determine gradients and directions
-  var sample_weights = ee.List([[0,0,0,0,0,0,0], [0,1,0,1,0,1,0],[0,0,0,0,0,0,0], [0,1,0,1,0,1,0], [0,0,0,0,0,0,0], [0,1,0,1,0,1,0],[0,0,0,0,0,0,0]]);
+  var sample_weights = ee.List([[0,0,0,0,0], [0,1,0,1,0],[0,0,0,0,0], [0,1,0,1,0], [0,0,0,0,0]]);
 
-  var sample_kernel = ee.Kernel.fixed(7,7, sample_weights, 3,3, false);
+  var sample_kernel = ee.Kernel.fixed(5,5, sample_weights, 3,3, false);
 
   // Calculate mean and variance for the sampled windows and store as 9 bands
   var sample_mean = mean3.neighborhoodToBands(sample_kernel); 
