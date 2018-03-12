@@ -12,3 +12,47 @@ var S1area = /* color: #d63000 */ee.Geometry.Polygon(
           [-3.5540771484375, 53.265336258629475],
           [-3.5540771484375, 53.30802665091056],
           [-3.636474609375, 53.301461674349845]]]);
+          
+          
+          
+// Load the Sentinel-1 ImageCollection.
+var s1_2016 = ee.ImageCollection('COPERNICUS/S1_GRD')
+  // Filter to get images with VV and VH dual polarization.
+  .filter(ee.Filter.listContains('transmitterReceiverPolarisation', 'VH'))
+  .filter(ee.Filter.listContains('transmitterReceiverPolarisation', 'VV'))
+  // Filter to get images collected in interferometric wide swath mode.
+  .filter(ee.Filter.eq('instrumentMode', 'IW'))
+  // select relative orbit number
+  .filter(ee.Filter.eq('relativeOrbitNumber_start', 52))
+  //select slice
+  //.filter(ee.Filter.eq('sliceNumber', 5))
+  // Filter time to images form 2017
+  .filterDate('2016-01-01', '2016-12-31')
+  // Filter to orbitdirection Descending
+  .filter(ee.Filter.eq('orbitProperties_pass', 'DESCENDING'));
+  
+  
+var vh = s1_2016.select('VH').filterBounds(S1area);
+var vv = s1_2016.select('VV').filterBounds(S1area);
+
+// Create 3 single images that can be displayed as one 3-band composite image
+// Calculate the median for different times and polarisations
+var comp1 = vh.filterDate('2016-01-01', '2016-03-31').median();
+var comp2 = vh.filterDate('2016-04-01', '2016-06-30').median();
+var comp3 = vh.filterDate('2016-07-01', '2016-09-30').median();
+var comp4 = vh.filterDate('2016-10-01', '2016-12-31').median();
+//var comp5 = vh.filterDate('2016-09-01', '2016-10-30').median();
+//var comp6 = vh.filterDate('2016-11-01', '2016-12-30').median();
+var comp7 = vv.filterDate('2016-01-01', '2016-03-31').median();
+var comp8 = vv.filterDate('2016-04-01', '2016-06-30').median();
+var comp9 = vv.filterDate('2016-07-01', '2016-09-30').median();
+var comp10 = vv.filterDate('2016-10-01', '2016-12-31').median();
+//var comp11 = vv.filterDate('2016-09-01', '2016-10-30').median();
+//var comp12 = vv.filterDate('2016-11-01', '2016-12-30').median();
+
+var singles1 = vh.filterDate('2016-03-01', '2016-06-20');
+Map.addLayer(singles1, {min: [-35], max: [-1]}, 'singleS1');
+
+// merge the 3-bands as single composite
+var s1_composite = ee.Image.cat ([comp1,comp2,comp3,comp4,comp7,comp8,comp9,comp10]).focal_median();
+
