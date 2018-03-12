@@ -124,8 +124,6 @@ function RefinedLee(img) {
 }
 
 
-
-
 // Load the Sentinel-1 ImageCollection.
 var s1 = ee.ImageCollection('COPERNICUS/S1_GRD')
   // Filter to get images with VV and VH dual polarization.
