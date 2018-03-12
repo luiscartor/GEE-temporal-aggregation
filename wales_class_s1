@@ -140,9 +140,9 @@ var s1 = ee.ImageCollection('COPERNICUS/S1_GRD')
   .filterDate('2016-10-01', '2017-09-30')
   // Filter to orbitdirection Descending
   .filter(ee.Filter.eq('orbitProperties_pass', 'DESCENDING'))
-  .map(toNatural)
-  .map(RefinedLee)
-  .map(toDB);
+  .map(toNatural);
+  //.map(RefinedLee)
+  //.map(toDB);
   
   
 var vh = s1.select('VH').filterBounds(S1area);
