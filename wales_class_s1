@@ -38,16 +38,16 @@ function RefinedLee(img) {
   var variance3 = img.reduceNeighborhood(ee.Reducer.variance(), kernel3);
 
   // Use a sample of the 3x3 windows inside a 7x7 windows to determine gradients and directions
-  var sample_weights = ee.List([[0,0,0,0,0], [0,1,0,1,0],[0,0,0,0,0], [0,1,0,1,0], [0,0,0,0,0]]);
+  var sample_weights = ee.List([[0,0,0,0,0,0,0], [0,1,0,1,0,1,0],[0,0,0,0,0,0,0], [0,1,0,1,0,1,0], [0,0,0,0,0,0,0], [0,1,0,1,0,1,0],[0,0,0,0,0,0,0]]);
 
-  var sample_kernel = ee.Kernel.fixed(5,5, sample_weights, 3,3, false);
+  var sample_kernel = ee.Kernel.fixed(7,7, sample_weights, 3,3, false);
 
   // Calculate mean and variance for the sampled windows and store as 9 bands
   var sample_mean = mean3.neighborhoodToBands(sample_kernel); 
   var sample_var = variance3.neighborhoodToBands(sample_kernel);
 
   // Determine the 4 gradients for the sampled windows
-  var gradients = sample_mean.select(1).subtract(sample_mean.select(5)).abs();
+  var gradients = sample_mean.select(1).subtract(sample_mean.select(7)).abs();
   gradients = gradients.addBands(sample_mean.select(6).subtract(sample_mean.select(2)).abs());
   gradients = gradients.addBands(sample_mean.select(3).subtract(sample_mean.select(5)).abs());
   gradients = gradients.addBands(sample_mean.select(0).subtract(sample_mean.select(8)).abs());
@@ -87,13 +87,13 @@ function RefinedLee(img) {
   var sigmaV = sample_stats.toArray().arraySort().arraySlice(0,0,5).arrayReduce(ee.Reducer.mean(), [0]);
 
   // Set up the 7*7 kernels for directional statistics
-  var rect_weights = ee.List.repeat(ee.List.repeat(0,5),3).cat(ee.List.repeat(ee.List.repeat(1,5),4));
+  var rect_weights = ee.List.repeat(ee.List.repeat(0,7),3).cat(ee.List.repeat(ee.List.repeat(1,7),4));
 
-  var diag_weights = ee.List([[1,0,0,0,0], [1,1,0,0,0], [1,1,1,0,0], 
-    [1,1,1,1,0], [1,1,1,1,1]]);
+  var diag_weights = ee.List([[1,0,0,0,0,0,0], [1,1,0,0,0,0,0], [1,1,1,0,0,0,0], 
+    [1,1,1,1,0,0,0], [1,1,1,1,1,0,0], [1,1,1,1,1,1,0], [1,1,1,1,1,1,1]]);
 
-  var rect_kernel = ee.Kernel.fixed(5,5, rect_weights, 3, 3, false);
-  var diag_kernel = ee.Kernel.fixed(5,5, diag_weights, 3, 3, false);
+  var rect_kernel = ee.Kernel.fixed(7,7, rect_weights, 3, 3, false);
+  var diag_kernel = ee.Kernel.fixed(7,7, diag_weights, 3, 3, false);
 
   // Create stacks for mean and variance using the original kernels. Mask with relevant direction.
   var dir_mean = img.reduceNeighborhood(ee.Reducer.mean(), rect_kernel).updateMask(directions.eq(1));
@@ -122,6 +122,7 @@ function RefinedLee(img) {
   var result = dir_mean.add(b.multiply(img.subtract(dir_mean)));
   return(result);
 }
+
 
 
 
