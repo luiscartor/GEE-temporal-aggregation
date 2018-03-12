@@ -87,13 +87,13 @@ function RefinedLee(img) {
   var sigmaV = sample_stats.toArray().arraySort().arraySlice(0,0,5).arrayReduce(ee.Reducer.mean(), [0]);
 
   // Set up the 7*7 kernels for directional statistics
-  var rect_weights = ee.List.repeat(ee.List.repeat(0,7),3).cat(ee.List.repeat(ee.List.repeat(1,7),4));
+  var rect_weights = ee.List.repeat(ee.List.repeat(0,5),3).cat(ee.List.repeat(ee.List.repeat(1,5),4));
 
-  var diag_weights = ee.List([[1,0,0,0,0,0,0], [1,1,0,0,0,0,0], [1,1,1,0,0,0,0], 
-    [1,1,1,1,0,0,0], [1,1,1,1,1,0,0], [1,1,1,1,1,1,0], [1,1,1,1,1,1,1]]);
+  var diag_weights = ee.List([[1,0,0,0,0], [1,1,0,0,0], [1,1,1,0,0], 
+    [1,1,1,1,0], [1,1,1,1,1]]);
 
-  var rect_kernel = ee.Kernel.fixed(7,7, rect_weights, 3, 3, false);
-  var diag_kernel = ee.Kernel.fixed(7,7, diag_weights, 3, 3, false);
+  var rect_kernel = ee.Kernel.fixed(5,5, rect_weights, 3, 3, false);
+  var diag_kernel = ee.Kernel.fixed(5,5, diag_weights, 3, 3, false);
 
   // Create stacks for mean and variance using the original kernels. Mask with relevant direction.
   var dir_mean = img.reduceNeighborhood(ee.Reducer.mean(), rect_kernel).updateMask(directions.eq(1));
