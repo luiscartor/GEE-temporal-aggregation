@@ -56,3 +56,18 @@ Map.addLayer(singles1, {min: [-35], max: [-1]}, 'singleS1');
 // merge the 3-bands as single composite
 var s1_composite = ee.Image.cat ([comp1,comp2,comp3,comp4,comp7,comp8,comp9,comp10]).focal_median();
 
+
+
+Map.addLayer(s1_composite, {bands: ['nd_median','nd_median_1'],min:0,max:20000}, 'dataset_ndvi');
+Export.image.toDrive({
+  image: s1_composite.int16(),
+  //region: S2_spr.geometry().bounds(),
+  description: 'test',
+  scale: 30,
+  crs : 'EPSG:27700',
+  // Dimensions for 30m scale
+  dimensions:"399960x5690220",
+  // Max pixels for 30m scale
+  maxPixels: 399960*5690220
+ 
+});
