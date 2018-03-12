@@ -58,7 +58,7 @@ var s1_composite = ee.Image.cat ([comp1,comp2,comp3,comp4,comp7,comp8,comp9,comp
 
 
 
-Map.addLayer(s1_composite, {bands: ['nd_median','nd_median_1'],min:0,max:20000}, 'dataset_ndvi');
+Map.addLayer(s1_composite, {min: [-35], max: [-1]}, 's1');
 Export.image.toDrive({
   image: s1_composite.int16(),
   //region: S2_spr.geometry().bounds(),
