@@ -189,7 +189,7 @@ var comp16 = comp10.substract(comp4);
 var comp17 = comp11.substract(comp5);
 var comp18 = comp12.substract(comp6);
 
-Map.addLayer(comp1, {min: [-3500], max: [-100]}, 'singleS1');
+Map.addLayer(comp13, {min: [-3500], max: [-100]}, 'singleS1');
 
 // merge the 3-bands as single composite
 var s1_composite = comp1.addBands(comp7).addBands(comp13);
