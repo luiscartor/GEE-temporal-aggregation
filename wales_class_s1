@@ -235,10 +235,13 @@ Export.image.toDrive({
   image: s1_composite.clip(S2_spr.geometry()).int16(),
   //region: S2_spr.geometry().bounds(),
   description: 'p37',
-  scale: 30,
+  scale: 10,
   crs : 'EPSG:27700',
   // Dimensions for 30m scale
   dimensions:"399960x5690220",
-  // Max pixels for 30m scale
-  maxPixels: 399960*5690220
+//  // Max pixels for 30m scale
+//  maxPixels: 399960*5690220
+  // Max pixels for 10m scale
+  maxPixels: 2868546986,
+  dimensions:"22016x130293",
 });
