@@ -192,7 +192,7 @@ var comp18 = comp12.substract(comp6);
 Map.addLayer(comp13, {min: [-3500], max: [-100]}, 'singleS1');
 
 // merge the 3-bands as single composite
-var s1_composite = comp1.addBands(comp7).addBands(comp13);
+var s1_composite = comp1.addBands(comp7);
 Map.addLayer(s1_composite.clip(S2_spr.geometry()), {bands: ['sum','sum_1','sum_2'], min: [-3500], max: [-100]}, 's1');
 Export.image.toDrive({
   image: s1_composite.clip(S2_spr.geometry()).int16(),
