@@ -156,7 +156,7 @@ var vv = s1.select('VV').filterBounds(S1area);
 
 // Create 3 single images that can be displayed as one 3-band composite image
 // Calculate the median for different times and polarisations
-var comp1 = vh.filterDate('2016-10-01', '2017-03-31').median();
+var comp1 = vh.filterDate('2016-10-01', '2017-09-30').median();
 comp1 = ee.Image(toDB(RefinedLee(toNatural(comp1))).arrayGet([0])).multiply(100);
 var comp2 = vh.filterDate('2017-04-01', '2017-09-30').median();
 comp2 = ee.Image(toDB(RefinedLee(toNatural(comp2))).arrayGet([0])).multiply(100);
@@ -168,7 +168,7 @@ comp4 = ee.Image(toDB(RefinedLee(toNatural(comp4))).arrayGet([0])).multiply(100)
 //comp5 = ee.Image(toDB(RefinedLee(toNatural(comp5))).arrayGet([0]));
 //var comp6 = vh.filterDate('2016-11-01', '2016-12-30').median();
 //comp6 = ee.Image(toDB(RefinedLee(toNatural(comp6))).arrayGet([0]));
-var comp7 = vv.filterDate('2016-10-01', '2017-03-31').median();
+var comp7 = vv.filterDate('2016-10-01', '2017-09-30').median();
 comp7 = ee.Image(toDB(RefinedLee(toNatural(comp7))).arrayGet([0])).multiply(100);
 var comp8 = vv.filterDate('2017-04-01', '2017-09-30').median();
 comp8 = ee.Image(toDB(RefinedLee(toNatural(comp8))).arrayGet([0])).multiply(100);
@@ -192,13 +192,13 @@ var comp18 = comp12.substract(comp6);
 Map.addLayer(comp1, {min: [-3500], max: [-100]}, 'singleS1');
 
 // merge the 3-bands as single composite
-var s1_composite = comp1.addBands(comp2).addBands(comp7).addBands(comp8);
+var s1_composite = comp1.addBands(comp7).addBands(comp13);
 Map.addLayer(s1_composite.clip(S2_spr.geometry()), {bands: ['sum','sum_1','sum_2'], min: [-3500], max: [-100]}, 's1');
 Export.image.toDrive({
   image: s1_composite.clip(S2_spr.geometry()).int16(),
   //region: S2_spr.geometry().bounds(),
   description: 'radar_test',
-  scale: 30,
+  scale: 20,
   crs : 'EPSG:27700',
   // Dimensions for 30m scale
   dimensions:"399960x5690220",
