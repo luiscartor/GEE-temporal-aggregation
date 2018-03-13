@@ -237,11 +237,11 @@ Export.image.toDrive({
   description: 'p37',
   scale: 10,
   crs : 'EPSG:27700',
-  // Dimensions for 30m scale
-  dimensions:"399960x5690220",
+//  // Dimensions for 30m scale
+//  dimensions:"399960x5690220",
 //  // Max pixels for 30m scale
 //  maxPixels: 399960*5690220
   // Max pixels for 10m scale
-  maxPixels: 2868546986,
+  maxPixels: 22016*130293,
   dimensions:"22016x130293",
 });
