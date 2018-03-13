@@ -182,17 +182,17 @@ comp10 = ee.Image(toDB(RefinedLee(toNatural(comp10))).arrayGet([0])).multiply(10
 //comp12 = ee.Image(toDB(RefinedLee(toNatural(comp12))).arrayGet([0]));
 
 // Bands for (VV-VH) (see Abdikan et al. 2016)
-//var comp13 = comp7.substract(comp1);
-var comp14 = comp8.substract(comp2);
-var comp15 = comp9.substract(comp3);
-var comp16 = comp10.substract(comp4);
-var comp17 = comp11.substract(comp5);
-var comp18 = comp12.substract(comp6);
+var comp13 = comp7.subtract(comp1);
+var comp14 = comp8.subtract(comp2);
+var comp15 = comp9.subtract(comp3);
+var comp16 = comp10.subtract(comp4);
+var comp17 = comp11.subtract(comp5);
+var comp18 = comp12.subtract(comp6);
 
-Map.addLayer(comp7, {min: [-3500], max: [-100]}, 'singleS1');
+Map.addLayer(comp13, {min: [-3500], max: [-100]}, 'singleS1');
 
 // merge the 3-bands as single composite
-var s1_composite = comp1.addBands(comp7);
+var s1_composite = comp1.addBands(comp7).addBands(comp13);
 Map.addLayer(s1_composite.clip(S2_spr.geometry()), {bands: ['sum','sum_1','sum_2'], min: [-3500], max: [-100]}, 's1');
 Export.image.toDrive({
   image: s1_composite.clip(S2_spr.geometry()).int16(),
