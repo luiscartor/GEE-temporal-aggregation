@@ -182,7 +182,7 @@ comp10 = ee.Image(toDB(RefinedLee(toNatural(comp10))).arrayGet([0])).multiply(10
 //comp12 = ee.Image(toDB(RefinedLee(toNatural(comp12))).arrayGet([0]));
 
 // Bands for (VV-VH) (see Abdikan et al. 2016)
-var comp13 = comp7.substract(comp1);
+//var comp13 = comp7.substract(comp1);
 var comp14 = comp8.substract(comp2);
 var comp15 = comp9.substract(comp3);
 var comp16 = comp10.substract(comp4);
