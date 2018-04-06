@@ -85,7 +85,7 @@ var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
 //Training using sample regions to sample 10000 for each class
 var training = S2_spr_median.addBands(landsat_spr_median).addBands(dem).addBands(trainingraster).stratifiedSample({
   numPoints: 4000,
-  classBand: 'b1_1',
+  classBand: 'b1',
   region: S2_spr.geometry(),
   seed:0,
   scale:30,
@@ -96,7 +96,7 @@ Export.table.toDrive(training);
 
 // Make a Random Forest classifier and train it.
 var classifier = ee.Classifier.randomForest(30)
-    .train(training, 'b1_1');
+    .train(training, 'b1');
 
 Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
 
