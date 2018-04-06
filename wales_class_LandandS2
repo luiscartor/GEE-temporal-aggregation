@@ -102,7 +102,7 @@ Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier
 
 
 // Classify the input imagery.
-var classified = S2_spr_median.addBands(landsat_spr_median.clip(S2_spr.geometry())).addBands(dem).addBands(distsea).classify(classifier);
+var classified = S2_spr_median.addBands(landsat_spr_median.clip(S2_spr.geometry())).addBands(dem).classify(classifier);
 
 //Sample used for validation
 var testsample = S2_spr_median.addBands(landsat_spr_median).addBands(dem).addBands(trainingraster).stratifiedSample({
