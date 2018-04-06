@@ -108,12 +108,12 @@ var classified = S2_spr_median.addBands(landsat_spr_median.clip(S2_spr.geometry(
 var testsample = S2_spr_median.addBands(landsat_spr_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
   numPoints: 100,
   region: S2_spr.geometry(), //If region not specified: issues with projections!
-  classBand: 'b1',
+  classBand: 'b1_1',
   seed:1, // Different seed from training sample
   scale:30,
   projection: 'EPSG:4326',
   //tileScale: 4
-}).filter(ee.Filter.neq('b1', null)); // Filter the result to get rid of any null pixels.
+}).filter(ee.Filter.neq('b1_1', null)); // Filter the result to get rid of any null pixels.
 
 
 // Accuracy assessment
