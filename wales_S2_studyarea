@@ -139,7 +139,7 @@ Map.addLayer(allyear,{bands: ['B5_count'],min:0,max:60}, 'allyear');
 // GEE uses nearest neighbour as default, so we specify resampling method for the export part
 Export.image.toDrive({
   image: allyear.S2_spr.geometry().int16(),
-  region: S2_spr.geometry().bounds(),
+  //region: S2_spr.geometry().bounds(),
   description: 'cloudfreeS2winter',
   scale: 20,
   crs : 'EPSG:27700',
@@ -148,8 +148,8 @@ Export.image.toDrive({
 //  // Max pixels for 30m scale
 //  maxPixels: 399960*5690220
   // Max pixels for 20m scale
- //  maxPixels:  59577453 ,
-  //dimensions:"5637x10569",
+   maxPixels:  59577453 ,
+  dimensions:"5637x10569",
 //  // Max pixels for 10m scale
 //  //maxPixels: 2868546986,
 //  //dimensions:"22016x130293",
