@@ -135,6 +135,25 @@ var allyear = allyear.reduce(ee.Reducer.count());
 print(allyear);
 Map.addLayer(allyear,{bands: ['B5_count'],min:0,max:60}, 'allyear');
 
+// Extract dataset
+// GEE uses nearest neighbour as default, so we specify resampling method for the export part
+Export.image.toDrive({
+  image: dataset.int16(),
+  //region: S2_spr.geometry().bounds(),
+  description: 'cloudfreeS2allyear',
+  scale: 20,
+  crs : 'EPSG:27700',
+//  // Dimensions for 30m scale
+//  dimensions:"399960x5690220",
+//  // Max pixels for 30m scale
+//  maxPixels: 399960*5690220
+  // Max pixels for 20m scale
+   maxPixels: 11008*65147,
+  dimensions:"11008x65147",
+//  // Max pixels for 10m scale
+//  //maxPixels: 2868546986,
+//  //dimensions:"22016x130293",
+//});
 
 
 // Histogram
