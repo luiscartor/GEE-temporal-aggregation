@@ -114,7 +114,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .filterBounds(walespoint2)
   .map(maskS2clouds)
-  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
+  .select(['B5']);
   
 
   
@@ -126,7 +126,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   //.filter(ee.Filter.eq('WRS_ROW', 23))
   .filterBounds(walespoint2)
   .map(maskS2clouds)
-  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
+  .select(['B5']);
 
 // Number of non-cloud images per pixel
 //var allyear = ee.ImageCollection(S2_spr.merge(S2_win));
@@ -134,6 +134,7 @@ var allyear = S2_spr
 var allyear = allyear.reduce(ee.Reducer.count());
 print(allyear);
 Map.addLayer(allyear,{bands: ['B5_count'],min:0,max:60}, 'allyear');
+
 
 // Extract dataset
 // GEE uses nearest neighbour as default, so we specify resampling method for the export part
