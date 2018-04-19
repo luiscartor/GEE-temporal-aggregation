@@ -138,7 +138,7 @@ Map.addLayer(allyear,{bands: ['B5_count'],min:0,max:60}, 'allyear');
 // Extract dataset
 // GEE uses nearest neighbour as default, so we specify resampling method for the export part
 Export.image.toDrive({
-  image: allyear.S2_spr.int16(),
+  image: allyear.int16(),
   region: S2_spr.geometry().bounds(),
   description: 'cloudfreeS2winter',
   scale: 20,
