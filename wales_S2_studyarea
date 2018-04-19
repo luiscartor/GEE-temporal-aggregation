@@ -141,7 +141,7 @@ Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:60}, 'allyear');
 Export.image.toDrive({
   image: allyear.clip(S2_spr.geometry()).int16(),
   //region: allyear.geometry(),
-  description: 'cloudfreeS2allyear',
+  description: 'cloudfreeS2winter',
   scale: 20,
   crs : 'EPSG:27700',
 //  // Dimensions for 30m scale
