@@ -153,7 +153,7 @@ Export.image.toDrive({
 //  // Max pixels for 10m scale
 //  //maxPixels: 2868546986,
 //  //dimensions:"22016x130293",
-//});
+});
 
 
 // Histogram
