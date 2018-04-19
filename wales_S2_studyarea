@@ -106,7 +106,7 @@ function maskS2clouds(image) {
 // Load S2 1-C input imagery.
 var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
-  .filterDate('2016-10-01', '2017-03-31')
+  .filterDate('2016-10-01', '2017-09-30')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
@@ -129,11 +129,11 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 // Number of non-cloud images per pixel
-var allyear = ee.ImageCollection(S2_spr.merge(S2_win));
-//var allyear = S2_spr
+//var allyear = ee.ImageCollection(S2_spr.merge(S2_win));
+var allyear = S2_spr
 var allyear = allyear.reduce(ee.Reducer.count());
 print(allyear);
-Map.addLayer(allyear,{bands: ['B5_count'],min:0,max:35}, 'allyear');
+Map.addLayer(allyear,{bands: ['B5_count'],min:0,max:60}, 'allyear');
 
 // Histogram
 var histogram = ui.Chart.image.histogram(allyear.select(['B2_count']),S2_spr.geometry(),100)
