@@ -135,6 +135,8 @@ var allyear = allyear.reduce(ee.Reducer.count());
 print(allyear);
 Map.addLayer(allyear,{bands: ['B5_count'],min:0,max:60}, 'allyear');
 
+
+
 // Histogram
 var histogram = ui.Chart.image.histogram(allyear.select(['B2_count']),S2_spr.geometry(),100)
   .setSeriesNames(['B2_count']);
