@@ -1,12 +1,91 @@
 /**** Start of imports. If edited, may not auto-convert in the playground. ****/
-var waleswhole = /* color: #d63000 */ee.Geometry.Polygon(
-        [[[-5.42724609375, 53.46175429923478],
-          [-5.438232421875, 51.40591676841038],
-          [-3.0926513671875, 51.33733281255946],
-          [-3.3233642578125, 53.47156438356109],
-          [-4.8834228515625, 53.47156438356109]]]);
+var waleswhole = /* color: #d63000 */ee.Geometry({
+      "type": "GeometryCollection",
+      "geometries": [
+        {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -5.42724609375,
+                53.46175429923478
+              ],
+              [
+                -5.438232421875,
+                51.40591676841038
+              ],
+              [
+                -3.0926513671875,
+                51.33733281255946
+              ],
+              [
+                -3.3233642578125,
+                53.47156438356109
+              ],
+              [
+                -4.8834228515625,
+                53.47156438356109
+              ]
+            ]
+          ],
+          "evenOdd": true
+        },
+        {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -3.7847900390625,
+                52.32177112417932
+              ],
+              [
+                -3.790283203125,
+                52.12997571102905
+              ],
+              [
+                -3.350830078125,
+                52.13671940298869
+              ],
+              [
+                -3.372802734375,
+                52.31169727783366
+              ]
+            ]
+          ],
+          "geodesic": true,
+          "evenOdd": true
+        },
+        {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -3.6199951171875,
+                52.234388256602806
+              ],
+              [
+                -3.8726806640625,
+                52.018557363515
+              ],
+              [
+                -3.6529541015625,
+                52.018557363515
+              ]
+            ]
+          ],
+          "geodesic": true,
+          "evenOdd": true
+        }
+      ],
+      "coordinates": []
+    }),
+    walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]),
+    walespoint2 = /* color: #d63000 */ee.Geometry.Polygon(
+        [[[-3.8287353515625, 52.355334053019185],
+          [-3.8287353515625, 52.00165153352017],
+          [-3.3563232421875, 52.33855597760981]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
-var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
+
 
 
 
@@ -33,7 +112,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   //.filter(ee.Filter.eq('WRS_ROW', 23))
   // Sentinel cloud mask is less selective than Landsat, so some people pre filter by relatively cloud free images
   //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
-  .filterBounds(walespoint)
+  .filterBounds(walespoint2)
   .map(maskS2clouds)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
@@ -45,7 +124,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
-  .filterBounds(walespoint)
+  .filterBounds(walespoint2)
   .map(maskS2clouds)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
