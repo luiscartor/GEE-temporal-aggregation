@@ -197,7 +197,6 @@ var landsatdays = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
 
 
 
-
 //var days = S2_spr.map(function(i){
 //  return ee.Image.constant(i.date().getRelative('day', 'year')).int().updateMask(i.select(0).mask());
 //})
@@ -212,7 +211,7 @@ var landsatdays = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
 
 // To avoid same date pixels (different tile but same date)
 var allyearS2 = landsatdays.reduce(ee.Reducer.countDistinct());
-Map.addLayer(allyearS2,{bands: ['constant_count'],min:0,max:60}, 'days');
+Map.addLayer(allyearS2,{bands: ['constant_count'],min:0,max:30}, 'days');
 
 // Extract dataset
 // GEE uses nearest neighbour as default, so we specify resampling method for the export part
