@@ -215,10 +215,10 @@ Export.image.toDrive({
 
 
 // Histogram
-//var histogram = ui.Chart.image.histogram(allyearS2.select(['constant_count']),S2_spr.geometry(),100)
-//  .setSeriesNames(['constant_count']);
+var histogram = ui.Chart.image.histogram(allyearS2.select(['constant_count']),gb,100)
+  .setSeriesNames(['constant_count']);
 
-//print(histogram);
+print(histogram);
 
 
 var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
