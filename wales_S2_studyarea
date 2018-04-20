@@ -128,6 +128,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   .map(maskS2clouds)
   .select(['B2']);
 
+print
 var days = S2_spr.map(function(i){
   return ee.Image.constant(i.date().get('day')).int().updateMask(i.select(0).mask());
 })
@@ -142,7 +143,7 @@ Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:60}, 'allyear');
 
 // To avoid same date pixels (different tile but same date)
 var allyear2 = days.reduce(ee.Reducer.countDistinct());
-Map.addLayer(allyear2,{bands: ['constant_count'],min:0,max:10}, 'days');
+Map.addLayer(allyear2,{bands: ['constant_count'],min:0,max:60}, 'days');
 
 // Extract dataset
 // GEE uses nearest neighbour as default, so we specify resampling method for the export part
