@@ -135,7 +135,7 @@ print(days)
 
 // Number of non-cloud images per pixel
 //var allyear = ee.ImageCollection(S2_spr.merge(S2_win));
-var allyear = S2_spr
+var allyear = days
 var allyear = allyear.reduce(ee.Reducer.countDistinct());
 print(allyear);
 Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:60}, 'allyear');
