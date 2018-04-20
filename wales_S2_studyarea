@@ -148,7 +148,7 @@ var days = ee.ImageCollection('COPERNICUS/S2')
   // Sentinel cloud mask is less selective than Landsat, so some people pre filter by relatively cloud free images
   //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .filterBounds(gb)
-  //.map(maskS2clouds)
+  .map(maskS2clouds)
   .select(['B2'])
   .map(function(i){
   return ee.Image.constant(i.date().getRelative('day', 'year')).int().updateMask(i.select(0).mask());
@@ -173,9 +173,9 @@ print(days)
 
 // Number of non-cloud images per pixel
 //var allyear = ee.ImageCollection(S2_spr.merge(S2_win));
-var allyear = S2_spr
-var allyear = allyear.reduce(ee.Reducer.count());
-print(allyear);
+//var allyear = S2_spr
+//var allyear = allyear.reduce(ee.Reducer.count());
+//print(allyear);
 //Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:60}, 'allyear');
 
 // To avoid same date pixels (different tile but same date)
@@ -204,10 +204,10 @@ Export.image.toDrive({
 
 
 // Histogram
-var histogram = ui.Chart.image.histogram(allyearS2.select(['constant_count']),S2_spr.geometry(),100)
-  .setSeriesNames(['constant_count']);
+//var histogram = ui.Chart.image.histogram(allyearS2.select(['constant_count']),S2_spr.geometry(),100)
+//  .setSeriesNames(['constant_count']);
 
-print(histogram);
+//print(histogram);
 
 
 var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
