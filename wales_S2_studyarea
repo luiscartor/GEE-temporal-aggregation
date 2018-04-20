@@ -165,6 +165,7 @@ var days = ee.ImageCollection('COPERNICUS/S2')
 })
 
   
+
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2017-04-01', '2017-09-30')
@@ -174,6 +175,9 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   .filterBounds(walespoint2)
   .map(maskS2clouds)
   .select(['B2']);
+
+
+
 
 
 //var days = S2_spr.map(function(i){
@@ -195,9 +199,9 @@ Map.addLayer(allyearS2,{bands: ['constant_count'],min:0,max:60}, 'days');
 // Extract dataset
 // GEE uses nearest neighbour as default, so we specify resampling method for the export part
 Export.image.toDrive({
-  //image: allyearS2.clip(S2_spr.geometry()).int16(),
-  image: allyearS2.clip(gb).int16(),
-  region: gb,
+  image: allyearS2.clip(S2_spr.geometry()).int16(),
+  //image: allyearS2.clip(gb).int16(),
+  //region: gb,
   description: 'GBS2allyear',
   scale: 20,
   crs : 'EPSG:27700',
@@ -215,7 +219,7 @@ Export.image.toDrive({
 
 
 // Histogram
-var histogram = ui.Chart.image.histogram(allyearS2.select(['constant_count']),gb,100)
+var histogram = ui.Chart.image.histogram(allyearS2.select(['constant_count']),S2_spr.geometry(),100)
   .setSeriesNames(['constant_count']);
 
 print(histogram);
