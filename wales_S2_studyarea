@@ -148,7 +148,7 @@ var days = ee.ImageCollection('COPERNICUS/S2')
   // Sentinel cloud mask is less selective than Landsat, so some people pre filter by relatively cloud free images
   //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .filterBounds(gb)
-  .map(maskS2clouds)
+  //.map(maskS2clouds)
   .select(['B2'])
   .map(function(i){
   return ee.Image.constant(i.date().getRelative('day', 'year')).int().updateMask(i.select(0).mask());
