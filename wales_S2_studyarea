@@ -144,7 +144,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   //.filter(ee.Filter.eq('WRS_ROW', 23))
   // Sentinel cloud mask is less selective than Landsat, so some people pre filter by relatively cloud free images
   //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
-  .filterBounds(gb)
+  .filterBounds(walespoint2)
   .map(maskS2clouds)
   .select(['B2']);
   
@@ -166,7 +166,7 @@ var days = ee.ImageCollection('COPERNICUS/S2')
 
   
 // Load Landsat 5 input imagery.
-var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+var landsatdays = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
   .filterDate('2016-10-01', '2017-09-30')
   // Filter to get only images under the region of interest.
@@ -177,7 +177,6 @@ var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
     var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0)
     return img.updateMask(mask)
     })
-  .select(['B2')
   .map(function(i){
   return ee.Image.constant(i.date().getRelative('day', 'year')).int().updateMask(i.select(0).mask());
   })
@@ -199,7 +198,7 @@ var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
 //Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:60}, 'allyear');
 
 // To avoid same date pixels (different tile but same date)
-var allyearS2 = days.reduce(ee.Reducer.countDistinct());
+var allyearS2 = landsatdays.reduce(ee.Reducer.countDistinct());
 Map.addLayer(allyearS2,{bands: ['constant_count'],min:0,max:60}, 'days');
 
 // Extract dataset
