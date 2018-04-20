@@ -167,7 +167,7 @@ Export.image.toDrive({
 
 
 // Histogram
-var histogram = ui.Chart.image.histogram(allyear.select(['constant_count']),S2_spr.geometry(),100)
+var histogram = ui.Chart.image.histogram(allyearS2.select(['constant_count']),S2_spr.geometry(),100)
   .setSeriesNames(['constant_count']);
 
 print(histogram);
