@@ -166,10 +166,10 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   .select(['B2']);
 
 
-var days = S2_spr.map(function(i){
-  return ee.Image.constant(i.date().getRelative('day', 'year')).int().updateMask(i.select(0).mask());
-})
-print(days)
+//var days = S2_spr.map(function(i){
+//  return ee.Image.constant(i.date().getRelative('day', 'year')).int().updateMask(i.select(0).mask());
+//})
+//print(days)
 
 // Number of non-cloud images per pixel
 //var allyear = ee.ImageCollection(S2_spr.merge(S2_win));
