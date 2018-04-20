@@ -106,7 +106,7 @@ function maskS2clouds(image) {
 // Load S2 1-C input imagery.
 var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
-  .filterDate('2017-04-01', '2017-09-30')
+  .filterDate('2016-10-01', '2017-03-31')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
@@ -150,7 +150,7 @@ Map.addLayer(allyearS2,{bands: ['constant_count'],min:0,max:60}, 'days');
 Export.image.toDrive({
   image: allyearS2.clip(S2_spr.geometry()).int16(),
   //region: allyear.geometry(),
-  description: 'cloudfreeS2summer',
+  description: 'cloudfreeS2winter',
   scale: 20,
   crs : 'EPSG:27700',
 //  // Dimensions for 30m scale
