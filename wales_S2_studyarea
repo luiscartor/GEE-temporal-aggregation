@@ -165,16 +165,22 @@ var days = ee.ImageCollection('COPERNICUS/S2')
 })
 
   
-
-var S2_win = ee.ImageCollection('COPERNICUS/S2')
+// Load Landsat 5 input imagery.
+var landsat = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
-  .filterDate('2017-04-01', '2017-09-30')
+  .filterDate('2016-10-01', '2017-09-30')
   // Filter to get only images under the region of interest.
-  //.filter(ee.Filter.eq('WRS_PATH', 204))
-  //.filter(ee.Filter.eq('WRS_ROW', 23))
-  .filterBounds(walespoint2)
-  .map(maskS2clouds)
-  .select(['B2']);
+  .filter(ee.Filter.eq('WRS_PATH', 204))
+  //.filter(ee.Filter.rangeContains("PATH", 23, 24))
+  .filterBounds(S2_spr.geometry())
+  .map(function(img){
+    var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0)
+    return img.updateMask(mask)
+    })
+  .select(['B2')
+  .map(function(i){
+  return ee.Image.constant(i.date().getRelative('day', 'year')).int().updateMask(i.select(0).mask());
+  })
 
 
 
