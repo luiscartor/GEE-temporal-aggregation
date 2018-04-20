@@ -130,7 +130,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
 
 print
 var days = S2_spr.map(function(i){
-  return ee.Image.constant(i.date().get('day')).int().updateMask(i.select(0).mask());
+  return ee.Image.constant(i.date().getRelative('day', 'year')).int().updateMask(i.select(0).mask());
 })
 print(days)
 
