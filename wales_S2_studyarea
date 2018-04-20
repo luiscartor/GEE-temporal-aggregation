@@ -149,6 +149,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   .select(['B2']);
   
 
+
 var days = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2016-10-01', '2017-09-30')
@@ -164,6 +165,18 @@ var days = ee.ImageCollection('COPERNICUS/S2')
   return ee.Image.constant(i.date().getRelative('day', 'year')).int().updateMask(i.select(0).mask());
 })
 
+
+var S2_win = ee.ImageCollection('COPERNICUS/S2')
+  // Filter to get only one year of images.
+  .filterDate('2016-10-01', '2017-09-30')
+  // Filter to get only images under the region of interest.
+  //.filter(ee.Filter.eq('WRS_PATH', 204))
+  //.filter(ee.Filter.eq('WRS_ROW', 23))
+  // Sentinel cloud mask is less selective than Landsat, so some people pre filter by relatively cloud free images
+  //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
+  .filterBounds(walespoint2)
+  .map(maskS2clouds)
+  .select(['B2']);
   
 // Load Landsat 5 input imagery.
 var landsatdays = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
