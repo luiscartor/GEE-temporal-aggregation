@@ -135,11 +135,14 @@ print(days)
 
 // Number of non-cloud images per pixel
 //var allyear = ee.ImageCollection(S2_spr.merge(S2_win));
-var allyear = days
-var allyear = allyear.reduce(ee.Reducer.countDistinct());
+var allyear = S2_spr
+var allyear = allyear.reduce(ee.Reducer.count());
 print(allyear);
 Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:60}, 'allyear');
 
+// To avoid same date pixels (different tile but same date)
+var allyear2 = days.reduce(ee.Reducer.countDistinct());
+Map.addLayer(allyear2,{bands: ['constant_count'],min:0,max:60}, 'days');
 
 // Extract dataset
 // GEE uses nearest neighbour as default, so we specify resampling method for the export part
