@@ -16,13 +16,118 @@ var S1area = /* color: #d63000 */ee.Geometry.Polygon(
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
-//Parameters for cloud masking functions
-var cloudThresh =20;//Ranges from 1-100.Lower value will mask more pixels out. Generally 10-30 works well with 20 being used most commonly 
-var dilatePixels = 2; //Pixels to dilate around clouds
-var contractPixels = 1;//Pixels to reduce cloud mask and dark shadows by to reduce inclusion of single-pixel comission errors
+// Spatial filtering: Extracted from https://groups.google.com/forum/#!searchin/google-earth-engine-developers/kernel$20sentinel$201$20|sort:date/google-earth-engine-developers/ExepnAmP-hQ/Xxa7raFuBAAJ
+// Refined Lee speckle filter as coded in the SNAP 3.0 S1TBX:
+//   https://github.com/senbox-org/s1tbx/blob/master/s1tbx-op-sar-processing/src/main/java/org/esa/s1tbx/sar/gpf/filtering/SpeckleFilters/RefinedLee.java
+
+// Auxilliary functions
+// Functions to convert from/to dB
+function toNatural(img) {
+  return ee.Image(10.0).pow(img.select(0).divide(10.0));
+}
+function toDB(img) {
+  return ee.Image(img).log10().multiply(10.0);
+}
+
+// The RL speckle filter
+function RefinedLee(img) {
+  // img must be in natural units, i.e. not in dB!
+  // Set up 3x3 kernels 
+  var weights3 = ee.List.repeat(ee.List.repeat(1,3),3);
+  var kernel3 = ee.Kernel.fixed(3,3, weights3, 1, 1, false);
+
+  var mean3 = img.reduceNeighborhood(ee.Reducer.mean(), kernel3);
+  var variance3 = img.reduceNeighborhood(ee.Reducer.variance(), kernel3);
+
+  // Use a sample of the 3x3 windows inside a 7x7 windows to determine gradients and directions
+  var sample_weights = ee.List([[0,0,0,0,0,0,0], [0,1,0,1,0,1,0],[0,0,0,0,0,0,0], [0,1,0,1,0,1,0], [0,0,0,0,0,0,0], [0,1,0,1,0,1,0],[0,0,0,0,0,0,0]]);
+
+  var sample_kernel = ee.Kernel.fixed(7,7, sample_weights, 3,3, false);
+
+  // Calculate mean and variance for the sampled windows and store as 9 bands
+  var sample_mean = mean3.neighborhoodToBands(sample_kernel); 
+  var sample_var = variance3.neighborhoodToBands(sample_kernel);
+
+  // Determine the 4 gradients for the sampled windows
+  var gradients = sample_mean.select(1).subtract(sample_mean.select(7)).abs();
+  gradients = gradients.addBands(sample_mean.select(6).subtract(sample_mean.select(2)).abs());
+  gradients = gradients.addBands(sample_mean.select(3).subtract(sample_mean.select(5)).abs());
+  gradients = gradients.addBands(sample_mean.select(0).subtract(sample_mean.select(8)).abs());
+
+  // And find the maximum gradient amongst gradient bands
+  var max_gradient = gradients.reduce(ee.Reducer.max());
+
+  // Create a mask for band pixels that are the maximum gradient
+  var gradmask = gradients.eq(max_gradient);
+
+  // duplicate gradmask bands: each gradient represents 2 directions
+  gradmask = gradmask.addBands(gradmask);
+
+  // Determine the 8 directions
+  var directions = sample_mean.select(1).subtract(sample_mean.select(4)).gt(sample_mean.select(4).subtract(sample_mean.select(7))).multiply(1);
+  directions = directions.addBands(sample_mean.select(6).subtract(sample_mean.select(4)).gt(sample_mean.select(4).subtract(sample_mean.select(2))).multiply(2));
+  directions = directions.addBands(sample_mean.select(3).subtract(sample_mean.select(4)).gt(sample_mean.select(4).subtract(sample_mean.select(5))).multiply(3));
+  directions = directions.addBands(sample_mean.select(0).subtract(sample_mean.select(4)).gt(sample_mean.select(4).subtract(sample_mean.select(8))).multiply(4));
+  // The next 4 are the not() of the previous 4
+  directions = directions.addBands(directions.select(0).not().multiply(5));
+  directions = directions.addBands(directions.select(1).not().multiply(6));
+  directions = directions.addBands(directions.select(2).not().multiply(7));
+  directions = directions.addBands(directions.select(3).not().multiply(8));
+
+  // Mask all values that are not 1-8
+  directions = directions.updateMask(gradmask);
+
+  // "collapse" the stack into a singe band image (due to masking, each pixel has just one value (1-8) in it's directional band, and is otherwise masked)
+  directions = directions.reduce(ee.Reducer.sum());  
+
+  //var pal = ['ffffff','ff0000','ffff00', '00ff00', '00ffff', '0000ff', 'ff00ff', '000000'];
+  //Map.addLayer(directions.reduce(ee.Reducer.sum()), {min:1, max:8, palette: pal}, 'Directions', false);
+
+  var sample_stats = sample_var.divide(sample_mean.multiply(sample_mean));
+
+  // Calculate localNoiseVariance
+  var sigmaV = sample_stats.toArray().arraySort().arraySlice(0,0,5).arrayReduce(ee.Reducer.mean(), [0]);
+
+  // Set up the 7*7 kernels for directional statistics
+  var rect_weights = ee.List.repeat(ee.List.repeat(0,7),3).cat(ee.List.repeat(ee.List.repeat(1,7),4));
+
+  var diag_weights = ee.List([[1,0,0,0,0,0,0], [1,1,0,0,0,0,0], [1,1,1,0,0,0,0], 
+    [1,1,1,1,0,0,0], [1,1,1,1,1,0,0], [1,1,1,1,1,1,0], [1,1,1,1,1,1,1]]);
+
+  var rect_kernel = ee.Kernel.fixed(7,7, rect_weights, 3, 3, false);
+  var diag_kernel = ee.Kernel.fixed(7,7, diag_weights, 3, 3, false);
+
+  // Create stacks for mean and variance using the original kernels. Mask with relevant direction.
+  var dir_mean = img.reduceNeighborhood(ee.Reducer.mean(), rect_kernel).updateMask(directions.eq(1));
+  var dir_var = img.reduceNeighborhood(ee.Reducer.variance(), rect_kernel).updateMask(directions.eq(1));
+
+  dir_mean = dir_mean.addBands(img.reduceNeighborhood(ee.Reducer.mean(), diag_kernel).updateMask(directions.eq(2)));
+  dir_var = dir_var.addBands(img.reduceNeighborhood(ee.Reducer.variance(), diag_kernel).updateMask(directions.eq(2)));
+
+  // and add the bands for rotated kernels
+  for (var i=1; i<4; i++) {
+    dir_mean = dir_mean.addBands(img.reduceNeighborhood(ee.Reducer.mean(), rect_kernel.rotate(i)).updateMask(directions.eq(2*i+1)));
+    dir_var = dir_var.addBands(img.reduceNeighborhood(ee.Reducer.variance(), rect_kernel.rotate(i)).updateMask(directions.eq(2*i+1)));
+    dir_mean = dir_mean.addBands(img.reduceNeighborhood(ee.Reducer.mean(), diag_kernel.rotate(i)).updateMask(directions.eq(2*i+2)));
+    dir_var = dir_var.addBands(img.reduceNeighborhood(ee.Reducer.variance(), diag_kernel.rotate(i)).updateMask(directions.eq(2*i+2)));
+  }
+
+  // "collapse" the stack into a single band image (due to masking, each pixel has just one value in it's directional band, and is otherwise masked)
+  dir_mean = dir_mean.reduce(ee.Reducer.sum());
+  dir_var = dir_var.reduce(ee.Reducer.sum());
+
+  // A finally generate the filtered value
+  var varX = dir_var.subtract(dir_mean.multiply(dir_mean).multiply(sigmaV)).divide(sigmaV.add(1.0));
+
+  var b = varX.divide(dir_var);
+
+  var result = dir_mean.add(b.multiply(img.subtract(dir_mean)));
+  return(result);
+}
+
 
 // Load the Sentinel-1 ImageCollection.
-var s1_2016 = ee.ImageCollection('COPERNICUS/S1_GRD')
+var s1 = ee.ImageCollection('COPERNICUS/S1_GRD')
   // Filter to get images with VV and VH dual polarization.
   .filter(ee.Filter.listContains('transmitterReceiverPolarisation', 'VH'))
   .filter(ee.Filter.listContains('transmitterReceiverPolarisation', 'VV'))
@@ -33,42 +138,94 @@ var s1_2016 = ee.ImageCollection('COPERNICUS/S1_GRD')
   //select slice
   //.filter(ee.Filter.eq('sliceNumber', 5))
   // Filter time to images form 2017
-  .filterDate('2016-01-01', '2016-12-31')
+  .filterDate('2016-10-01', '2017-09-30')
   // Filter to orbitdirection Descending
   .filter(ee.Filter.eq('orbitProperties_pass', 'DESCENDING'));
+  //.map(toNatural)
+  //.map(RefinedLee)
+  //.map(toDB);
   
   
-var vh = s1_2016.select('VH').filterBounds(S1area);
-var vv = s1_2016.select('VV').filterBounds(S1area);
+var vh = s1.select('VH').filterBounds(S1area);
+var vv = s1.select('VV').filterBounds(S1area);
 
 // Create 3 single images that can be displayed as one 3-band composite image
 // Calculate the median for different times and polarisations
-var comp1 = vh.filterDate('2016-01-01', '2016-03-31').median();
-var comp2 = vh.filterDate('2016-04-01', '2016-06-30').median();
-var comp3 = vh.filterDate('2016-07-01', '2016-09-30').median();
-var comp4 = vh.filterDate('2016-10-01', '2016-12-31').median();
-var comp5 = vh.filterDate('2016-09-01', '2016-10-30').median();
-var comp6 = vh.filterDate('2016-11-01', '2016-12-30').median();
-var comp1 = vh.filterDate('2016-01-01', '2016-03-31').median();
-var comp2 = vh.filterDate('2016-04-01', '2016-06-30').median();
-var comp3 = vh.filterDate('2016-07-01', '2016-09-30').median();
-var comp4 = vh.filterDate('2016-10-01', '2016-12-31').median();
-var comp5 = vh.filterDate('2016-09-01', '2016-10-30').median();
-var comp6 = vh.filterDate('2016-11-01', '2016-12-30').median();
+var comp1 = vh.filterDate('2016-10-01', '2016-12-31').median();
+comp1 = ee.Image(toDB(RefinedLee(toNatural(comp1))).arrayGet([0])).multiply(100);
+var comp2 = vh.filterDate('2017-01-01', '2017-03-31').median();
+comp2 = ee.Image(toDB(RefinedLee(toNatural(comp2))).arrayGet([0])).multiply(100);
+var comp3 = vh.filterDate('2017-04-01', '2017-06-30').median();
+comp3 = ee.Image(toDB(RefinedLee(toNatural(comp3))).arrayGet([0])).multiply(100);
+var comp4 = vh.filterDate('2017-07-01', '2017-09-30').median();
+comp4 = ee.Image(toDB(RefinedLee(toNatural(comp4))).arrayGet([0])).multiply(100);
+var comp5 = vh.filterDate('2017-02-01', '2017-02-28').median();
+comp5 = ee.Image(toDB(RefinedLee(toNatural(comp5))).arrayGet([0])).multiply(100);
+var comp6 = vh.filterDate('2017-03-01', '2017-03-31').median();
+comp6 = ee.Image(toDB(RefinedLee(toNatural(comp6))).arrayGet([0])).multiply(100);
+
+// From here, the layers for 12 months (delete when necessary)
+var comp100 = vh.filterDate('2017-04-01', '2017-04-30').median();
+comp100 = ee.Image(toDB(RefinedLee(toNatural(comp100))).arrayGet([0])).multiply(100);
+var comp200 = vh.filterDate('2017-05-01', '2017-05-31').median();
+comp200 = ee.Image(toDB(RefinedLee(toNatural(comp200))).arrayGet([0])).multiply(100);
+var comp300 = vh.filterDate('2017-06-01', '2017-06-30').median();
+comp300 = ee.Image(toDB(RefinedLee(toNatural(comp300))).arrayGet([0])).multiply(100);
+var comp400 = vh.filterDate('2017-07-01', '2017-07-31').median();
+comp400 = ee.Image(toDB(RefinedLee(toNatural(comp400))).arrayGet([0])).multiply(100);
+var comp500 = vh.filterDate('2017-08-01', '2017-08-31').median();
+comp500 = ee.Image(toDB(RefinedLee(toNatural(comp500))).arrayGet([0])).multiply(100);
+var comp600 = vh.filterDate('2017-09-01', '2017-09-30').median();
+comp600 = ee.Image(toDB(RefinedLee(toNatural(comp600))).arrayGet([0])).multiply(100);
 
 
-var comp7 = vv.filterDate('2016-01-01', '2016-03-31').median();
-var comp8 = vv.filterDate('2016-04-01', '2016-06-30').median();
-var comp9 = vv.filterDate('2016-07-01', '2016-09-30').median();
-var comp10 = vv.filterDate('2016-10-01', '2016-12-31').median();
-var comp11 = vv.filterDate('2016-09-01', '2016-10-30').median();
-var comp12 = vv.filterDate('2016-11-01', '2016-12-30').median();
+var comp7 = vv.filterDate('2016-10-01', '2016-12-31').median();
+comp7 = ee.Image(toDB(RefinedLee(toNatural(comp7))).arrayGet([0])).multiply(100);
+var comp8 = vv.filterDate('2017-01-01', '2017-03-31').median();
+comp8 = ee.Image(toDB(RefinedLee(toNatural(comp8))).arrayGet([0])).multiply(100);
+var comp9 = vv.filterDate('2017-04-01', '2017-06-30').median();
+comp9 = ee.Image(toDB(RefinedLee(toNatural(comp9))).arrayGet([0])).multiply(100);
+var comp10 = vv.filterDate('2017-07-01', '2017-09-30').median();
+comp10 = ee.Image(toDB(RefinedLee(toNatural(comp10))).arrayGet([0])).multiply(100);
+var comp11 = vv.filterDate('2017-02-01', '2017-02-28').median();
+comp11 = ee.Image(toDB(RefinedLee(toNatural(comp11))).arrayGet([0])).multiply(100);
+var comp12 = vv.filterDate('2017-03-01', '2017-03-31').median();
+comp12 = ee.Image(toDB(RefinedLee(toNatural(comp12))).arrayGet([0])).multiply(100);
 
-var singles1 = vh.filterDate('2016-03-01', '2016-06-20');
-Map.addLayer(singles1, {min: [-35], max: [-1]}, 'singleS1');
+// From here, the layers for 12 months (delete when necessary)
+var comp700 = vv.filterDate('2017-04-01', '2017-04-30').median();
+comp700 = ee.Image(toDB(RefinedLee(toNatural(comp700))).arrayGet([0])).multiply(100);
+var comp800 = vv.filterDate('2017-05-01', '2017-05-31').median();
+comp800 = ee.Image(toDB(RefinedLee(toNatural(comp800))).arrayGet([0])).multiply(100);
+var comp900 = vv.filterDate('2017-06-01', '2017-06-30').median();
+comp900 = ee.Image(toDB(RefinedLee(toNatural(comp900))).arrayGet([0])).multiply(100);
+var comp1000 = vv.filterDate('2017-07-01', '2017-07-31').median();
+comp1000 = ee.Image(toDB(RefinedLee(toNatural(comp1000))).arrayGet([0])).multiply(100);
+var comp1100 = vv.filterDate('2017-08-01', '2017-08-31').median();
+comp1100 = ee.Image(toDB(RefinedLee(toNatural(comp1100))).arrayGet([0])).multiply(100);
+var comp1200 = vv.filterDate('2017-09-01', '2017-09-30').median();
+comp1200 = ee.Image(toDB(RefinedLee(toNatural(comp1200))).arrayGet([0])).multiply(100);
+
+// Bands for (VV-VH) (see Abdikan et al. 2016)
+var comp13 = comp7.subtract(comp1);
+var comp14 = comp8.subtract(comp2);
+var comp15 = comp9.subtract(comp3);
+var comp16 = comp10.subtract(comp4);
+var comp17 = comp11.subtract(comp5);
+var comp18 = comp12.subtract(comp6);
+
+var comp1300 = comp700.subtract(comp100);
+var comp1400 = comp800.subtract(comp200);
+var comp1500 = comp900.subtract(comp300);
+var comp1600 = comp1000.subtract(comp400);
+var comp1700 = comp1100.subtract(comp500);
+var comp1800 = comp1200.subtract(comp600);
+
+//Map.addLayer(comp13, {min: [-3500], max: [-100]}, 'singleS1');
 
 // merge the 3-bands as single composite
-var s1_composite = ee.Image.cat ([comp1,comp2,comp3,comp4,comp7,comp8,comp9,comp10]).focal_median();
+var s1_composite = comp1.addBands(comp2).addBands(comp3).addBands(comp4).addBands(comp7).addBands(comp8).addBands(comp9).addBands(comp10).addBands(comp13).addBands(comp14).addBands(comp15).addBands(comp16);
+
 
 
 ////////////////////////////////////////
@@ -242,18 +399,6 @@ Export.image.toDrive({
 });
 
 
-// Elevation layer
-var dem = ee.Image('USGS/SRTMGL1_003').clip(S2_spr.geometry())//.reproject(proj);
-
-// Distance to sea layer
-var distsea = ee.Image('users/luiscartor/distsea').int().clip(S2_spr.geometry())//.reproject(proj);
-
-// Classification training data
-var trainingraster = ee.Image('users/luiscartor/wales_c35training_NAs').int();
-
-print(ee.Image(landsat_spr_median.clip(S2_spr.geometry())).arrayDimensions());
-print(ee.Image(landsat_spr_median.projection()));
-
 
 // Extract dataset
 var dataset2 = s1_composite.addBands(S2_spr_median).addBands(S2_win_median).addBands(landsat_spr_median.clip(S2_spr.geometry())).addBands(landsat_win_median.clip(S2_spr.geometry()))
@@ -270,75 +415,6 @@ Export.image.toDrive({
 });
 
 
-//Training using sample regions to sample 10000 for each class
-var training = s1_composite.addBands(S2_spr_median).addBands(S2_win_median).addBands(landsat_spr_median).addBands(landsat_win_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
-  numPoints: 4000,
-  classBand: 'b1_1',
-  region: S2_spr.geometry(),
-  seed:0,
-  scale:30,
-  projection: 'EPSG:4326',
-  //tileScale: 4
-});
-Export.table.toDrive(training,'S1S2L8training')
-
-// Make a Random Forest classifier and train it.
-var classifier = ee.Classifier.randomForest(30)
-    .train(training, 'b1_1');
-
-Export.table.toDrive(ee.FeatureCollection(ee.Feature(null, {'matrix': classifier.confusionMatrix()})));
-
-
-// Classify the input imagery.
-var classified =  s1_composite.clip(S2_spr.geometry()).addBands(S2_spr_median).addBands(S2_win_median).addBands(landsat_spr_median.clip(S2_spr.geometry())).addBands(landsat_win_median.clip(S2_spr.geometry())).addBands(dem).addBands(distsea).classify(classifier);
-
-//Sample used for validation
-var testsample =  s1_composite.addBands(S2_spr_median).addBands(S2_win_median).addBands(landsat_spr_median).addBands(landsat_win_median).addBands(dem).addBands(distsea).addBands(trainingraster).stratifiedSample({
-  numPoints: 100,
-  region: S2_spr.geometry(), //If region not specified: issues with projections!
-  classBand: 'b1_1',
-  seed:1, // Different seed from training sample
-  scale:30,
-  projection: 'EPSG:4326',
-  //tileScale: 4
-}).filter(ee.Filter.neq('b1_1', null)); // Filter the result to get rid of any null pixels.
-
-
-// Accuracy assessment
-//print(testsample)
-var trainAccuracy = testsample.classify(classifier).errorMatrix('b1_1', 'classification');
-print('Resubstitution error matrix: ', trainAccuracy);
-print('Training overall accuracy: ', trainAccuracy.accuracy());
-print('Training kappa: ', trainAccuracy.kappa());
-
-
-// Define a palette for the classification.
-var palette = [
-  //'FFFFFF', // non
-  'ff0000', // broadleaved f
-  '008000', // evergreen
-  '8b4513', // arable
-  '7CFC00', // improved
-  'FFA500', // rough
-  '66CDAA', // neutral
-  '2E8B57', // calcareous
-  '808000', // acid
-  'FFFF00', // fen
-  '800080', // heather
-  'EE82EE', // heather grassland
-  '008080', // bog
-  '40E0D0', // montaine
-  'B0C4DE', // bare rock
-  '00008B', // sea
-  '0000FF', // water
-  'B8860B', // supra
-  'B8860B', // supra
-  'F0E68C', // litoral
-  'F0E68C', // litoral
-  '9370DB', // marsh
-  '000000', // urban
-  'A9A9A9', // semi urban
-];
 
 Map.centerObject(walespoint, 8);
 Map.addLayer(s1_composite, {min: [-20, -20, -15], max: [-6, -6, 0]}, 's1_composite');
