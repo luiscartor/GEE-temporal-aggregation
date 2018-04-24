@@ -295,20 +295,9 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2017-04-01', '2017-09-30')
-  // Filter to get only images under the region of interest.
-  //.filter(ee.Filter.eq('WRS_PATH', 204))
-  //.filter(ee.Filter.eq('WRS_ROW', 23))
-  // Sentinel cloud mask is less selective than Landsat, so some people pre filter by relatively cloud free images
-  //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .filterBounds(S1area)
   //CLOUD METHOD 2
   .map(maskS2clouds)
-  //CLOUD METHOD 1
-  //.map(function bustClouds(img){
-  //img = sentinelCloudScore(img);
-  //img = img.updateMask(img.select(['cloudScore']).gt(cloudThresh).focal_min(contractPixels).focal_max(dilatePixels).not());
-  //return img
-  //})
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 // For the case of extracting the S2 data into 10m, we need resample in bilinear:
@@ -319,29 +308,6 @@ var S2_win_median = S2_win.median();
 var S2_spr_var = S2_spr.reduce(ee.Reducer.variance()).divide(1000);
 var S2_win_var = S2_win.reduce(ee.Reducer.variance()).divide(1000);
 print(ee.Image(S2_spr_median.projection()));
-
-
-// Extract dataset
-// GEE uses nearest neighbour as default, so we specify resampling method for the export part
-var dataset = S2_spr_median.clip(S2_spr.geometry());
-//Map.addLayer(dataset, {bands: ['B5', 'B4', 'B3'],min:0,max:3000}, 'dataset');
-//Export.image.toDrive({
-//  image: dataset.int16(),
-//  //region: S2_spr.geometry().bounds(),
-//  description: 'p20',
-//  scale: 30,
-//  crs : 'EPSG:27700',
-//  // Dimensions for 30m scale
-//  dimensions:"399960x5690220",
-//  // Max pixels for 30m scale
-//  maxPixels: 399960*5690220
-//  // Max pixels for 20m scale
-//  // maxPixels: 11008*65147,
-//  //dimensions:"11008x65147",
-//  // Max pixels for 10m scale
-//  //maxPixels: 2868546986,
-//  //dimensions:"22016x130293",
-//});
 
 
 
@@ -385,6 +351,8 @@ var landsat_win_var = landsat_win.reduce(ee.Reducer.variance()).divide(100);
 
 var dataset_lan = landsat_spr_median.clip(S2_spr.geometry());
 Map.addLayer(dataset_lan, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_lan');
+
+
 Export.image.toDrive({
   image: dataset_lan.int16(),
   //region: S2_spr.geometry().bounds(),
@@ -399,20 +367,6 @@ Export.image.toDrive({
 });
 
 
-
-// Extract dataset
-var dataset2 = s1_composite.addBands(S2_spr_median).addBands(S2_win_median).addBands(landsat_spr_median.clip(S2_spr.geometry())).addBands(landsat_win_median.clip(S2_spr.geometry()))
-//Map.addLayer(dataset2, {bands: ['B5', 'B4', 'B3']}, 'dataset2');
-Export.image.toDrive({
-  image: dataset2.float(),
-    //region: S2_spr.geometry(),
-    crs : 'EPSG:4326',
-    crsTransform : [1,0,0,0,1,0],
-    description: 'composite_all',
-    dimensions:"399960x5690220",
-    //scale: 30,
-    maxPixels: 399960*5690220
-});
 
 
 
