@@ -349,11 +349,11 @@ var landsat_spr_var = landsat_spr.reduce(ee.Reducer.variance()).divide(100);
 var landsat_win_var = landsat_win.reduce(ee.Reducer.variance()).divide(100);
 
 
-var dataset = landsat_spr_median.addBands(landsat_win_median).addBands(S2_spr_median).addBands(S2_win_median)
-.addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands()
-.addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands()
-.addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands()
-.addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands();
+var dataset = landsat_spr_median.addBands(landsat_win_median).addBands(S2_spr_median).addBands(S2_win_median);
+//.addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands()
+//.addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands()
+//.addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands()
+//.addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands();
 
 
 Map.addLayer(dataset, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_lan');
@@ -362,7 +362,7 @@ Map.addLayer(dataset, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_lan')
 Export.image.toDrive({
   image: dataset.clip(S2_spr.geometry()).int16(),
   //region: S2_spr.geometry().bounds(),
-  description: 'p6',
+  description: 'p41',
   scale: 30,
   crs : 'EPSG:27700',
   // Dimensions for 30m scale
