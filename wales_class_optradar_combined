@@ -151,13 +151,13 @@ var vv = s1.select('VV').filterBounds(S1area);
 
 // Create 3 single images that can be displayed as one 3-band composite image
 // Calculate the median for different times and polarisations
-var comp1 = vh.filterDate('2016-10-01', '2016-12-31').median();
+var comp1 = vh.filterDate('2016-10-01', '2016-10-31').median();
 comp1 = ee.Image(toDB(RefinedLee(toNatural(comp1))).arrayGet([0])).multiply(100);
-var comp2 = vh.filterDate('2017-01-01', '2017-03-31').median();
+var comp2 = vh.filterDate('2016-11-01', '2016-11-30').median();
 comp2 = ee.Image(toDB(RefinedLee(toNatural(comp2))).arrayGet([0])).multiply(100);
-var comp3 = vh.filterDate('2017-04-01', '2017-06-30').median();
+var comp3 = vh.filterDate('2016-12-01', '2016-12-31').median();
 comp3 = ee.Image(toDB(RefinedLee(toNatural(comp3))).arrayGet([0])).multiply(100);
-var comp4 = vh.filterDate('2017-07-01', '2017-09-30').median();
+var comp4 = vh.filterDate('2017-01-01', '2017-01-31').median();
 comp4 = ee.Image(toDB(RefinedLee(toNatural(comp4))).arrayGet([0])).multiply(100);
 var comp5 = vh.filterDate('2017-02-01', '2017-02-28').median();
 comp5 = ee.Image(toDB(RefinedLee(toNatural(comp5))).arrayGet([0])).multiply(100);
@@ -179,13 +179,13 @@ var comp600 = vh.filterDate('2017-09-01', '2017-09-30').median();
 comp600 = ee.Image(toDB(RefinedLee(toNatural(comp600))).arrayGet([0])).multiply(100);
 
 
-var comp7 = vv.filterDate('2016-10-01', '2016-12-31').median();
+var comp7 = vv.filterDate('2016-10-01', '2016-10-31').median();
 comp7 = ee.Image(toDB(RefinedLee(toNatural(comp7))).arrayGet([0])).multiply(100);
-var comp8 = vv.filterDate('2017-01-01', '2017-03-31').median();
+var comp8 = vv.filterDate('2016-11-01', '2016-11-30').median();
 comp8 = ee.Image(toDB(RefinedLee(toNatural(comp8))).arrayGet([0])).multiply(100);
-var comp9 = vv.filterDate('2017-04-01', '2017-06-30').median();
+var comp9 = vv.filterDate('2016-12-01', '2016-12-31').median();
 comp9 = ee.Image(toDB(RefinedLee(toNatural(comp9))).arrayGet([0])).multiply(100);
-var comp10 = vv.filterDate('2017-07-01', '2017-09-30').median();
+var comp10 = vv.filterDate('2017-01-01', '2017-01-31').median();
 comp10 = ee.Image(toDB(RefinedLee(toNatural(comp10))).arrayGet([0])).multiply(100);
 var comp11 = vv.filterDate('2017-02-01', '2017-02-28').median();
 comp11 = ee.Image(toDB(RefinedLee(toNatural(comp11))).arrayGet([0])).multiply(100);
@@ -349,7 +349,11 @@ var landsat_spr_var = landsat_spr.reduce(ee.Reducer.variance()).divide(100);
 var landsat_win_var = landsat_win.reduce(ee.Reducer.variance()).divide(100);
 
 
-var dataset = landsat_spr_median.clip(S2_spr.geometry());
+var dataset = landsat_spr_median.addBands(landsat_win_median).addBands(S2_spr_median).addBands(S2_win_median)
+.addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands()
+.addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands()
+.addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands()
+.addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands().addBands();
 
 
 Map.addLayer(dataset, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_lan');
