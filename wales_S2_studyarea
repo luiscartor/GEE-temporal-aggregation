@@ -210,7 +210,7 @@ var landsatdays = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
 //Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:60}, 'allyear');
 
 // To avoid same date pixels (different tile but same date)
-var allyearS2 = landsatdays.reduce(ee.Reducer.countDistinct());
+var allyearS2 = days.reduce(ee.Reducer.countDistinct());
 Map.addLayer(allyearS2,{bands: ['constant_count'],min:0,max:30}, 'days');
 
 // Extract dataset
