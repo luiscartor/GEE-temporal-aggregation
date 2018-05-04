@@ -44,8 +44,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
   .filterBounds(geometry3)
   .map(maskS2clouds)
-  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12'])
-  .first();
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
@@ -55,8 +54,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   //.filter(ee.Filter.eq('WRS_ROW', 23))
   .filterBounds(geometry3)
   .map(maskS2clouds)
-  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12'])
-  .first();
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 
 var comp = ee.Image(S2_spr).addBands(ee.Image(S2_win));
