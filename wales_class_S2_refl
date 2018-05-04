@@ -61,7 +61,8 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
 var comp = S2_spr.median().addBands(S2_win.median())
 print(comp)
 
-Map.addLayer(comp, {bands: ['B5', 'B4', 'B3']}, 'comp');
+Map.addLayer(S2_spr, {bands: ['B5', 'B4', 'B3']}, 'comp');
+
 Export.image.toDrive({
   image: comp.clip(S2_spr.geometry()).int16(),
   //region: S2_spr.geometry().bounds(),
