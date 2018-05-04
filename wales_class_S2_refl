@@ -65,6 +65,8 @@ print(comp)
 Map.addLayer(comp, {bands: ['B5', 'B4', 'B3']}, 'comp');
 
 
+
+
 //var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 //var S2_win_median = S2_win.median();
 //print(S2_spr_median.projection().nominalScale());
