@@ -41,7 +41,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 
-var comp = S2_spr.addBands(S2_win);
+var comp = ee.Image(S2_spr).ee.Image(addBands(S2_win));
 Map.addLayer(comp, {bands: ['B5', 'B4', 'B3']}, 'comp');
 
 
