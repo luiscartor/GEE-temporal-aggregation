@@ -18,7 +18,8 @@ var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1
 
 
 
-// Function to mask clouds using the Sentinel-2 QA band.
+
+// METHOD 2: Function to mask clouds using the Sentinel-2 QA band.
 function maskS2clouds(image) {
   var qa = image.select('QA60');
   // Bits 10 and 11 are clouds and cirrus, respectively.
@@ -28,10 +29,8 @@ function maskS2clouds(image) {
   var mask = qa.bitwiseAnd(cloudBitMask).eq(0).and(
              qa.bitwiseAnd(cirrusBitMask).eq(0));
   // Return the masked and scaled data.
-  return image.updateMask(mask).divide(10000);
+  return image.updateMask(mask);
 }
-
-
 
 // Load S2 1-C input imagery.
 var S2_spr = ee.ImageCollection('COPERNICUS/S2')
