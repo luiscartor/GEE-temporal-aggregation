@@ -57,7 +57,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 
-var comp = S2_spr.median().addBands(S2_win.median)
+var comp = S2_spr.median().addBands(S2_win.median())
 
 
 print(comp)
