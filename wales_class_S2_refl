@@ -48,18 +48,18 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
-  .filterDate('2017-03-15', '2017-06-19')
+  .filterDate('2017-06-15', '2017-06-19')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
   .filterBounds(geometry3)
   .map(maskS2clouds)
-  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12'])
-  .first();
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 
 var comp = ee.Image(S2_spr).addBands(ee.Image(S2_win));
-Map.addLayer(S2_spr, {bands: ['B5', 'B4', 'B3']}, 'comp');
+
+Map.addLayer(comp, {bands: ['B5', 'B4', 'B3']}, 'comp');
 
 
 var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
