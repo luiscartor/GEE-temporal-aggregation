@@ -60,7 +60,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
 
 
 var comp = ee.Image(S2_spr).addBands(ee.Image(S2_win));
-Map.addLayer(comp, {bands: ['B5', 'B4', 'B3']}, 'comp');
+Map.addLayer(S2_spr, {bands: ['B5', 'B4', 'B3']}, 'comp');
 
 
 var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
