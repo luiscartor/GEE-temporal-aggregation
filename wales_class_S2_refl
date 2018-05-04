@@ -3,7 +3,11 @@ var geometry = /* color: #d63000 */ee.Geometry.Polygon(
         [[[-3.93585205078125, 51.76096972948553],
           [-3.1475830078125, 51.70653761484245],
           [-3.1640625, 52.41240232190547],
-          [-3.97705078125, 52.48271059558372]]]);
+          [-3.97705078125, 52.48271059558372]]]),
+    geometry2 = /* color: #98ff00 */ee.Geometry.Polygon(
+        [[[-3.1146240234375, 51.97458891915377],
+          [-4.010009765625, 52.22092944350534],
+          [-3.603515625, 51.59399322943662]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
@@ -27,7 +31,7 @@ function maskS2clouds(image) {
 // Load S2 1-C input imagery.
 var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
-  .filterDate('2017-01-05', '2017-01-06')
+  .filterDate('2017-01-04', '2017-01-06')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
