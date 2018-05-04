@@ -1,3 +1,10 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var geometry = /* color: #d63000 */ee.Geometry.Polygon(
+        [[[-3.93585205078125, 51.76096972948553],
+          [-3.1475830078125, 51.70653761484245],
+          [-3.1640625, 52.41240232190547],
+          [-3.97705078125, 52.48271059558372]]]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
 
@@ -26,7 +33,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   //.filter(ee.Filter.eq('WRS_ROW', 23))
   // Sentinel cloud mask is less selective than Landsat, so some people pre filter by relatively cloud free images
   //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
-  .filterBounds(walespoint)
+  .filterBounds(geometry)
   .map(maskS2clouds)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12'])
   .first();
@@ -37,7 +44,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
-  .filterBounds(walespoint)
+  .filterBounds(geometry)
   .map(maskS2clouds)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12'])
   .first();
