@@ -55,8 +55,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   //.filter(ee.Filter.eq('WRS_ROW', 23))
   .filterBounds(geometry3)
   .map(maskS2clouds)
-  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12'])
-  .first();
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 
 
 var comp = S2_spr.addBands(S2_win);
