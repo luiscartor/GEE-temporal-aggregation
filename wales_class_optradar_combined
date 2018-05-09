@@ -275,7 +275,7 @@ function maskS2clouds(image) {
 // Load S2 1-C input imagery.
 var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
-  .filterDate('2016-10-01', '2017-03-31')
+  .filterDate('2016-10-01', '2017-01-31')
   // Filter to get only images under the region of interest.
   //.filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.eq('WRS_ROW', 23))
@@ -294,6 +294,22 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
+  .filterDate('2017-02-01', '2017-05-31')
+  .filterBounds(S1area)
+  //CLOUD METHOD 2
+  .map(maskS2clouds)
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
+  
+var S2_spr2 = ee.ImageCollection('COPERNICUS/S2')
+  // Filter to get only one year of images.
+  .filterDate('2017-06-01', '2017-09-30')
+  .filterBounds(S1area)
+  //CLOUD METHOD 2
+  .map(maskS2clouds)
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
+  
+var S2_win2 = ee.ImageCollection('COPERNICUS/S2')
+  // Filter to get only one year of images.
   .filterDate('2017-04-01', '2017-09-30')
   .filterBounds(S1area)
   //CLOUD METHOD 2
@@ -304,6 +320,8 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
 var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 //S2_spr_median = S2_spr_median.resample('bilinear');
 var S2_win_median = S2_win.median();
+var S2_spr2_median = S2_win2.median();
+var S2_win2_median = S2_win2.median();
 //S2_win_median = S2_win_median.resample('bilinear');
 var S2_spr_var = S2_spr.reduce(ee.Reducer.variance()).divide(1000);
 var S2_win_var = S2_win.reduce(ee.Reducer.variance()).divide(1000);
@@ -349,20 +367,20 @@ var landsat_spr_var = landsat_spr.reduce(ee.Reducer.variance()).divide(100);
 var landsat_win_var = landsat_win.reduce(ee.Reducer.variance()).divide(100);
 
 
-var dataset = S2_spr_median.addBands(S2_win_median)
-.addBands(comp1).addBands(comp2).addBands(comp3).addBands(comp4).addBands(comp5).addBands(comp6).addBands(comp7).addBands(comp8).addBands(comp9).addBands(comp10).addBands(comp11).addBands(comp12)
-.addBands(comp100).addBands(comp200).addBands(comp300).addBands(comp400).addBands(comp500).addBands(comp600).addBands(comp700).addBands(comp800).addBands(comp900).addBands(comp1000).addBands(comp1100).addBands(comp1200)
-.addBands(comp13).addBands(comp14).addBands(comp15).addBands(comp16).addBands(comp17).addBands(comp18).addBands(comp1300).addBands(comp1400).addBands(comp1500).addBands(comp1600).addBands(comp1700).addBands(comp1800);
+//var dataset = S2_spr_median.addBands(S2_win_median)
+//.addBands(comp1).addBands(comp2).addBands(comp3).addBands(comp4).addBands(comp5).addBands(comp6).addBands(comp7).addBands(comp8).addBands(comp9).addBands(comp10).addBands(comp11).addBands(comp12)
+//.addBands(comp100).addBands(comp200).addBands(comp300).addBands(comp400).addBands(comp500).addBands(comp600).addBands(comp700).addBands(comp800).addBands(comp900).addBands(comp1000).addBands(comp1100).addBands(comp1200)
+//.addBands(comp13).addBands(comp14).addBands(comp15).addBands(comp16).addBands(comp17).addBands(comp18).addBands(comp1300).addBands(comp1400).addBands(comp1500).addBands(comp1600).addBands(comp1700).addBands(comp1800);
 
+var dataset = S2_spr_median.addBands(S2_win_median).addBands(S2_spr2_median);
 
-
-Map.addLayer(dataset, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_lan');
+Map.addLayer(dataset, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_s2');
 
 
 Export.image.toDrive({
   image: dataset.clip(S2_spr.geometry()).int16(),
   //region: S2_spr.geometry().bounds(),
-  description: 'p40',
+  description: 'p28',
   scale: 30,
   crs : 'EPSG:27700',
   // Dimensions for 30m scale
