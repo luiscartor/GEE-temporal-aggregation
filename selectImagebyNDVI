@@ -52,7 +52,7 @@ Map.add(chart);
 // Outline and center Farm on the map.
 var sfLayer = ui.Map.Layer(roi, {color: 'FF0000'}, 'Field');
 Map.layers().add(sfLayer);
-//Map.setCenter(-1.26, 51.55, 9); //co-ordinates for combine data
+Map.setCenter(-1.26, 51.55, 9); //co-ordinates for combine data
 //Map.setCenter(124, -5.5, 10);
 
 // Create a label on the map.
