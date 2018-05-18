@@ -1,0 +1,79 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var Seagrass = /* color: #d63000 */ee.Geometry.Polygon(
+        [[[123.3380126953125, -5.473028892832974],
+          [123.4918212890625, -5.668481921178037],
+          [123.80630493164062, -5.98407300869291],
+          [123.87222290039062, -5.919876284303416],
+          [123.83514404296875, -5.803756936404812],
+          [123.75823974609375, -5.706744769672595],
+          [123.47122192382812, -5.4552572330031],
+          [123.33389282226562, -5.449788923987628]]]),
+    peakdis = /* color: #d63000 */ee.Geometry.Polygon(
+        [[[-2.11212158203125, 53.57450132667863],
+          [-2.12310791015625, 52.989921781533184],
+          [-1.47216796875, 52.99488145716049],
+          [-1.47491455078125, 53.607105893911005]]]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+// Plot Landsat 8 band value means in a section of San Francisco and
+// demonstrate interactive charts.
+
+
+
+// Load Landsat 8 top-of-atmosphere (TOA) input imagery.
+var landsat8 = ee.ImageCollection('LANDSAT/LC8_L1T_TOA')
+    .filterDate('2015-01-01', '2016-01-01');
+
+var roi = peakdis;
+
+//calculate NDVI
+var addNDVI = function(image) {
+  var ndvi=image.normalizedDifference(['B5','B4']).rename('NDVI');
+  return image.addBands(ndvi);
+};
+
+var ndvi_values = landsat8.map(addNDVI);
+
+// Create an image time series chart.
+var chart = ui.Chart.image.series({
+  imageCollection: ndvi_values.select('NDVI'),
+  region: roi
+//  reducer: ee.Reducer.mean(),
+//  scale: 200
+});
+
+// Add the chart to the map.
+chart.style().set({
+  position: 'bottom-right',
+  width: '500px',
+  height: '300px'
+});
+Map.add(chart);
+
+// Outline and center Farm on the map.
+var sfLayer = ui.Map.Layer(roi, {color: 'FF0000'}, 'Field');
+Map.layers().add(sfLayer);
+//Map.setCenter(-1.26, 51.55, 9); //co-ordinates for combine data
+Map.setCenter(124, -5.5, 10);
+
+// Create a label on the map.
+var label = ui.Label('Click a point on the chart to show the image for that date.');
+Map.add(label);
+
+// When the chart is clicked, update the map and label.
+chart.onClick(function(xValue, yValue, seriesName) {
+  if (!xValue) return;  // Selection was cleared.
+
+  // Show the image for the clicked date.
+  var equalDate = ee.Filter.equals('system:time_start', xValue);
+  var image = ee.Image(landsat8.filter(equalDate).first());
+  var l8Layer = ui.Map.Layer(image, {
+    gamma: 1.3,
+    min: 0.0,
+    max: 0.14,
+    bands: ['B4', 'B3', 'B2']
+  });
+  Map.layers().reset([l8Layer, sfLayer]);
+
+  // Show a label with the date on the map.
+  label.setValue((new Date(xValue)).toUTCString());
+});
