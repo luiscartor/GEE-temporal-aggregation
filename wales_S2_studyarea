@@ -242,6 +242,8 @@ var histogram = ui.Chart.image.histogram(allyearS2.select(['constant_count']),S2
 print(histogram);
 
 
+
+// From here classification 
 var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 var S2_win_median = S2_win.median();
 
