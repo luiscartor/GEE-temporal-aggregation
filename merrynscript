@@ -33,9 +33,8 @@ var L7collection = ee.ImageCollection('LANDSAT/LE07/C01/T1_SR')
   .filter(ee.Filter.calendarRange(1999,2002,'year'))
   //.filter(ee.Filter.calendarRange(7,7,'month'))
   .filterBounds(geometry)
-  .reproject('EPSG:4326')
   .map(function(img){
-    var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0);
+    var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0).reproject('EPSG:4326');
     return img.updateMask(mask)
     //NDVI
     .addBands(img.normalizedDifference(['B4', 'B3']))
