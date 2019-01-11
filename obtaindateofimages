@@ -141,7 +141,8 @@ var s1 = ee.ImageCollection('COPERNICUS/S1_GRD')
   //.map(RefinedLee)
   //.map(toDB);
   
-  
+print(s1)
+
 var vh = s1.select('VH').filterBounds(S1area);
 var vv = s1.select('VV').filterBounds(S1area);
 
