@@ -293,7 +293,8 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   //return img
   //})
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
-  
+print(S2_spr)
+
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2017-01-01', '2017-03-31')
@@ -301,7 +302,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   //CLOUD METHOD 2
   .map(maskS2clouds)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
-  
+print(S2_win)  
 var S2_spr2 = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2017-04-01', '2017-06-30')
@@ -309,7 +310,7 @@ var S2_spr2 = ee.ImageCollection('COPERNICUS/S2')
   //CLOUD METHOD 2
   .map(maskS2clouds)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
-  
+print(S2_spr2)  
 var S2_win2 = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2017-07-01', '2017-09-30')
@@ -317,7 +318,7 @@ var S2_win2 = ee.ImageCollection('COPERNICUS/S2')
   //CLOUD METHOD 2
   .map(maskS2clouds)
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
-
+print(S2_win2)
 // For the case of extracting the S2 data into 10m, we need resample in bilinear:
 var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
 //S2_spr_median = S2_spr_median.resample('bilinear');
@@ -346,7 +347,8 @@ var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
     })
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
 
-print(landsat_spr)
+//print(landsat_spr)
+
 var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
   .filterDate('2017-04-01', '2017-09-30')
@@ -360,7 +362,8 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
     })
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
 
-print(landsat_win)
+//print(landsat_win)
+
 var lan = ee.Image(landsat_spr.first())
 //Map.addLayer(lan, {bands: ['B5', 'B4', 'B3']}, 'lan');
 
