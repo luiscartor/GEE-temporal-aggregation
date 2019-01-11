@@ -297,6 +297,7 @@ var S2_spr = ee.ImageCollection('COPERNICUS/S2')
 print(S2_spr)
 
 var S2_win = ee.ImageCollection('COPERNICUS/S2')
+.filter(ee.Filter.eq("SPACECRAFT_NAME","Sentinel-2A"))
   // Filter to get only one year of images.
   .filterDate('2017-01-01', '2017-03-31')
   .filterBounds(S1area)
@@ -305,6 +306,7 @@ var S2_win = ee.ImageCollection('COPERNICUS/S2')
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 print(S2_win)  
 var S2_spr2 = ee.ImageCollection('COPERNICUS/S2')
+.filter(ee.Filter.eq("SPACECRAFT_NAME","Sentinel-2A"))
   // Filter to get only one year of images.
   .filterDate('2017-04-01', '2017-06-30')
   .filterBounds(S1area)
@@ -313,6 +315,7 @@ var S2_spr2 = ee.ImageCollection('COPERNICUS/S2')
   .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
 print(S2_spr2)  
 var S2_win2 = ee.ImageCollection('COPERNICUS/S2')
+.filter(ee.Filter.eq("SPACECRAFT_NAME","Sentinel-2A"))
   // Filter to get only one year of images.
   .filterDate('2017-07-01', '2017-09-30')
   .filterBounds(S1area)
