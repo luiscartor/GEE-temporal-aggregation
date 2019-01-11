@@ -141,7 +141,7 @@ var s1 = ee.ImageCollection('COPERNICUS/S1_GRD')
   //.map(RefinedLee)
   //.map(toDB);
   
-print(s1)
+//print(s1)
 
 var vh = s1.select('VH').filterBounds(S1area);
 var vv = s1.select('VV').filterBounds(S1area);
@@ -340,7 +340,8 @@ var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
     return img.updateMask(mask)
     })
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
-  
+
+print(landsat_spr)
 var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only one year of images.
   .filterDate('2017-04-01', '2017-09-30')
@@ -354,6 +355,7 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
     })
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
 
+print(landsat_win)
 var lan = ee.Image(landsat_spr.first())
 //Map.addLayer(lan, {bands: ['B5', 'B4', 'B3']}, 'lan');
 
