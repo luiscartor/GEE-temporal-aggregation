@@ -120,3 +120,29 @@ var S2_win_var = S2_win.reduce(ee.Reducer.variance()).divide(1000);
 //print(ee.Image(S2_spr_median.projection()));
 
 
+// 2. CREATE COMPOSITE
+var dataset = S2_spr_median.addBands(S2_win_median).addBands(S2_spr2_median).addBands(S2_win2_median);
+
+
+// 3. VISUALIZE AND EXPORT
+Map.addLayer(dataset, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_s2');
+
+
+Export.image.toDrive({
+  image: dataset.clip(S2_spr.geometry()).int16(),
+  //region: S2_spr.geometry().bounds(),
+  description: 'p29',
+  scale: 30,
+  crs : 'EPSG:27700',
+  // Dimensions for 30m scale
+  dimensions:"399960x5690220",
+  // Max pixels for 30m scale
+  maxPixels: 399960*5690220
+ 
+});
+
+
+
+
+
+Map.centerObject(walespoint, 8);
