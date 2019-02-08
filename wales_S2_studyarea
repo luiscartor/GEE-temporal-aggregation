@@ -197,18 +197,6 @@ var landsatdays = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
 
 
 
-//var days = S2_spr.map(function(i){
-//  return ee.Image.constant(i.date().getRelative('day', 'year')).int().updateMask(i.select(0).mask());
-//})
-//print(days)
-
-// Number of non-cloud images per pixel
-//var allyear = ee.ImageCollection(S2_spr.merge(S2_win));
-//var allyear = S2_spr
-//var allyear = allyear.reduce(ee.Reducer.count());
-//print(allyear);
-//Map.addLayer(allyear,{bands: ['B2_count'],min:0,max:60}, 'allyear');
-
 // To avoid same date pixels (different tile but same date)
 var allyearS2 = days.reduce(ee.Reducer.countDistinct());
 Map.addLayer(allyearS2,{bands: ['constant_count'],min:0,max:45}, 'days');
@@ -224,14 +212,7 @@ Export.image.toDrive({
   crs : 'EPSG:27700',
   // Dimensions for 30m scale
   dimensions:"399960x5690220",
-  // Max pixels for 30m scale
-//  maxPixels: 399960*5690220
-  // Max pixels for 20m scale
-  // maxPixels:  59577453 ,
-  //dimensions:"5637x10569",
-//  // Max pixels for 10m scale
-//  //maxPixels: 2868546986,
-//  //dimensions:"22016x130293",
+
 });
 
 
