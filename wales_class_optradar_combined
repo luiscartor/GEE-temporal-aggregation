@@ -230,6 +230,7 @@ var s1_composite = comp1.addBands(comp2).addBands(comp3).addBands(comp4).addBand
 
 ////////////////////////////////////////
 // Cloud masking algorithm for Sentinel2
+
 //METHOD 1: Built on ideas from Landsat cloudScore algorithm
 //Currently in beta and may need tweaking for individual study areas
 var rescale = function(img, exp, thresholds) {
@@ -367,10 +368,6 @@ var landsat_spr_var = landsat_spr.reduce(ee.Reducer.variance()).divide(100);
 var landsat_win_var = landsat_win.reduce(ee.Reducer.variance()).divide(100);
 
 
-//var dataset = S2_spr_median.addBands(S2_win_median)
-//.addBands(comp1).addBands(comp2).addBands(comp3).addBands(comp4).addBands(comp5).addBands(comp6).addBands(comp7).addBands(comp8).addBands(comp9).addBands(comp10).addBands(comp11).addBands(comp12)
-//.addBands(comp100).addBands(comp200).addBands(comp300).addBands(comp400).addBands(comp500).addBands(comp600).addBands(comp700).addBands(comp800).addBands(comp900).addBands(comp1000).addBands(comp1100).addBands(comp1200)
-//.addBands(comp13).addBands(comp14).addBands(comp15).addBands(comp16).addBands(comp17).addBands(comp18).addBands(comp1300).addBands(comp1400).addBands(comp1500).addBands(comp1600).addBands(comp1700).addBands(comp1800);
 
 var dataset = S2_spr_median.addBands(S2_win_median).addBands(S2_spr2_median).addBands(S2_win2_median);
 
@@ -400,11 +397,3 @@ Map.centerObject(walespoint, 8);
 //Map.addLayer(ndvi_mean,{palette: palette, min:-1, max: 1},'ndvi_mean');
 //Map.addLayer(trainingraster,{palette: palette, min: 1, max: 23})
 //Map.addLayer(classified, {palette: palette, min: 1, max: 23}, 'classification');
-//Export.image.toDrive({
-//  image: classified,
-//    region: S2_spr.geometry(),
-//    description: 'wales_classification_S1fourseasons_L8S2_twoseasons',
-//    scale: 30,
-//    maxPixels: 298452024
-//    //region: geometry
-//});
