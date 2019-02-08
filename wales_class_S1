@@ -210,3 +210,6 @@ var comp18 = comp12.subtract(comp6);
 
 // merge the 3-bands as single composite
 var s1_composite = comp1.addBands(comp2).addBands(comp3).addBands(comp4).addBands(comp7).addBands(comp8).addBands(comp9).addBands(comp10).addBands(comp13).addBands(comp14).addBands(comp15).addBands(comp16);
+
+
+// 3. VISUALIZE AND EXPORT
