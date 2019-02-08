@@ -216,7 +216,6 @@ var dataset = s1_composite
 
 
 
-Map.addLayer(dataset, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset');
-
+Map.addLayer(s1_composite, {bands: ['sum','sum_1','sum_2'], min: [-3500], max: [-100]}, 's1');
 Map.centerObject(walespoint, 8);
 
