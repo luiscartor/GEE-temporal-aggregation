@@ -64,7 +64,7 @@ Map.addLayer(dataset, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_s2');
 
 //Edit the dataset.clip, and use a different extent to clip
 Export.image.toDrive({
-  image: dataset.clip(testarea).int16(),
+  image: dataset.clip(test_area).int16(),
   //region: S2_spr.geometry().bounds(),
   description: 'p29',
   scale: 30,
