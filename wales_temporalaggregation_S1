@@ -216,7 +216,7 @@ var dataset = s1_composite
 
 
 
-
+Map.addLayer(dataset, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset');
 
 Map.centerObject(walespoint, 8);
 
