@@ -1,3 +1,5 @@
+
+
 // Load Landsat 5 input imagery.
 //var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
 var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
