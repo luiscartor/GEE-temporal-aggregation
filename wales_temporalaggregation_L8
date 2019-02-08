@@ -1,0 +1,56 @@
+// Load Landsat 5 input imagery.
+//var landsat1 = ee.Image(ee.ImageCollection('LANDSAT/LC08/C01/T1')
+var landsat_spr = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+  // Filter to get only one year of images.
+  .filterDate('2016-10-01', '2017-03-31')
+  // Filter to get only images under the region of interest.
+  .filter(ee.Filter.eq('WRS_PATH', 204))
+  //.filter(ee.Filter.rangeContains("PATH", 23, 24))
+  .filterBounds(S2_spr.geometry())
+  .map(function(img){
+    var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0)
+    return img.updateMask(mask)
+    })
+  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
+  
+var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
+  // Filter to get only one year of images.
+  .filterDate('2017-04-01', '2017-09-30')
+  // Filter to get only images under the region of interest.
+  .filter(ee.Filter.eq('WRS_PATH', 204))
+  //.filter(ee.Filter.rangeContains("PATH", 23, 24))
+  .filterBounds(S2_spr.geometry())
+  .map(function(img){
+    var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0)
+    return img.updateMask(mask)
+    })
+  .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
+
+var lan = ee.Image(landsat_spr.first())
+//Map.addLayer(lan, {bands: ['B5', 'B4', 'B3']}, 'lan');
+
+var landsat_spr_median = landsat_spr.median();
+var landsat_win_median = landsat_win.median();
+
+var landsat_spr_var = landsat_spr.reduce(ee.Reducer.variance()).divide(100);
+var landsat_win_var = landsat_win.reduce(ee.Reducer.variance()).divide(100);
+
+
+
+var dataset = landsat_spr_median.addBands(landsat_win_median);
+
+Map.addLayer(dataset, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_s2');
+
+//Edit the dataset.clip, and use a different extent to clip
+Export.image.toDrive({
+  image: dataset.clip(S2_spr.geometry()).int16(),
+  //region: S2_spr.geometry().bounds(),
+  description: 'p29',
+  scale: 30,
+  crs : 'EPSG:27700',
+  // Dimensions for 30m scale
+  dimensions:"399960x5690220",
+  // Max pixels for 30m scale
+  maxPixels: 399960*5690220
+ 
+});
