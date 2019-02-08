@@ -1,0 +1,102 @@
+
+
+// 0. FUNCTIONS
+////////////////////////////////////////
+// Cloud masking algorithm for Sentinel2
+
+//METHOD 1: Built on ideas from Landsat cloudScore algorithm
+//Currently in beta and may need tweaking for individual study areas
+var rescale = function(img, exp, thresholds) {
+    return img.expression(exp, {img: img})
+        .subtract(thresholds[0]).divide(thresholds[1] - thresholds[0]);
+  };
+  
+function sentinelCloudScore(img) {
+  
+  // Compute several indicators of cloudyness and take the minimum of them.
+  var score = ee.Image(1);
+    // Clouds are reasonably bright in the blue and cirrus bands.
+  score = score.min(rescale(img, 'img.B2', [0.1, 0.5]));
+  score = score.min(rescale(img, 'img.B1', [0.1, 0.3]));
+  score = score.min(rescale(img, 'img.B1 + img.B10', [0.15, 0.2]));
+    // Clouds are reasonably bright in all visible bands.
+  score = score.min(rescale(img, 'img.B4 + img.B3 + img.B2', [0.2, 0.8]));
+  //Clouds are moist
+  var ndmi = img.normalizedDifference(['B8','B11']);
+  score=score.min(rescale(ndmi, 'img', [-0.1, 0.1]));
+    // However, clouds are not snow.
+  var ndsi = img.normalizedDifference(['B3', 'B11']);
+  score=score.min(rescale(ndsi, 'img', [0.8, 0.6]));
+    score = score.multiply(100).byte();
+ 
+  return img.addBands(score.rename('cloudScore'));
+}
+//////////////////////////////////////////////////////////////////////////
+
+// METHOD 2: Function to mask clouds using the Sentinel-2 QA band.
+function maskS2clouds(image) {
+  var qa = image.select('QA60');
+  // Bits 10 and 11 are clouds and cirrus, respectively.
+  var cloudBitMask = Math.pow(2, 10);
+  var cirrusBitMask = Math.pow(2, 11);
+  // Both flags should be set to zero, indicating clear conditions.
+  var mask = qa.bitwiseAnd(cloudBitMask).eq(0).and(
+             qa.bitwiseAnd(cirrusBitMask).eq(0));
+  // Return the masked and scaled data.
+  return image.updateMask(mask);
+}
+
+// Load S2 1-C input imagery.
+var S2_spr = ee.ImageCollection('COPERNICUS/S2')
+  // Filter to get only one year of images.
+  .filterDate('2016-10-01', '2016-12-31')
+  // Filter to get only images under the region of interest.
+  //.filter(ee.Filter.eq('WRS_PATH', 204))
+  //.filter(ee.Filter.eq('WRS_ROW', 23))
+  // Sentinel cloud mask is less selective than Landsat, so some people pre filter by relatively cloud free images
+  //.filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
+  .filterBounds(S1area)
+  //CLOUD METHOD2
+  .map(maskS2clouds)
+  //CLOUD METHOD 1
+  //.map(function bustClouds(img){
+  //img = sentinelCloudScore(img);
+  //img = img.updateMask(img.select(['cloudScore']).gt(cloudThresh).focal_min(contractPixels).focal_max(dilatePixels).not());
+  //return img
+  //})
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
+  
+var S2_win = ee.ImageCollection('COPERNICUS/S2')
+  // Filter to get only one year of images.
+  .filterDate('2017-01-01', '2017-03-31')
+  .filterBounds(S1area)
+  //CLOUD METHOD 2
+  .map(maskS2clouds)
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
+  
+var S2_spr2 = ee.ImageCollection('COPERNICUS/S2')
+  // Filter to get only one year of images.
+  .filterDate('2017-04-01', '2017-06-30')
+  .filterBounds(S1area)
+  //CLOUD METHOD 2
+  .map(maskS2clouds)
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
+  
+var S2_win2 = ee.ImageCollection('COPERNICUS/S2')
+  // Filter to get only one year of images.
+  .filterDate('2017-07-01', '2017-09-30')
+  .filterBounds(S1area)
+  //CLOUD METHOD 2
+  .map(maskS2clouds)
+  .select(['B2', 'B3','B4', 'B5', 'B6','B7','B8','B11','B12']);
+
+// For the case of extracting the S2 data into 10m, we need resample in bilinear:
+var S2_spr_median = S2_spr.median()//.clip(landsat.geometry());//.reproject('EPSG:4326',null,30);
+//S2_spr_median = S2_spr_median.resample('bilinear');
+var S2_win_median = S2_win.median();
+var S2_spr2_median = S2_spr2.median();
+var S2_win2_median = S2_win2.median();
+//S2_win_median = S2_win_median.resample('bilinear');
+var S2_spr_var = S2_spr.reduce(ee.Reducer.variance()).divide(1000);
+var S2_win_var = S2_win.reduce(ee.Reducer.variance()).divide(1000);
+print(ee.Image(S2_spr_median.projection()));
