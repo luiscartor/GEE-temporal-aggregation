@@ -36,7 +36,7 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
   // Filter to get only images under the region of interest.
   .filter(ee.Filter.eq('WRS_PATH', 204))
   //.filter(ee.Filter.rangeContains("PATH", 23, 24))
-  .filterBounds(S2_spr.geometry())
+  //.filterBounds(S2_spr.geometry())
   .map(function(img){
     var mask = img.select(['pixel_qa']).bitwiseAnd(32).eq(0)
     return img.updateMask(mask)
