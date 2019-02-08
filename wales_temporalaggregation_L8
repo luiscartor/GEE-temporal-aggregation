@@ -43,8 +43,10 @@ var landsat_win = ee.ImageCollection('LANDSAT/LC08/C01/T1_SR')
     })
   .select(['B1', 'B2', 'B3','B4', 'B5', 'B6','B7']);
 
-var lan = ee.Image(landsat_spr.first())
+
 //Map.addLayer(lan, {bands: ['B5', 'B4', 'B3']}, 'lan');
+
+// 2. CREATE COMPOSITES
 
 var landsat_spr_median = landsat_spr.median();
 var landsat_win_median = landsat_win.median();
@@ -55,6 +57,8 @@ var landsat_win_var = landsat_win.reduce(ee.Reducer.variance()).divide(100);
 
 
 var dataset = landsat_spr_median.addBands(landsat_win_median);
+
+// 3. VISUALIZE AND EXPORT
 
 Map.addLayer(dataset, {bands: ['B4', 'B3', 'B2'],min:0,max:3000}, 'dataset_s2');
 
