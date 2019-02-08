@@ -151,6 +151,8 @@ var s1 = ee.ImageCollection('COPERNICUS/S1_GRD')
 var vh = s1.select('VH').filterBounds(S1area);
 var vv = s1.select('VV').filterBounds(S1area);
 
+// 2. COMPOSITING
+
 // Create 3 single images that can be displayed as one 3-band composite image
 // Calculate the median for different times and polarisations
 var comp1 = vh.filterDate('2016-10-01', '2016-10-31').median();
