@@ -17,7 +17,7 @@ var S1area = /* color: #d63000 */ee.Geometry.Polygon(
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
           
           
-// wales_class_LandandS2
+// wales_class_ndviandmore
 // February 2018
 // by Luis
 // Creates temporally aggregated images for winter and spring of S2, Landsat data, 
