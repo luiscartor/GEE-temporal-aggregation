@@ -14,6 +14,16 @@ var S1area = /* color: #d63000 */ee.Geometry.Polygon(
           [-3.5540771484375, 53.30802665091056],
           [-3.636474609375, 53.301461674349845]]]);
           
+          
+          
+          
+// wales_class_LandandS2
+// February 2018
+// by Luis
+// Creates temporally aggregated images for winter and spring of S2, Landsat data, 
+// and multiple spectral indices, classifies land cover and performes accuracy assessment
+
+
 var S2_spr = ee.ImageCollection('COPERNICUS/S2')
   // Filter to get only one year of images.
   .filterDate('2016-04-01', '2017-07-31')
