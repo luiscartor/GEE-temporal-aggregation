@@ -1,4 +1,4 @@
-var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var S1area = /* color: #d63000 */ee.Geometry.Polygon(
         [[[-4.25994873046875, 52.97847790594886],
           [-3.97979736328125, 51.90875993271863],
@@ -13,8 +13,8 @@ var S1area = /* color: #d63000 */ee.Geometry.Polygon(
           [-3.5540771484375, 53.265336258629475],
           [-3.5540771484375, 53.30802665091056],
           [-3.636474609375, 53.301461674349845]]]);
-          
-          
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
           
           
 // wales_class_LandandS2
