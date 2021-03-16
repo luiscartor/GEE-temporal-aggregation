@@ -1,4 +1,7 @@
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
 
 
 // wales_class_LandandS2
