@@ -132,8 +132,4 @@ Export.image.toDrive({
  
 });
 
-
-
-
-
 Map.centerObject(walespoint, 8);
