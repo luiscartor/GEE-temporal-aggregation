@@ -1,4 +1,10 @@
-var S1area = /* color: #d63000 */ee.Geometry.Polygon(
+/**** Start of imports. If edited, may not auto-convert in the playground. ****/
+var testarea = /* color: #d63000 */ee.Geometry.Polygon(
+        [[[-5.231053867322885, 53.39340028280891],
+          [-5.231053867322885, 51.38232186188819],
+          [-2.836034336072885, 51.464529451985044],
+          [-2.945897617322885, 53.51116107160163]]]),
+    S1area = /* color: #d63000 */ee.Geometry.Polygon(
         [[[-4.25994873046875, 52.97847790594886],
           [-3.97979736328125, 51.90875993271863],
           [-3.5322682632632905, 51.93943160087239],
@@ -7,11 +13,15 @@ var S1area = /* color: #d63000 */ee.Geometry.Polygon(
           [-3.07891845703125, 52.908964224129605],
           [-3.47991943359375, 53.00988788760457],
           [-3.73809814453125, 52.980131632468]]]);
-   var testarea = /* color: #d63000 */ee.Geometry.Polygon(
-        [[[-5.231053867322885, 53.39340028280891],
-          [-5.231053867322885, 51.38232186188819],
-          [-2.836034336072885, 51.464529451985044],
-          [-2.945897617322885, 53.51116107160163]]]);
+/***** End of imports. If edited, may not auto-convert in the playground. *****/
+
+   
+// wales_temporalaggregation_S1
+// February 2018
+// by Luis
+// Creates temporally aggregated images for winter and spring of S1 images
+
+
 
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
