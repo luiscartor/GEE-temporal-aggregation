@@ -118,6 +118,11 @@ var waleswhole = /* color: #d63000 */ee.Geometry({
           [-2.13134765625, 58.99481241666293]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
+// wales_S2_classification
+// February 2018
+// by Luis
+// Creates temporally aggregated images for winter and spring of S2 data, 
+// classifies land cover and performes accuracy assessment
 
 
 
