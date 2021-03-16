@@ -6,6 +6,13 @@ var testarea = /* color: #d63000 */ee.Geometry.Polygon(
           [-2.945897617322885, 53.51116107160163]]]);
 /***** End of imports. If edited, may not auto-convert in the playground. *****/
 
+
+// wales_temporalaggregation_L8
+// February 2018
+// by Luis
+// Creates temporally aggregated images for winter and spring of Landsat 8
+
+
 var walespoint = /* color: #98ff00 */ee.Geometry.Point([-3.541717529296875, 53.1253499619115]);
 
 // 1. READ COLLECTION
